@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.imaec.wishplace.viewmodel.WriteViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@color/white">
+
+        <TextView
+            style="@style/TextInputTitle"
+            android:id="@+id/text_category_title"
+            android:text="@string/category"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            style="@style/TextInput"
+            android:id="@+id/text_category"
+            android:background="@drawable/bg_input"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/image_category_add"
+            app:layout_constraintTop_toBottomOf="@id/text_category_title"
+            app:layout_constraintWidth_percent="0.85"/>
+
+        <ImageView
+            android:id="@+id/image_category_add"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:padding="6dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintLeft_toRightOf="@id/text_category"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_category_title"
+            app:layout_constraintWidth_percent="0.15"/>
+
+        <TextView
+            style="@style/TextInputTitle"
+            android:id="@+id/text_name_title"
+            android:text="@string/name"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_category"/>
+
+        <EditText
+            style="@style/TextInput"
+            android:id="@+id/text_name"
+            android:background="@drawable/bg_input"
+            android:hint="@string/name_hint"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_name_title"/>
+
+        <TextView
+            style="@style/TextInputTitle"
+            android:id="@+id/text_addr_title"
+            android:text="@string/address"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_name"/>
+
+        <EditText
+            style="@style/TextInput"
+            android:id="@+id/text_addr"
+            android:background="@drawable/bg_input"
+            android:hint="@string/address_hint"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_addr_title"/>
+
+        <TextView
+            style="@style/TextInputTitle"
+            android:id="@+id/text_site_title"
+            android:text="@string/site"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_addr"/>
+
+        <EditText
+            style="@style/TextInput"
+            android:id="@+id/text_site"
+            android:background="@drawable/bg_input"
+            android:hint="@string/site_hint"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_site_title"/>
+
+        <TextView
+            android:id="@+id/text_save"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="@string/save"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
