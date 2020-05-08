@@ -18,7 +18,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
 
         binding.apply {
             lifecycleOwner = this@SettingFragment
-//            viewModel = this@SearchFragment.viewModel
+            viewModel = this@SettingFragment.viewModel
         }
     }
 }

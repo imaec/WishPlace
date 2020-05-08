@@ -20,6 +20,12 @@
 
         <activity android:name=".ui.view.activity.WriteActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.activity.DetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.activity.EditActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.activity.ListActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

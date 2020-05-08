@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 
 abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutResId: Int) : Fragment() {
 
-    private val TAG = this::class.java.simpleName
+    protected val TAG = this::class.java.simpleName
 
     protected lateinit var binding: T
 

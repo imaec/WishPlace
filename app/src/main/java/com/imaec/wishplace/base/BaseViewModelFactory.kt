@@ -20,6 +20,9 @@ class BaseViewModelFactory(private val context: Context) : ViewModelProvider.Fac
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> SearchViewModel(context) as T
             modelClass.isAssignableFrom(SettingViewModel::class.java) -> SettingViewModel(context) as T
             modelClass.isAssignableFrom(WriteViewModel::class.java) -> WriteViewModel(context) as T
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(context) as T
+            modelClass.isAssignableFrom(EditViewModel::class.java) -> EditViewModel(context) as T
+            modelClass.isAssignableFrom(ListViewModel::class.java) -> ListViewModel(context) as T
             else -> throw IllegalArgumentException("Unknown ViewModel Class")
         }
     }

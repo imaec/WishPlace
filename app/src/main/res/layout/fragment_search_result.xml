@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.imaec.wishplace.viewmodel.SearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/text_keyword_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="@color/gray"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recycler_search"/>
+
+        <View
+            android:id="@+id/view_divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGray2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_keyword_info"/>
+
+        <View
+            android:id="@+id/view_divider2"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@color/bgGray"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_divider1"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_search"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:adapter="@{viewModel.searchAdapter}"
+            app:items="@{viewModel.liveListSearchItem}"
+            app:layoutManager="@{viewModel.gridLayoutManager}"
+            app:itemDecoration="@{viewModel.itemDecoration}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_divider2"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/text_empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:paddingTop="16dp"
+            android:text="@string/msg_search_empty"
+            app:isVisible="@{viewModel.liveListSearchItem.size() == 0}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_divider2"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <FrameLayout
+            android:id="@+id/frame_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bgAlpha"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

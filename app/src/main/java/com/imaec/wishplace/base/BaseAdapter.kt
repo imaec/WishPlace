@@ -10,7 +10,7 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     protected lateinit var binding: ViewDataBinding
     protected val listItem = ArrayList<Any>()
-    protected lateinit var onClick: (PlaceDTO) -> Unit
+    protected lateinit var onClick: (Any) -> Unit
     protected lateinit var onLongClick: (PlaceDTO) -> Unit
 
     override fun getItemCount(): Int = listItem.size
@@ -25,5 +25,9 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun clearItem() {
         listItem.clear()
+    }
+
+    fun getItem(position: Int) : Any {
+        return listItem[position]
     }
 }
