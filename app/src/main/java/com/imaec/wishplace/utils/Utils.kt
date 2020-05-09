@@ -26,5 +26,9 @@ class Utils {
             }
             return version
         }
+
+        fun validateString() {
+
+        }
     }
 }

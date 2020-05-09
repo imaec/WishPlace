@@ -84,8 +84,12 @@
         <EditText
             style="@style/TextInput"
             android:id="@+id/edit_site"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:singleLine="false"
+            android:lines="3"
+            android:maxLines="4"
             android:hint="@string/site_hint"
             android:text="@{viewModel.liveSite}"
             app:layout_constraintLeft_toLeftOf="parent"

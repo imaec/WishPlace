@@ -82,11 +82,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     }
 
     fun onClick(view: View) {
-        if (view.id == R.id.fab) {
-            startActivity(Intent(this, WriteActivity::class.java))
-        } else if (view.id == R.id.image_search) {
-            isSearchResult = true
-            fragmentSearch.onClick(view)
+        when (view.id) {
+            R.id.fab -> {
+                startActivity(Intent(this, WriteActivity::class.java))
+            }
+            R.id.image_search -> {
+                isSearchResult = true
+                fragmentSearch.onClick(view)
+            }
+            R.id.text_category_add,
+            R.id.text_category_edit,
+            R.id.text_share -> {
+                fragmentSetting.onClick(view)
+            }
         }
     }
 
