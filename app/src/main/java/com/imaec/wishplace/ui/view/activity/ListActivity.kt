@@ -7,6 +7,7 @@ import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityListBinding
 import com.imaec.wishplace.model.PlaceDTO
+import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.ListViewModel
 
@@ -26,27 +27,27 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         viewModel.apply {
             liveCategory.value = intent.getStringExtra(EXTRA_CATEGORY)
-            addOnClickListener {  item ->
-                if (item is PlaceDTO) {
+            addOnClickListener { item ->
+                if (item is PlaceEntity) {
                     startActivityForResult(Intent(this@ListActivity, DetailActivity::class.java).apply {
-                        putExtra(EXTRA_TITLE, item.title)
+                        putExtra(EXTRA_TITLE, item.name)
                         putExtra(EXTRA_ADDRESS, item.address)
-                        putExtra(EXTRA_IMG_URL, item.imgUrl)
-                        putExtra(EXTRA_SITE_URL, item.site)
-                        putExtra(EXTRA_IS_VISIT, item.isVisit)
+                        putExtra(EXTRA_IMG_URL, item.imageUrl)
+                        putExtra(EXTRA_SITE_URL, item.siteUrl)
+                        putExtra(EXTRA_IS_VISIT, item.visitFlag)
                     }, 0)
                 }
             }
-            addOnLongClickListener { item ->
+            addOnLongClickListener { entity ->
                 val dialog = EditDialog(this@ListActivity).apply {
-                    setTitle(item.title)
+                    setTitle(entity.name)
                     setOnEditClickListener(View.OnClickListener {
                         startActivityForResult(Intent(context, EditActivity::class.java).apply {
-                            putExtra(EXTRA_TITLE, item.title)
-                            putExtra(EXTRA_ADDRESS, item.address)
-                            putExtra(EXTRA_IMG_URL, item.imgUrl)
-                            putExtra(EXTRA_SITE_URL, item.site)
-                            putExtra(EXTRA_IS_VISIT, item.isVisit)
+                            putExtra(EXTRA_TITLE, entity.name)
+                            putExtra(EXTRA_ADDRESS, entity.address)
+                            putExtra(EXTRA_IMG_URL, entity.imageUrl)
+                            putExtra(EXTRA_SITE_URL, entity.siteUrl)
+                            putExtra(EXTRA_IS_VISIT, entity.visitFlag)
                         }, 0)
                         dismiss()
                     })

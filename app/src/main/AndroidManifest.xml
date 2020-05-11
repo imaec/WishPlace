@@ -2,12 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.imaec.wishplace">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.imaec.wishplace.ui.view.activity.MainActivity"
             android:screenOrientation="portrait">
@@ -20,6 +23,8 @@
         </activity>
 
         <activity android:name=".ui.view.activity.WriteActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.activity.CategorySelectActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.DetailActivity"
             android:screenOrientation="portrait"/>

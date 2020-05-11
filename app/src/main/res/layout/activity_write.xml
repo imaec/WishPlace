@@ -12,13 +12,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:background="@color/white">
 
         <TextView
             style="@style/TextInputTitle"
             android:id="@+id/text_category_title"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/category"
             android:layout_marginTop="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -28,15 +28,22 @@
             style="@style/TextInput"
             android:id="@+id/text_category"
             android:background="@drawable/bg_input"
+            android:layout_marginLeft="16dp"
+            android:text="@{viewModel.liveCategory}"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/image_category_add"
             app:layout_constraintTop_toBottomOf="@id/text_category_title"
-            app:layout_constraintWidth_percent="0.85"/>
+            app:layout_constraintWidth_percent="0.8"/>
 
         <ImageView
             android:id="@+id/image_category_add"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginRight="16dp"
             android:padding="6dp"
             android:src="@mipmap/ic_launcher"
             android:onClick="onClick"
@@ -48,6 +55,8 @@
         <TextView
             style="@style/TextInputTitle"
             android:id="@+id/text_name_title"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/name"
             android:layout_marginTop="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -55,7 +64,9 @@
 
         <EditText
             style="@style/TextInput"
-            android:id="@+id/text_name"
+            android:id="@+id/edit_name"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/bg_input"
             android:hint="@string/name_hint"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -64,15 +75,19 @@
 
         <TextView
             style="@style/TextInputTitle"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:id="@+id/text_addr_title"
             android:text="@string/address"
             android:layout_marginTop="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_name"/>
+            app:layout_constraintTop_toBottomOf="@id/edit_name"/>
 
         <EditText
             style="@style/TextInput"
-            android:id="@+id/text_addr"
+            android:id="@+id/edit_addr"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/bg_input"
             android:hint="@string/address_hint"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -81,16 +96,20 @@
 
         <TextView
             style="@style/TextInputTitle"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:id="@+id/text_site_title"
             android:text="@string/site"
             android:layout_marginTop="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_addr"/>
+            app:layout_constraintTop_toBottomOf="@id/edit_addr"/>
 
         <EditText
             style="@style/TextInput"
-            android:id="@+id/text_site"
+            android:id="@+id/edit_site"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/bg_input"
             android:singleLine="false"
             android:lines="3"
@@ -104,7 +123,7 @@
             android:id="@+id/text_save"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
+            android:layout_margin="16dp"
             android:background="@drawable/bg_button"
             android:gravity="center"
             android:onClick="onClick"

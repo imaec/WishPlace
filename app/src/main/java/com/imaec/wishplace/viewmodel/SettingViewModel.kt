@@ -12,8 +12,6 @@ import kotlinx.coroutines.*
 
 class SettingViewModel(context: Context) : BaseViewModel(context) {
 
-    private val job = Job()
-    private val viewModelScope = CoroutineScope(Dispatchers.Main + job)
     private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(context).categoryDao() }
 
     val appVersion = MutableLiveData<String>().set(Utils.getVersion(context))
@@ -31,8 +29,8 @@ class SettingViewModel(context: Context) : BaseViewModel(context) {
     }
 
     private fun getCount(category: String, callback: (Int) -> Unit) {
-        var count = 0
         viewModelScope.launch {
+            var count = 0
             withContext(Dispatchers.IO) {
                 count = categoryDao.getCount(category)
             }

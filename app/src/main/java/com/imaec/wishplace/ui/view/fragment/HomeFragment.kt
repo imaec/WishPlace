@@ -9,6 +9,7 @@ import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentHomeBinding
 import com.imaec.wishplace.model.PlaceDTO
+import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.activity.DetailActivity
 import com.imaec.wishplace.ui.view.activity.EditActivity
 import com.imaec.wishplace.ui.view.activity.ListActivity
@@ -31,13 +32,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         viewModel.apply {
             addOnClickListener { item ->
-                if (item is PlaceDTO) {
+                if (item is PlaceEntity) {
                     startActivityForResult(Intent(context, DetailActivity::class.java).apply {
-                        putExtra(EXTRA_TITLE, item.title)
+                        putExtra(EXTRA_TITLE, item.name)
                         putExtra(EXTRA_ADDRESS, item.address)
-                        putExtra(EXTRA_IMG_URL, item.imgUrl)
-                        putExtra(EXTRA_SITE_URL, item.site)
-                        putExtra(EXTRA_IS_VISIT, item.isVisit)
+                        putExtra(EXTRA_IMG_URL, item.imageUrl)
+                        putExtra(EXTRA_SITE_URL, item.siteUrl)
+                        putExtra(EXTRA_IS_VISIT, item.visitFlag)
                     }, 0)
                 } else if (item is String) {
                     // start ListActivity
@@ -46,16 +47,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     }, 0)
                 }
             }
-            addOnLongClickListener {dto ->
+            addOnLongClickListener { entity ->
                 val dialog = EditDialog(context!!).apply {
-                    setTitle(dto.title)
+                    setTitle(entity.name)
                     setOnEditClickListener(View.OnClickListener {
                         startActivityForResult(Intent(context, EditActivity::class.java).apply {
-                            putExtra(EXTRA_TITLE, dto.title)
-                            putExtra(EXTRA_ADDRESS, dto.address)
-                            putExtra(EXTRA_IMG_URL, dto.imgUrl)
-                            putExtra(EXTRA_SITE_URL, dto.site)
-                            putExtra(EXTRA_IS_VISIT, dto.isVisit)
+                            putExtra(EXTRA_TITLE, entity.name)
+                            putExtra(EXTRA_ADDRESS, entity.address)
+                            putExtra(EXTRA_IMG_URL, entity.imageUrl)
+                            putExtra(EXTRA_SITE_URL, entity.siteUrl)
+                            putExtra(EXTRA_IS_VISIT, entity.visitFlag)
                         }, 0)
                         dismiss()
                     })
@@ -65,6 +66,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
                 dialog.show()
             }
+            getData()
         }
     }
 

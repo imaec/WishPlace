@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.imaec.wishplace.utils.Utils
 
 @Entity(tableName = "PlaceENTITY")
 data class PlaceEntity(
@@ -13,9 +14,11 @@ data class PlaceEntity(
         parentColumns = ["categoryId"],
         childColumns = ["foreignId"]
     ) var foreignId: Int = 0,
+    @ColumnInfo var category: String = "",
     @ColumnInfo var name: String = "",
     @ColumnInfo var address: String = "",
     @ColumnInfo var siteUrl: String = "",
     @ColumnInfo var imageUrl: String = "",
+    @ColumnInfo var saveTime: String = Utils.getDate("yyyyMMddHHmmss"),
     @ColumnInfo var visitFlag: Boolean = false
 )

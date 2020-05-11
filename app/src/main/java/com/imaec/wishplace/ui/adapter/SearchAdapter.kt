@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imaec.wishplace.base.BaseAdapter
 import com.imaec.wishplace.databinding.ItemItemBinding
 import com.imaec.wishplace.model.PlaceDTO
+import com.imaec.wishplace.room.entity.PlaceEntity
 
 class SearchAdapter : BaseAdapter() {
 
@@ -16,13 +17,13 @@ class SearchAdapter : BaseAdapter() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemViewHolder) {
-            holder.onBind(listItem[position] as PlaceDTO)
+            holder.onBind(listItem[position] as PlaceEntity)
         }
     }
 
     inner class ItemViewHolder(private val binding: ItemItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: PlaceDTO) {
+        fun onBind(item: PlaceEntity) {
             binding.item = item
         }
     }

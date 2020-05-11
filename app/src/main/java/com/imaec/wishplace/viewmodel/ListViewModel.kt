@@ -27,21 +27,15 @@ class ListViewModel(context: Context) : BaseViewModel(context) {
         PlaceDTO("아이사구아", "서울시 은평구", "", ""),
         PlaceDTO("아이사구아", "서울시 은평구", "", "")
     )
-
-    val adapter = ListAdapter()
     val gridLayoutManager = GridLayoutManager(context, 2)
     val itemDecoration = PlaceItemDecoration(context)
     val liveListItem = MutableLiveData<ArrayList<Any>>().set(getData())
 
+    init {
+        adapter = ListAdapter()
+    }
+
     private fun getData() : ArrayList<Any> {
         return dummyList as ArrayList<Any>
-    }
-
-    fun addOnClickListener(onClick: (Any) -> Unit) {
-        adapter.addOnClickListener(onClick)
-    }
-
-    fun addOnLongClickListener(onLongClick: (PlaceDTO) -> Unit) {
-        adapter.addOnLongClickListener(onLongClick)
     }
 }

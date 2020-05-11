@@ -8,27 +8,34 @@ import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.ui.adapter.HomeAdapter
 import com.imaec.wishplace.TYPE_CATEGORY
 import com.imaec.wishplace.TYPE_ITEM
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.CategoryDao
+import com.imaec.wishplace.room.dao.PlaceDao
+import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.util.HomeItemDecoration
 import com.imaec.wishplace.ui.util.PlaceItemDecoration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeViewModel(context: Context) : BaseViewModel(context) {
 
-    private val dummyList = arrayListOf(
-        "카페",
-        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-        "카페",
-        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-        "카페",
-        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-        PlaceDTO("아이사구아", "서울시 은평구", "", "")
-    )
-
-    val adapter = HomeAdapter()
+//    private val dummyList = arrayListOf(
+//        "카페",
+//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
+//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
+//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
+//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
+//        "카페",
+//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
+//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
+//        "카페",
+//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
+//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
+//        PlaceDTO("아이사구아", "서울시 은평구", "", "")
+//    )
+    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(context).categoryDao() }
+    private val dao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
     val gridLayoutManager = GridLayoutManager(context, 2).apply {
         spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -41,17 +48,45 @@ class HomeViewModel(context: Context) : BaseViewModel(context) {
         }
     }
     val itemDecoration = HomeItemDecoration(context)
-    val liveListItem = MutableLiveData<ArrayList<Any>>().set(getData())
+    val liveListItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
 
-    private fun getData() : ArrayList<Any> {
-        return dummyList
+    init {
+        adapter = HomeAdapter()
     }
 
-    fun addOnClickListener(onClick: (Any) -> Unit) {
-        adapter.addOnClickListener(onClick)
+    fun getData() {
+        select { listEntity ->
+            val listPlace = ArrayList<Any>()
+            listEntity
+                .sortedBy { it.category }
+                .groupBy { it.category }
+                .forEach {
+                    listPlace.add(it.key)
+                    it.value.forEach { entity ->
+                        listPlace.add(entity)
+                    }
+                }
+
+            viewModelScope.launch {
+                liveListItem.value = listPlace
+            }
+        }
     }
 
-    fun addOnLongClickListener(onLongClick: (PlaceDTO) -> Unit) {
-        adapter.addOnLongClickListener(onLongClick)
+    fun selectCount(callback: (Int) -> Unit) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val count = dao.selectCount()
+                callback(count)
+            }
+        }
+    }
+
+    fun select(callback: (List<PlaceEntity>) -> Unit) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                callback(dao.select())
+            }
+        }
     }
 }

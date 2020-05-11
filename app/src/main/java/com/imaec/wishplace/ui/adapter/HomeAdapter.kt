@@ -9,6 +9,7 @@ import com.imaec.wishplace.base.BaseAdapter
 import com.imaec.wishplace.databinding.ItemCategoryBinding
 import com.imaec.wishplace.databinding.ItemItemBinding
 import com.imaec.wishplace.model.PlaceDTO
+import com.imaec.wishplace.room.entity.PlaceEntity
 
 class HomeAdapter : BaseAdapter() {
 
@@ -28,7 +29,7 @@ class HomeAdapter : BaseAdapter() {
         if (holder is CategoryViewHolder) {
             holder.onBind(listItem[position] as String)
         } else if (holder is ItemViewHolder) {
-            holder.onBind(listItem[position] as PlaceDTO)
+            holder.onBind(listItem[position] as PlaceEntity)
         }
     }
 
@@ -44,7 +45,7 @@ class HomeAdapter : BaseAdapter() {
 
     inner class ItemViewHolder(private val binding: ItemItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: PlaceDTO) {
+        fun onBind(item: PlaceEntity) {
             binding.item = item
             binding.root.setOnClickListener {
                 onClick(item)
@@ -54,13 +55,5 @@ class HomeAdapter : BaseAdapter() {
                 true
             }
         }
-    }
-
-    fun addOnClickListener(onClick: (Any) -> Unit) {
-        this.onClick = onClick
-    }
-
-    fun addOnLongClickListener(onLongClick: (PlaceDTO) -> Unit) {
-        this.onLongClick = onLongClick
     }
 }

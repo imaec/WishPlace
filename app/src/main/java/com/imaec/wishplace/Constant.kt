@@ -7,6 +7,7 @@ val TYPE_FOOTER = 2
 val RESULT_DELETE = 2
 val RESULT_EDIT = 3
 
+val EXTRA_CATEGORY_ID = "extra_category_id"
 val EXTRA_CATEGORY = "extra_category"
 val EXTRA_TITLE = "extra_title"
 val EXTRA_ADDRESS = "extra_address"
