@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.imaec.wishplace.R
 import com.imaec.wishplace.RESULT_DELETE
 import com.imaec.wishplace.RESULT_EDIT
+import com.imaec.wishplace.RESULT_WRITE
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityMainBinding
 import com.imaec.wishplace.ui.view.fragment.HomeFragment
@@ -42,6 +43,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         }
 
         setFragment(fragmentHome)
+
+        if (intent.action == Intent.ACTION_SEND) {
+            receiveIntent()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_WRITE) {
+            fragmentHome.notifyItemAdded()
+        }
     }
 
     override fun onBackPressed() {
@@ -84,7 +97,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     fun onClick(view: View) {
         when (view.id) {
             R.id.fab -> {
-                startActivity(Intent(this, WriteActivity::class.java))
+                startActivityForResult(Intent(this, WriteActivity::class.java), 0)
             }
             R.id.image_search -> {
                 isSearchResult = true
@@ -103,5 +116,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             .beginTransaction()
             .replace(R.id.frame, fragment)
             .commitAllowingStateLoss()
+    }
+
+    private fun receiveIntent() {
+        intent.type?.let {
+            if (it == "text/plain") {
+                val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+                startActivityForResult(Intent(this, WriteActivity::class.java).apply {
+                    putExtra(Intent.EXTRA_TEXT, text)
+                }, 0)
+            }
+        }
     }
 }

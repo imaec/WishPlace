@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.imaec.wishplace.EXTRA_CATEGORY
 import com.imaec.wishplace.EXTRA_CATEGORY_ID
 import com.imaec.wishplace.R
+import com.imaec.wishplace.RESULT_WRITE
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityWriteBinding
 import com.imaec.wishplace.room.entity.PlaceEntity
@@ -32,8 +33,8 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
             viewModel = this@WriteActivity.viewModel
         }
 
-        viewModel.apply {
-
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+            binding.editSite.setText(it)
         }
     }
 
@@ -82,6 +83,8 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                              imageUrl = url
                          )) {
                              Toast.makeText(this, R.string.msg_write_place_success, Toast.LENGTH_SHORT).show()
+                             setResult(RESULT_WRITE)
+                             finish()
                          }
                      } else {
                          CommonDialog(this, getString(R.string.msg_image_empty)).apply {

@@ -9,6 +9,7 @@ import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentHomeBinding
 import com.imaec.wishplace.model.PlaceDTO
+import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.activity.DetailActivity
 import com.imaec.wishplace.ui.view.activity.EditActivity
@@ -40,10 +41,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         putExtra(EXTRA_SITE_URL, item.siteUrl)
                         putExtra(EXTRA_IS_VISIT, item.visitFlag)
                     }, 0)
-                } else if (item is String) {
-                    // start ListActivity
+                } else if (item is CategoryEntity) {
                     startActivityForResult(Intent(context, ListActivity::class.java).apply {
-                        putExtra(EXTRA_CATEGORY, item)
+                        putExtra(EXTRA_CATEGORY_ID, item.categoryId)
+                        putExtra(EXTRA_CATEGORY, item.category)
                     }, 0)
                 }
             }
@@ -80,6 +81,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             RESULT_DELETE -> {
                 Log.d(TAG, "DELETE")
             }
+        }
+    }
+
+    fun notifyItemAdded() {
+        viewModel.apply {
+            viewModel.liveListItem.value = ArrayList()
+            getData()
         }
     }
 }

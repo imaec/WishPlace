@@ -9,11 +9,12 @@ import com.imaec.wishplace.base.BaseAdapter
 import com.imaec.wishplace.databinding.ItemCategoryBinding
 import com.imaec.wishplace.databinding.ItemItemBinding
 import com.imaec.wishplace.model.PlaceDTO
+import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
 
 class HomeAdapter : BaseAdapter() {
 
-    override fun getItemViewType(position: Int): Int = if (listItem[position] is String) TYPE_CATEGORY else TYPE_ITEM
+    override fun getItemViewType(position: Int): Int = if (listItem[position] is CategoryEntity) TYPE_CATEGORY else TYPE_ITEM
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_CATEGORY) {
@@ -27,7 +28,7 @@ class HomeAdapter : BaseAdapter() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is CategoryViewHolder) {
-            holder.onBind(listItem[position] as String)
+            holder.onBind(listItem[position] as CategoryEntity)
         } else if (holder is ItemViewHolder) {
             holder.onBind(listItem[position] as PlaceEntity)
         }
@@ -35,7 +36,7 @@ class HomeAdapter : BaseAdapter() {
 
     inner class CategoryViewHolder(private val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: String) {
+        fun onBind(item: CategoryEntity) {
             binding.item = item
             binding.root.setOnClickListener {
                 onClick(item)

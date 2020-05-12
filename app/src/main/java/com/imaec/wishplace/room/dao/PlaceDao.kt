@@ -14,6 +14,9 @@ interface PlaceDao {
     @Query("SELECT COUNT(*) FROM placeENTITY")
     fun selectCount() : Int
 
-    @Query("SELECT * FROM placeENTITY AS a WHERE name IN (SELECT b.name FROM placeENTITY AS b WHERE a.foreignId = b.foreignId ORDER BY b.name ASC LIMIT 4)")
+    @Query("SELECT * FROM placeENTITY AS a WHERE saveTime IN (SELECT b.saveTime FROM placeENTITY AS b WHERE a.foreignId = b.foreignId ORDER BY b.saveTime DESC LIMIT 4)")
     fun select() : List<PlaceEntity>
+
+    @Query("SELECT * FROM placeENTITY WHERE foreignId=:categoryId")
+    fun select(categoryId: Int) : List<PlaceEntity>
 }

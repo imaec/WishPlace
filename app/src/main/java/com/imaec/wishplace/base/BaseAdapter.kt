@@ -26,6 +26,7 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun clearItem() {
         listItem.clear()
+        notifyDataSetChanged()
     }
 
     fun getItem(position: Int) : Any {

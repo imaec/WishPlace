@@ -11,6 +11,7 @@ import com.imaec.wishplace.TYPE_ITEM
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.room.dao.PlaceDao
+import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.util.HomeItemDecoration
 import com.imaec.wishplace.ui.util.PlaceItemDecoration
@@ -20,20 +21,6 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel(context: Context) : BaseViewModel(context) {
 
-//    private val dummyList = arrayListOf(
-//        "카페",
-//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-//        "카페",
-//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-//        "카페",
-//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-//        PlaceDTO("아이사구아", "서울시 은평구", "", ""),
-//        PlaceDTO("아이사구아", "서울시 은평구", "", "")
-//    )
     private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(context).categoryDao() }
     private val dao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
     val gridLayoutManager = GridLayoutManager(context, 2).apply {
@@ -58,10 +45,10 @@ class HomeViewModel(context: Context) : BaseViewModel(context) {
         select { listEntity ->
             val listPlace = ArrayList<Any>()
             listEntity
-                .sortedBy { it.category }
+                .sortedByDescending { it.saveTime }
                 .groupBy { it.category }
                 .forEach {
-                    listPlace.add(it.key)
+                    listPlace.add(CategoryEntity(it.value[0].foreignId, it.key))
                     it.value.forEach { entity ->
                         listPlace.add(entity)
                     }
@@ -82,7 +69,7 @@ class HomeViewModel(context: Context) : BaseViewModel(context) {
         }
     }
 
-    fun select(callback: (List<PlaceEntity>) -> Unit) {
+    private fun select(callback: (List<PlaceEntity>) -> Unit) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 callback(dao.select())

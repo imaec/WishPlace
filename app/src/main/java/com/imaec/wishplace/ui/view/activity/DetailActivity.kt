@@ -42,7 +42,11 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
     }
 
     fun onClick(view: View) {
-        if (view.id == R.id.image_edit) {
+        if (view.id == R.id.image_thumb) {
+            startActivity(Intent(this, ImageActivity::class.java).apply {
+                putExtra(EXTRA_IMG_URL, viewModel.liveImgUrl.value)
+            })
+        } else if (view.id == R.id.image_edit) {
             showPopup(view)
         }
     }

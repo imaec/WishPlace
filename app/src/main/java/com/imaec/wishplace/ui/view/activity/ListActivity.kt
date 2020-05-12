@@ -57,6 +57,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                 }
                 dialog.show()
             }
+            getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
         }
     }
 }
