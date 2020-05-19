@@ -2,16 +2,14 @@ package com.imaec.wishplace.viewmodel
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
-import com.imaec.wishplace.ui.adapter.CategoryAdapter
 import com.imaec.wishplace.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,9 +35,22 @@ class WriteViewModel(context: Context) : BaseViewModel(context) {
         }
     }
 
-    fun checkUrl(url: String, callback: (Boolean, String) -> Unit) {
+    fun validateData(category: String, title: String, address: String) : WriteResult {
+        if (category.isEmpty()) return WriteResult.FAIL_CATEGORY
+        if (title.isEmpty()) return WriteResult.FAIL_TITLE
+        if (address.isEmpty()) return WriteResult.FAIL_ADDRESS
+        return WriteResult.SUCCESS
+    }
+
+    fun checkUrl(url: String, onSuccess: (String) -> Unit, onFail: (String?) -> Unit) {
+        if (url.isEmpty()) {
+            onFail("EMPTY_URL")
+            return
+        }
+
         getImgUrl(url) {
-            callback(it != null, it ?: "")
+            if (it == null) onFail(null)
+            else onSuccess(it)
         }
     }
 
@@ -90,13 +101,16 @@ class WriteViewModel(context: Context) : BaseViewModel(context) {
         viewModelScope.launch {
             var imgUrl: String? = null
             withContext(Dispatchers.IO) {
-                val doc = Jsoup.connect(url2).get()
-                val elements = doc.select("meta")
-                elements.forEach {
-                    if (it.attr("property").equals("og:image", true)) {
-                        imgUrl = it.attr("content")
-                        return@withContext
+                try {
+                    val doc = Jsoup.connect(url2).get()
+                    val elements = doc.select("meta")
+                    elements.forEach {
+                        if (it.attr("property").equals("og:image", true)) {
+                            imgUrl = it.attr("content")
+                            return@withContext
+                        }
                     }
+                } catch (e: Exception) {
                 }
             }
             callback(imgUrl)

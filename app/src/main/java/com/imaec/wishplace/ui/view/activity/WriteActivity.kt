@@ -7,10 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.imaec.wishplace.EXTRA_CATEGORY
-import com.imaec.wishplace.EXTRA_CATEGORY_ID
-import com.imaec.wishplace.R
-import com.imaec.wishplace.RESULT_WRITE
+import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityWriteBinding
 import com.imaec.wishplace.room.entity.PlaceEntity
@@ -67,34 +64,46 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                  startActivityForResult(Intent(this, CategorySelectActivity::class.java), 0)
              }
              R.id.text_save -> {
-                 if (binding.editSite.text.isEmpty()) {
-                     return
-                 }
-                 val site = binding.editSite.text.toString()
-                 viewModel.checkUrl(site) { isSuccess, url ->
-                     Log.d(TAG, "$isSuccess")
-                     if (isSuccess) {
-                         viewModel.save(PlaceEntity(
-                             foreignId = categoryId,
-                             category = binding.textCategory.text.toString(),
-                             name = binding.editName.text.toString(),
-                             address = binding.editAddr.text.toString(),
-                             siteUrl = binding.editSite.text.toString(),
-                             imageUrl = url
-                         )) {
-                             Toast.makeText(this, R.string.msg_write_place_success, Toast.LENGTH_SHORT).show()
-                             setResult(RESULT_WRITE)
-                             finish()
-                         }
-                     } else {
-                         CommonDialog(this, getString(R.string.msg_image_empty)).apply {
-                             setOnOkClickListener(View.OnClickListener {
-                                 // viewModel.save()
-                             })
-                         }
-                     }
+                 val category = binding.textCategory.text.toString()
+                 val title = binding.editName.text.toString()
+                 val address = binding.editAddr.text.toString()
+                 val result = viewModel.validateData(category, title, address)
+                 if (result == WriteResult.SUCCESS) {
+                     save()
+                 } else {
+                     Toast.makeText(this, result.msg, Toast.LENGTH_SHORT).show()
                  }
              }
          }
+    }
+
+    private fun save() {
+        val site = binding.editSite.text.toString()
+        viewModel.checkUrl(site, { url ->
+            save(url)
+        }, {
+            CommonDialog(this, if (it == null) getString(R.string.msg_image_empty) else getString(R.string.msg_url_empty)).apply {
+                setOnOkClickListener(View.OnClickListener {
+                    save("")
+                    dismiss()
+                })
+                show()
+            }
+        })
+    }
+
+    private fun save(url: String) {
+        viewModel.save(PlaceEntity(
+            foreignId = categoryId,
+            category = binding.textCategory.text.toString(),
+            name = binding.editName.text.toString(),
+            address = binding.editAddr.text.toString(),
+            siteUrl = binding.editSite.text.toString(),
+            imageUrl = url
+        )) {
+            Toast.makeText(this, R.string.msg_write_place_success, Toast.LENGTH_SHORT).show()
+            setResult(RESULT_WRITE)
+            finish()
+        }
     }
 }

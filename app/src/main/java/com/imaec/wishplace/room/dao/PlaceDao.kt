@@ -1,6 +1,7 @@
 package com.imaec.wishplace.room.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.imaec.wishplace.room.entity.PlaceEntity
@@ -17,6 +18,12 @@ interface PlaceDao {
     @Query("SELECT * FROM placeENTITY AS a WHERE saveTime IN (SELECT b.saveTime FROM placeENTITY AS b WHERE a.foreignId = b.foreignId ORDER BY b.saveTime DESC LIMIT 4)")
     fun select() : List<PlaceEntity>
 
+    @Query("SELECT * FROM placeENTITY WHERE placeId=:placeId")
+    fun select(placeId: Int) : PlaceEntity
+
     @Query("SELECT * FROM placeENTITY WHERE foreignId=:categoryId")
-    fun select(categoryId: Int) : List<PlaceEntity>
+    fun selectByCategory(categoryId: Int) : List<PlaceEntity>
+
+    @Delete
+    fun delete(entity: PlaceEntity)
 }

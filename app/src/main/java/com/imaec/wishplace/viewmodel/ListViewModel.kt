@@ -49,7 +49,7 @@ class ListViewModel(context: Context) : BaseViewModel(context) {
     private fun select(categoryId: Int, callback: (List<PlaceEntity>) -> Unit) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                callback(dao.select(categoryId))
+                callback(dao.selectByCategory(categoryId))
             }
         }
     }

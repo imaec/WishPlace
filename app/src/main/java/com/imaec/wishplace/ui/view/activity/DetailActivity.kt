@@ -31,6 +31,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             intent.getStringExtra(EXTRA_SITE_URL) ?: "사이트가 없습니다.",
             intent.getBooleanExtra(EXTRA_IS_VISIT, false)
         )
+        viewModel.getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -68,9 +69,14 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                         true
                     }
                     R.id.option_delete -> {
-                        Toast.makeText(this@DetailActivity, "삭제 되었습니다.", Toast.LENGTH_SHORT).show()
-                        setResult(RESULT_DELETE)
-                        finish()
+                        viewModel.delete(viewModel.livePlace.value) { isSuccess ->
+                            if (isSuccess) {
+                                setResult(RESULT_DELETE)
+                                finish()
+                            } else {
+                                Toast.makeText(this@DetailActivity, R.string.msg_delete_place_fail, Toast.LENGTH_SHORT).show()
+                            }
+                        }
                         true
                     }
                     else -> false

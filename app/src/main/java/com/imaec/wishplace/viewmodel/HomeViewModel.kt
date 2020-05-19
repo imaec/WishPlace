@@ -21,7 +21,10 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel(context: Context) : BaseViewModel(context) {
 
-    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(context).categoryDao() }
+    init {
+        adapter = HomeAdapter()
+    }
+
     private val dao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
     val gridLayoutManager = GridLayoutManager(context, 2).apply {
         spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -36,10 +39,6 @@ class HomeViewModel(context: Context) : BaseViewModel(context) {
     }
     val itemDecoration = HomeItemDecoration(context)
     val liveListItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
-
-    init {
-        adapter = HomeAdapter()
-    }
 
     fun getData() {
         select { listEntity ->
@@ -60,12 +59,12 @@ class HomeViewModel(context: Context) : BaseViewModel(context) {
         }
     }
 
-    fun selectCount(callback: (Int) -> Unit) {
+    fun delete(entity: PlaceEntity, callback: () -> Unit) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val count = dao.selectCount()
-                callback(count)
+                dao.delete(entity)
             }
+            callback()
         }
     }
 

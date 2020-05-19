@@ -35,6 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             addOnClickListener { item ->
                 if (item is PlaceEntity) {
                     startActivityForResult(Intent(context, DetailActivity::class.java).apply {
+                        putExtra(EXTRA_PLACE_ID, item.placeId)
                         putExtra(EXTRA_TITLE, item.name)
                         putExtra(EXTRA_ADDRESS, item.address)
                         putExtra(EXTRA_IMG_URL, item.imageUrl)
@@ -62,7 +63,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         dismiss()
                     })
                     setOnDeleteClickListener(View.OnClickListener {
-                        dismiss()
+                        viewModel.delete(entity) {
+                            Toast.makeText(context, R.string.msg_delete_place_success, Toast.LENGTH_SHORT).show()
+                            viewModel.getData()
+                            dismiss()
+                        }
                     })
                 }
                 dialog.show()
@@ -75,19 +80,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (resultCode) {
-            RESULT_EDIT -> {
-                Log.d(TAG, "EDIT")
-            }
+            RESULT_EDIT -> Log.d(TAG, "EDIT")
             RESULT_DELETE -> {
-                Log.d(TAG, "DELETE")
+                Toast.makeText(context, R.string.msg_delete_place_success, Toast.LENGTH_SHORT).show()
+                viewModel.getData()
             }
         }
     }
 
     fun notifyItemAdded() {
-        viewModel.apply {
-            viewModel.liveListItem.value = ArrayList()
-            getData()
-        }
+        viewModel.getData()
     }
 }

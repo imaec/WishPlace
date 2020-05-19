@@ -48,6 +48,7 @@ object BindingAdapters {
     @BindingAdapter("items")
     fun setItems(recyclerView: RecyclerView, items: ArrayList<Any>) {
         (recyclerView.adapter as BaseAdapter).apply {
+            clearItem()
             addItems(items)
             notifyDataSetChanged()
         }

@@ -9,6 +9,7 @@ import com.imaec.wishplace.room.entity.PlaceEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 
 abstract class BaseViewModel(protected val context: Context) : ViewModel() {
 
@@ -16,6 +17,11 @@ abstract class BaseViewModel(protected val context: Context) : ViewModel() {
     private val job = Job()
     protected val viewModelScope = CoroutineScope(Dispatchers.Main + job)
     lateinit var adapter: BaseAdapter
+
+    override fun onCleared() {
+        viewModelScope.cancel()
+        super.onCleared()
+    }
 
     open fun onClick(view: View) {
 
