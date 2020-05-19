@@ -3,6 +3,7 @@ package com.imaec.wishplace.ui.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityListBinding
@@ -27,14 +28,15 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         viewModel.apply {
             liveCategory.value = intent.getStringExtra(EXTRA_CATEGORY)
-            addOnClickListener { item ->
-                if (item is PlaceEntity) {
+            addOnClickListener { entity ->
+                if (entity is PlaceEntity) {
                     startActivityForResult(Intent(this@ListActivity, DetailActivity::class.java).apply {
-                        putExtra(EXTRA_TITLE, item.name)
-                        putExtra(EXTRA_ADDRESS, item.address)
-                        putExtra(EXTRA_IMG_URL, item.imageUrl)
-                        putExtra(EXTRA_SITE_URL, item.siteUrl)
-                        putExtra(EXTRA_IS_VISIT, item.visitFlag)
+                        putExtra(EXTRA_PLACE_ID, entity.placeId)
+                        putExtra(EXTRA_TITLE, entity.name)
+                        putExtra(EXTRA_ADDRESS, entity.address)
+                        putExtra(EXTRA_IMG_URL, entity.imageUrl)
+                        putExtra(EXTRA_SITE_URL, entity.siteUrl)
+                        putExtra(EXTRA_IS_VISIT, entity.visitFlag)
                     }, 0)
                 }
             }
@@ -43,6 +45,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                     setTitle(entity.name)
                     setOnEditClickListener(View.OnClickListener {
                         startActivityForResult(Intent(context, EditActivity::class.java).apply {
+                            putExtra(EXTRA_PLACE_ID, entity.placeId)
                             putExtra(EXTRA_TITLE, entity.name)
                             putExtra(EXTRA_ADDRESS, entity.address)
                             putExtra(EXTRA_IMG_URL, entity.imageUrl)
@@ -52,12 +55,33 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                         dismiss()
                     })
                     setOnDeleteClickListener(View.OnClickListener {
-                        dismiss()
+                        viewModel.delete(entity) {
+                            Toast.makeText(context, R.string.msg_delete_place_success, Toast.LENGTH_SHORT).show()
+                            viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
+                            viewModel.isUpdated = true
+                            dismiss()
+                        }
                     })
                 }
                 dialog.show()
             }
             getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (resultCode) {
+            RESULT_EDIT, RESULT_DELETE -> viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
+        }
+        data?.let {
+            viewModel.isUpdated = it.getBooleanExtra(EXTRA_IS_UPDATED, false)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (viewModel.isUpdated) setResult(RESULT_EDIT)
+        super.onBackPressed()
     }
 }

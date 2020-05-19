@@ -20,6 +20,7 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
     val liveImgUrl = MutableLiveData<String>()
     val liveSite = MutableLiveData<String>()
     val liveIsVisit = MutableLiveData<Boolean>()
+    var isUpdated = false
 
     fun setData(title: String, address: String, imgUrl: String, site: String, isVisit: Boolean) {
         liveTitle.value = title
@@ -36,6 +37,9 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
                 place = dao.select(placeId)
             }
             livePlace.value = place
+            place?.let {
+                setData(it.name, it.address, it.imageUrl, it.siteUrl, it.visitFlag)
+            }
         }
     }
 

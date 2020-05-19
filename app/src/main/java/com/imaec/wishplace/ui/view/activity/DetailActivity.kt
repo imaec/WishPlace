@@ -24,22 +24,37 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             viewModel = this@DetailActivity.viewModel
         }
 
-        viewModel.setData(
-            intent.getStringExtra(EXTRA_TITLE) ?: "제목이 없습니다.",
-            intent.getStringExtra(EXTRA_ADDRESS) ?: "주소가 없습니다.",
-            intent.getStringExtra(EXTRA_IMG_URL) ?: "",
-            intent.getStringExtra(EXTRA_SITE_URL) ?: "사이트가 없습니다.",
-            intent.getBooleanExtra(EXTRA_IS_VISIT, false)
-        )
-        viewModel.getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
+        viewModel.apply {
+            setData(
+                intent.getStringExtra(EXTRA_TITLE) ?: "제목이 없습니다.",
+                intent.getStringExtra(EXTRA_ADDRESS) ?: "주소가 없습니다.",
+                intent.getStringExtra(EXTRA_IMG_URL) ?: "",
+                intent.getStringExtra(EXTRA_SITE_URL) ?: "사이트가 없습니다.",
+                intent.getBooleanExtra(EXTRA_IS_VISIT, false)
+            )
+            getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_EDIT) {
-            Toast.makeText(this, "수정 완료!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.msg_edit_place_success, Toast.LENGTH_SHORT).show()
+            viewModel.getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
+            data?.let {
+                viewModel.isUpdated = it.getBooleanExtra(EXTRA_IS_UPDATED, false)
+            }
         }
+    }
+
+    override fun onBackPressed() {
+        if (viewModel.isUpdated) {
+            setResult(RESULT_EDIT, Intent().apply {
+                putExtra(EXTRA_IS_UPDATED, true)
+            })
+        }
+        super.onBackPressed()
     }
 
     fun onClick(view: View) {
@@ -59,6 +74,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                 when (it.itemId) {
                     R.id.option_edit -> {
                         startActivityForResult(Intent(this@DetailActivity, EditActivity::class.java).apply {
+                            putExtra(EXTRA_PLACE_ID, intent.getIntExtra(EXTRA_PLACE_ID, 0))
                             putExtra(EXTRA_TITLE, viewModel.liveTitle.value)
                             putExtra(EXTRA_ADDRESS, viewModel.liveAddress.value)
                             putExtra(EXTRA_IMG_URL, viewModel.liveImgUrl.value)
@@ -71,7 +87,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                     R.id.option_delete -> {
                         viewModel.delete(viewModel.livePlace.value) { isSuccess ->
                             if (isSuccess) {
-                                setResult(RESULT_DELETE)
+                                Toast.makeText(this@DetailActivity, R.string.msg_delete_place_success, Toast.LENGTH_SHORT).show()
+                                setResult(RESULT_DELETE, Intent().apply {
+                                    putExtra(EXTRA_IS_UPDATED, true)
+                                })
                                 finish()
                             } else {
                                 Toast.makeText(this@DetailActivity, R.string.msg_delete_place_fail, Toast.LENGTH_SHORT).show()

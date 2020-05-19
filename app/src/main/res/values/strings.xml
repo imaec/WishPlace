@@ -40,7 +40,9 @@
     <string name="msg_category_exist">카테고리가 이미 존재합니다.</string>
     <string name="msg_url_empty">입력하신 웹사이트가 없습니다.\n계속 진행 하시겠습니까?</string>
     <string name="msg_image_empty">입력하신 사이트 URL은 미리보기를 가져올 수 없습니다.\n계속 진행 하시겠습니까?</string>
-    <string name="msg_write_place_success">장소를 저장 하였습니다!</string>
+    <string name="msg_write_place_success">장소를 저장하였습니다!</string>
+    <string name="msg_edit_place_success">장소를 수정하였습니다!</string>
+    <string name="msg_edit_place_fail">수정에 실패했습니다. 잠시 후 다시 시도해주세요.</string>
     <string name="msg_delete_place_success">삭제 되었습니다.</string>
     <string name="msg_delete_place_fail">삭제에 실패했습니다. 잠시 후 다시 시도해주세요.</string>
     <string name="error_edit_click">수정 버튼이 동작하지 않습니다.\n관리자에게 문의해주세요.</string>

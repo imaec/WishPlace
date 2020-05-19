@@ -1,9 +1,6 @@
 package com.imaec.wishplace.room.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.imaec.wishplace.room.entity.PlaceEntity
 
 @Dao
@@ -23,6 +20,9 @@ interface PlaceDao {
 
     @Query("SELECT * FROM placeENTITY WHERE foreignId=:categoryId")
     fun selectByCategory(categoryId: Int) : List<PlaceEntity>
+
+    @Update
+    fun update(entity: PlaceEntity) : Int
 
     @Delete
     fun delete(entity: PlaceEntity)

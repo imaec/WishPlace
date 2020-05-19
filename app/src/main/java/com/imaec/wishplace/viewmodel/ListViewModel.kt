@@ -23,6 +23,7 @@ class ListViewModel(context: Context) : BaseViewModel(context) {
     val gridLayoutManager = GridLayoutManager(context, 2)
     val itemDecoration = PlaceItemDecoration(context)
     val liveListItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    var isUpdated = false
 
     init {
         adapter = ListAdapter()
@@ -51,6 +52,15 @@ class ListViewModel(context: Context) : BaseViewModel(context) {
             withContext(Dispatchers.IO) {
                 callback(dao.selectByCategory(categoryId))
             }
+        }
+    }
+
+    fun delete(entity: PlaceEntity, callback: () -> Unit) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                dao.delete(entity)
+            }
+            callback()
         }
     }
 }

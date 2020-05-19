@@ -32,20 +32,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         viewModel.apply {
-            addOnClickListener { item ->
-                if (item is PlaceEntity) {
+            addOnClickListener { entity ->
+                if (entity is PlaceEntity) {
                     startActivityForResult(Intent(context, DetailActivity::class.java).apply {
-                        putExtra(EXTRA_PLACE_ID, item.placeId)
-                        putExtra(EXTRA_TITLE, item.name)
-                        putExtra(EXTRA_ADDRESS, item.address)
-                        putExtra(EXTRA_IMG_URL, item.imageUrl)
-                        putExtra(EXTRA_SITE_URL, item.siteUrl)
-                        putExtra(EXTRA_IS_VISIT, item.visitFlag)
+                        putExtra(EXTRA_PLACE_ID, entity.placeId)
+                        putExtra(EXTRA_TITLE, entity.name)
+                        putExtra(EXTRA_ADDRESS, entity.address)
+                        putExtra(EXTRA_IMG_URL, entity.imageUrl)
+                        putExtra(EXTRA_SITE_URL, entity.siteUrl)
+                        putExtra(EXTRA_IS_VISIT, entity.visitFlag)
                     }, 0)
-                } else if (item is CategoryEntity) {
+                } else if (entity is CategoryEntity) {
                     startActivityForResult(Intent(context, ListActivity::class.java).apply {
-                        putExtra(EXTRA_CATEGORY_ID, item.categoryId)
-                        putExtra(EXTRA_CATEGORY, item.category)
+                        putExtra(EXTRA_CATEGORY_ID, entity.categoryId)
+                        putExtra(EXTRA_CATEGORY, entity.category)
                     }, 0)
                 }
             }
@@ -54,6 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     setTitle(entity.name)
                     setOnEditClickListener(View.OnClickListener {
                         startActivityForResult(Intent(context, EditActivity::class.java).apply {
+                            putExtra(EXTRA_PLACE_ID, entity.placeId)
                             putExtra(EXTRA_TITLE, entity.name)
                             putExtra(EXTRA_ADDRESS, entity.address)
                             putExtra(EXTRA_IMG_URL, entity.imageUrl)
@@ -80,11 +81,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (resultCode) {
-            RESULT_EDIT -> Log.d(TAG, "EDIT")
-            RESULT_DELETE -> {
-                Toast.makeText(context, R.string.msg_delete_place_success, Toast.LENGTH_SHORT).show()
-                viewModel.getData()
-            }
+            RESULT_EDIT, RESULT_DELETE -> viewModel.getData()
         }
     }
 
