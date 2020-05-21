@@ -22,6 +22,7 @@
     <string name="delete_all">전체 삭제</string>
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
+    <string name="retry">다시 시도</string>
 
     <string name="category_title">카테고리 설정</string>
     <string name="category_select">카테고리 선택</string>
@@ -38,6 +39,10 @@
     <string name="msg_category_empty">카테고리명을 입력해주세요.</string>
     <string name="msg_category_added">카테고리가 추가 되었습니다.</string>
     <string name="msg_category_exist">카테고리가 이미 존재합니다.</string>
+    <string name="msg_category_delete">카테고리를 삭제하시겠습니까?</string>
+    <string name="msg_category_delete_success">카테고리를 삭제하였습니다.</string>
+    <string name="msg_category_delete_fail">카테고리를 사용하는 장소가 있습니다.\n카테고리를 변경해주세요.</string>
+    <string name="msg_category_edit_fail">카테고리 수정에 실패했습니다.\n다시 시도 하시겠습니까?</string>
     <string name="msg_url_empty">입력하신 웹사이트가 없습니다.\n계속 진행 하시겠습니까?</string>
     <string name="msg_image_empty">입력하신 사이트 URL은 미리보기를 가져올 수 없습니다.\n계속 진행 하시겠습니까?</string>
     <string name="msg_write_place_success">장소를 저장하였습니다!</string>

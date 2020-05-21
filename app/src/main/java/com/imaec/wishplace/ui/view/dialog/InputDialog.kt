@@ -9,10 +9,15 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Toast
 import com.imaec.wishplace.R
+import kotlinx.android.synthetic.main.dialog_common.*
 import kotlinx.android.synthetic.main.dialog_input.*
+import kotlinx.android.synthetic.main.dialog_input.text_cancel
 
 class InputDialog(context: Context) : Dialog(context) {
 
+    private var title = ""
+    private var ok = ""
+    private var cancel = ""
     private lateinit var addClick: (String) -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +35,18 @@ class InputDialog(context: Context) : Dialog(context) {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
+        if (title.isEmpty()) title = context.getString(R.string.add)
+        if (ok.isEmpty()) ok = context.getString(R.string.ok)
+        if (cancel.isEmpty()) cancel = context.getString(R.string.cancel)
+
+        initLayout()
+    }
+
+    private fun initLayout() {
+        text_title.text = title
+        text_add.text = ok
+        text_cancel.text = cancel
+
         if (::addClick.isInitialized) {
             text_add.setOnClickListener {
                 if (edit_category.text.isEmpty()) {
@@ -38,10 +55,21 @@ class InputDialog(context: Context) : Dialog(context) {
                 }
                 addClick(edit_category.text.toString())
             }
-        }
-        text_cancel.setOnClickListener {
-            dismiss()
-        }
+        } else text_add.setOnClickListener { dismiss() }
+
+        text_cancel.setOnClickListener { dismiss() }
+    }
+
+    fun setTitle(title: String) {
+        this.title = title
+    }
+
+    fun setOk(ok: String) {
+        this.ok = ok
+    }
+
+    fun setCancel(cancel: String) {
+        this.cancel = cancel
     }
 
     fun setOnAddClickListener(addClick: (String) -> Unit) {

@@ -3,6 +3,7 @@ package com.imaec.wishplace.viewmodel
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.imaec.wishplace.TYPE_CATEGORY_SELECT
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.CategoryDao
@@ -20,7 +21,7 @@ class CategorySelectViewModel(context: Context) : BaseViewModel(context) {
     val liveListCategory = MutableLiveData<ArrayList<Any>>().set(ArrayList())
 
     init {
-        adapter = CategoryAdapter()
+        adapter = CategoryAdapter(TYPE_CATEGORY_SELECT)
     }
 
     fun selectCategory() {

@@ -4,6 +4,9 @@ const val TYPE_CATEGORY = 0
 const val TYPE_ITEM = 1
 const val TYPE_FOOTER = 2
 
+const val TYPE_CATEGORY_EDIT = 0
+const val TYPE_CATEGORY_SELECT = 1
+
 const val RESULT_DELETE = 2
 const val RESULT_EDIT = 3
 const val RESULT_WRITE = 4

@@ -1,5 +1,6 @@
 package com.imaec.wishplace.ui.view.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.Toast
 import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSettingBinding
+import com.imaec.wishplace.ui.view.activity.CategoryEditActivity
 import com.imaec.wishplace.ui.view.dialog.InputDialog
 import com.imaec.wishplace.viewmodel.SettingViewModel
 
@@ -41,7 +43,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
                 }.show()
             }
             R.id.text_category_edit -> {
-
+                startActivity(Intent(context, CategoryEditActivity::class.java))
             }
             R.id.text_share -> {
 

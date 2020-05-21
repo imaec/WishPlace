@@ -30,6 +30,8 @@
 
         <activity android:name=".ui.view.activity.WriteActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.activity.CategoryEditActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.CategorySelectActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.DetailActivity"

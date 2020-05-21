@@ -24,6 +24,9 @@ interface PlaceDao {
     @Update
     fun update(entity: PlaceEntity) : Int
 
+    @Update
+    fun update(vararg entity: PlaceEntity) : Int
+
     @Delete
     fun delete(entity: PlaceEntity)
 }

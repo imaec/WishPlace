@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.dialog_common.*
 
 class CommonDialog(context: Context, private val message: String) : Dialog(context) {
 
-    private lateinit var ok: String
-    private lateinit var cancel: String
+    private var ok = ""
+    private var cancel = ""
     private lateinit var listenerOk: View.OnClickListener
     private lateinit var listenerCancel: View.OnClickListener
 
@@ -33,8 +33,8 @@ class CommonDialog(context: Context, private val message: String) : Dialog(conte
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
-        ok = context.getString(R.string.ok)
-        cancel = context.getString(R.string.cancel)
+        if (ok.isEmpty()) ok = context.getString(R.string.ok)
+        if (cancel.isEmpty()) cancel = context.getString(R.string.cancel)
 
         initLayout()
     }
