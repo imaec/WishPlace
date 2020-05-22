@@ -11,91 +11,124 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image_thumb"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:scaleType="centerCrop"
-            android:onClick="onClick"
-            app:imgUrl="@{viewModel.liveImgUrl}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="82dp">
 
-        <ImageView
-            android:id="@+id/image_edit"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="8dp"
-            android:src="@mipmap/ic_launcher"
-            android:onClick="onClick"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bgAlpha"
-            android:padding="8dp"
-            android:text="@{viewModel.liveTitle}"
-            android:textSize="24sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/image_thumb"/>
+                <ImageView
+                    android:id="@+id/image_thumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:onClick="onClick"
+                    android:scaleType="centerCrop"
+                    app:imgUrl="@{viewModel.liveImgUrl}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            style="@style/TextInputTitle"
-            android:id="@+id/text_addr_title"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/address"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_name"/>
+                <ImageView
+                    android:id="@+id/image_edit"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:onClick="onClick"
+                    android:padding="8dp"
+                    android:src="@mipmap/ic_launcher"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            style="@style/TextInput"
-            android:id="@+id/text_addr"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@{viewModel.liveAddress}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_addr_title"/>
+                <TextView
+                    android:id="@+id/text_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bgAlpha"
+                    android:padding="8dp"
+                    android:text="@{viewModel.liveTitle}"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/image_thumb"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
-            style="@style/TextInputTitle"
-            android:id="@+id/text_site_title"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/site"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_addr"/>
+                <TextView
+                    android:id="@+id/text_addr_title"
+                    style="@style/TextInputTitle"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/address"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_name" />
 
-        <TextView
-            style="@style/TextInput"
-            android:id="@+id/edit_site"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:autoLink="web"
-            android:singleLine="false"
-            android:lines="3"
-            android:maxLines="4"
-            android:text="@{viewModel.liveSite}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_site_title"/>
+                <TextView
+                    android:id="@+id/text_addr"
+                    style="@style/TextInput"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@null"
+                    android:text="@{viewModel.liveAddress}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_addr_title" />
+
+                <TextView
+                    android:id="@+id/text_site_title"
+                    style="@style/TextInputTitle"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/site"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_addr" />
+
+                <TextView
+                    android:id="@+id/edit_site"
+                    style="@style/TextInput"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:autoLink="web"
+                    android:background="@null"
+                    android:lines="3"
+                    android:maxLines="4"
+                    android:singleLine="false"
+                    android:text="@{viewModel.liveSite}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_site_title" />
+
+                <TextView
+                    android:id="@+id/text_content_title"
+                    style="@style/TextInputTitle"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_site" />
+
+                <TextView
+                    android:id="@+id/edit_content"
+                    style="@style/TextInput"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@null"
+                    android:singleLine="false"
+                    android:text="@{viewModel.liveContent}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_content_title" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <TextView
             android:id="@+id/text_share"
@@ -103,15 +136,15 @@
             android:layout_height="50dp"
             android:layout_margin="16dp"
             android:background="@drawable/bg_button"
-            android:gravity="center"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
             android:text="@string/share"
-            android:textSize="16sp"
             android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

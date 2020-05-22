@@ -19,6 +19,7 @@ class InputDialog(context: Context) : Dialog(context) {
     private var ok = ""
     private var cancel = ""
     private lateinit var addClick: (String) -> Unit
+    private lateinit var cancelClick: () -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,11 @@ class InputDialog(context: Context) : Dialog(context) {
             }
         } else text_add.setOnClickListener { dismiss() }
 
-        text_cancel.setOnClickListener { dismiss() }
+        if (::cancelClick.isInitialized) {
+            text_cancel.setOnClickListener {
+                cancelClick()
+            }
+        } else text_cancel.setOnClickListener { dismiss() }
     }
 
     fun setTitle(title: String) {
@@ -74,5 +79,9 @@ class InputDialog(context: Context) : Dialog(context) {
 
     fun setOnAddClickListener(addClick: (String) -> Unit) {
         this.addClick = addClick
+    }
+
+    fun setOnCancelClickListener(cancelClick: () -> Unit) {
+        this.cancelClick = cancelClick
     }
 }

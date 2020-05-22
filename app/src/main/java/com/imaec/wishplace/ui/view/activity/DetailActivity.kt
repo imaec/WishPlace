@@ -28,6 +28,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             setData(
                 intent.getStringExtra(EXTRA_TITLE) ?: "제목이 없습니다.",
                 intent.getStringExtra(EXTRA_ADDRESS) ?: "주소가 없습니다.",
+                intent.getStringExtra(EXTRA_CONTENT) ?: "",
                 intent.getStringExtra(EXTRA_IMG_URL) ?: "",
                 intent.getStringExtra(EXTRA_SITE_URL) ?: "사이트가 없습니다.",
                 intent.getBooleanExtra(EXTRA_IS_VISIT, false)

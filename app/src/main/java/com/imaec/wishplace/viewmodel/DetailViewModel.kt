@@ -17,14 +17,16 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
     val livePlace = MutableLiveData<PlaceEntity>()
     val liveTitle = MutableLiveData<String>()
     val liveAddress = MutableLiveData<String>()
+    val liveContent = MutableLiveData<String>()
     val liveImgUrl = MutableLiveData<String>()
     val liveSite = MutableLiveData<String>()
     val liveIsVisit = MutableLiveData<Boolean>()
     var isUpdated = false
 
-    fun setData(title: String, address: String, imgUrl: String, site: String, isVisit: Boolean) {
+    fun setData(title: String, address: String, content: String, imgUrl: String, site: String, isVisit: Boolean) {
         liveTitle.value = title
         liveAddress.value = address
+        liveContent.value = content
         liveImgUrl.value = imgUrl
         liveSite.value = site
         liveIsVisit.value = isVisit
@@ -38,7 +40,7 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
             }
             livePlace.value = place
             place?.let {
-                setData(it.name, it.address, it.imageUrl, it.siteUrl, it.visitFlag)
+                setData(it.name, it.address, it.content, it.imageUrl, it.siteUrl, it.visitFlag)
             }
         }
     }

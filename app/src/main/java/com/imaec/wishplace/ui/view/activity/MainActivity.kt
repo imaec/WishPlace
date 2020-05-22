@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.imaec.wishplace.R
@@ -13,6 +14,7 @@ import com.imaec.wishplace.RESULT_EDIT
 import com.imaec.wishplace.RESULT_WRITE
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityMainBinding
+import com.imaec.wishplace.ui.view.dialog.InputDialog
 import com.imaec.wishplace.ui.view.fragment.HomeFragment
 import com.imaec.wishplace.ui.view.fragment.SearchFragment
 import com.imaec.wishplace.ui.view.fragment.SearchResultFragment
@@ -43,6 +45,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         }
 
         setFragment(fragmentHome)
+
+        viewModel.isExistCategory { isExist -> if (!isExist) addCategory() }
 
         if (intent.action == Intent.ACTION_SEND) {
             receiveIntent()
@@ -118,6 +122,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             .commitAllowingStateLoss()
     }
 
+    private fun addCategory() {
+        InputDialog(this).apply {
+            setTitle("카테고리 추가해주세요.")
+            setOnAddClickListener {
+                viewModel.addCategory(it) { isSuccess ->
+                    Toast.makeText(this@MainActivity,
+                        if (isSuccess) { "'$it' " + getString(R.string.msg_category_added) } else "'$it' " + context.getString(R.string.msg_category_exist),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    dismiss()
+                }
+            }
+            setOnCancelClickListener {
+                Toast.makeText(this@MainActivity, R.string.msg_category_add_canceled, Toast.LENGTH_SHORT).show()
+                dismiss()
+            }
+            show()
+        }
+    }
+
     private fun receiveIntent() {
         intent.type?.let {
             if (it == "text/plain") {
@@ -125,6 +149,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 startActivityForResult(Intent(this, WriteActivity::class.java).apply {
                     putExtra(Intent.EXTRA_TEXT, text)
                 }, 0)
+
+                intent = null
             }
         }
     }

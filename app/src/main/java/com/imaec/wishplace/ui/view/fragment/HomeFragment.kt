@@ -57,6 +57,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                             putExtra(EXTRA_PLACE_ID, entity.placeId)
                             putExtra(EXTRA_TITLE, entity.name)
                             putExtra(EXTRA_ADDRESS, entity.address)
+                            putExtra(EXTRA_CONTENT, entity.content)
                             putExtra(EXTRA_IMG_URL, entity.imageUrl)
                             putExtra(EXTRA_SITE_URL, entity.siteUrl)
                             putExtra(EXTRA_IS_VISIT, entity.visitFlag)

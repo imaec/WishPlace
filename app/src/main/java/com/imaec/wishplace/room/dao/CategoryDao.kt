@@ -9,6 +9,9 @@ interface CategoryDao {
     @Insert
     fun insert(entity: CategoryEntity)
 
+    @Query("SELECT COUNT(*) FROM CategoryENTITY")
+    fun getCount() : Int
+
     @Query("SELECT COUNT(*) FROM CategoryENTITY WHERE category = :category")
     fun getCount(category: String) : Int
 

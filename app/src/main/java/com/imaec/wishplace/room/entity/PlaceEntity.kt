@@ -18,6 +18,7 @@ data class PlaceEntity(
     @ColumnInfo var name: String = "",
     @ColumnInfo var address: String = "",
     @ColumnInfo var siteUrl: String = "",
+    @ColumnInfo var content: String = "",
     @ColumnInfo var imageUrl: String = "",
     @ColumnInfo var saveTime: String = Utils.getDate("yyyyMMddHHmmss"),
     @ColumnInfo var visitFlag: Boolean = false

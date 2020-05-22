@@ -40,7 +40,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
                             dismiss()
                         }
                     }
-                }.show()
+                    show()
+                }
             }
             R.id.text_category_edit -> {
                 startActivity(Intent(context, CategoryEditActivity::class.java))

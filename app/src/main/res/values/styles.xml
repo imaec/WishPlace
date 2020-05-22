@@ -26,7 +26,6 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/darkGray</item>
         <item name="android:singleLine">true</item>
-        <item name="android:lines">1</item>
         <item name="android:background">@drawable/bg_input</item>
     </style>
 

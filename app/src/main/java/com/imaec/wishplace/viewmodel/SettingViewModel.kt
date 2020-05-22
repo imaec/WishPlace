@@ -16,18 +16,6 @@ class SettingViewModel(context: Context) : BaseViewModel(context) {
 
     val appVersion = MutableLiveData<String>().set(Utils.getVersion(context))
 
-    fun addCategory(category: String, callback: (Boolean) -> Unit) {
-        getCount(category) { count ->
-            if (count == 0) {
-                insert(category) {
-                    callback(true)
-                }
-            } else {
-                callback(false)
-            }
-        }
-    }
-
     private fun getCount(category: String, callback: (Int) -> Unit) {
         viewModelScope.launch {
             var count = 0
@@ -44,6 +32,18 @@ class SettingViewModel(context: Context) : BaseViewModel(context) {
                 categoryDao.insert(CategoryEntity(category = category))
             }
             callback()
+        }
+    }
+
+    fun addCategory(category: String, callback: (Boolean) -> Unit) {
+        getCount(category) { count ->
+            if (count == 0) {
+                insert(category) {
+                    callback(true)
+                }
+            } else {
+                callback(false)
+            }
         }
     }
 }

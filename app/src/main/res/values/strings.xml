@@ -12,6 +12,8 @@
     <string name="address_hint">가고싶은 장소의 주소를 입력하세요.</string>
     <string name="site">웹 사이트</string>
     <string name="site_hint">가고싶은 장소의 웹 주소를 입력해주세요.\n(공식 홈페이지, 블로그 등)</string>
+    <string name="content">설명</string>
+    <string name="content_hint">장소에 대한 설명을 입력해주세요.</string>
     <string name="lately_keyword">최근 검색어</string>
 
     <string name="save">저장하기</string>
@@ -39,6 +41,7 @@
     <string name="msg_category_empty">카테고리명을 입력해주세요.</string>
     <string name="msg_category_added">카테고리가 추가 되었습니다.</string>
     <string name="msg_category_exist">카테고리가 이미 존재합니다.</string>
+    <string name="msg_category_add_canceled">카테고리는 [설정]에서 [카테고리 추가]로 추가하실 수 있습니다.</string>
     <string name="msg_category_delete">카테고리를 삭제하시겠습니까?</string>
     <string name="msg_category_delete_success">카테고리를 삭제하였습니다.</string>
     <string name="msg_category_delete_fail">카테고리를 사용하는 장소가 있습니다.\n카테고리를 변경해주세요.</string>
