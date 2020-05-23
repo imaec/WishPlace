@@ -25,6 +25,7 @@
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
     <string name="retry">다시 시도</string>
+    <string name="visit">방문</string>
 
     <string name="category_title">카테고리 설정</string>
     <string name="category_select">카테고리 선택</string>
@@ -36,6 +37,7 @@
     <string name="share_app">친구에게 앱 알려주기</string>
 
     <!-- Message -->
+    <string name="msg_retry">잠시 후 다시 시도해주세요.</string>
     <string name="msg_keyword_empty">최근 검색한 검색어가 없습니다.</string>
     <string name="msg_search_empty">검색 결과가 없습니다.</string>
     <string name="msg_category_empty">카테고리명을 입력해주세요.</string>

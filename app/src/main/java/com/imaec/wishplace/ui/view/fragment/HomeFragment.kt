@@ -34,6 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         viewModel.apply {
             addOnClickListener { entity ->
                 if (entity is PlaceEntity) {
+                    Log.d(TAG, "    ## ${entity.visitFlag}")
                     startActivityForResult(Intent(context, DetailActivity::class.java).apply {
                         putExtra(EXTRA_PLACE_ID, entity.placeId)
                         putExtra(EXTRA_TITLE, entity.name)

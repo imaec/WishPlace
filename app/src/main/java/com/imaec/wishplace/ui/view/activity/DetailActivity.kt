@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityDetailBinding
@@ -34,6 +36,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                 intent.getBooleanExtra(EXTRA_IS_VISIT, false)
             )
             getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
+            liveIsVisit.observe(this@DetailActivity, Observer {
+                binding.textVisit.setBackgroundResource(if (it) R.drawable.bg_circle_accent else R.drawable.bg_circle_gray)
+                binding.textVisit.setTextColor(if (it) ContextCompat.getColor(this@DetailActivity, R.color.colorAccent) else ContextCompat.getColor(this@DetailActivity, R.color.gray))
+            })
         }
     }
 
@@ -59,12 +65,28 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
     }
 
     fun onClick(view: View) {
-        if (view.id == R.id.image_thumb) {
-            startActivity(Intent(this, ImageActivity::class.java).apply {
-                putExtra(EXTRA_IMG_URL, viewModel.liveImgUrl.value)
-            })
-        } else if (view.id == R.id.image_edit) {
-            showPopup(view)
+        when (view.id) {
+            R.id.image_thumb -> {
+                startActivity(Intent(this, ImageActivity::class.java).apply {
+                    putExtra(EXTRA_IMG_URL, viewModel.liveImgUrl.value)
+                })
+            }
+            R.id.image_edit -> {
+                showPopup(view)
+            }
+            R.id.text_visit -> {
+                viewModel.updateVisit { isSuccess ->
+                    if (isSuccess) {
+                        viewModel.isUpdated = true
+                        viewModel.getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
+                    } else {
+                        Toast.makeText(this, R.string.msg_retry, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            R.id.text_share -> {
+
+            }
         }
     }
 

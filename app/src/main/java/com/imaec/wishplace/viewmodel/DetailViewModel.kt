@@ -1,6 +1,7 @@
 package com.imaec.wishplace.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.room.AppDatabase
@@ -30,6 +31,8 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
         liveImgUrl.value = imgUrl
         liveSite.value = site
         liveIsVisit.value = isVisit
+
+        Log.d(TAG, "    ## $isVisit")
     }
 
     fun getData(placeId: Int) {
@@ -55,6 +58,26 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
                 dao.delete(entity)
             }
             callback(true)
+        }
+    }
+
+    fun updateVisit(callback: (Boolean) -> Unit) {
+        val entity = livePlace.value
+        val isVisit = liveIsVisit.value
+
+        if (isVisit == null || entity == null) {
+            callback(false)
+            return
+        }
+        entity.visitFlag = !isVisit
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val result = dao.update(entity)
+                launch(Dispatchers.Main) {
+                    liveIsVisit.value = !isVisit
+                    callback(result > 0)
+                }
+            }
         }
     }
 }
