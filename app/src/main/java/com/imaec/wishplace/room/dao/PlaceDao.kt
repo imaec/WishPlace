@@ -21,6 +21,12 @@ interface PlaceDao {
     @Query("SELECT * FROM placeENTITY WHERE foreignId=:categoryId")
     fun selectByCategory(categoryId: Int) : List<PlaceEntity>
 
+    @Query("SELECT * FROM placeENTITY WHERE name LIKE :name")
+    fun selectByName(name: String) : List<PlaceEntity>
+
+    @Query("SELECT * FROM placeENTITY WHERE address LIKE :address")
+    fun selectByAddress(address: String) : List<PlaceEntity>
+
     @Update
     fun update(entity: PlaceEntity) : Int
 

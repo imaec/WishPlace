@@ -38,13 +38,5 @@ class Utils {
         fun isNaverBolg(url: String) : Boolean {
             return url.contains("blog.naver.com")
         }
-
-        fun removeSlash(url: String) : String {
-            var tempUrl = url
-            while (tempUrl.startsWith("/")) {
-                tempUrl = tempUrl.substring(1, tempUrl.length)
-            }
-            return tempUrl
-        }
     }
 }

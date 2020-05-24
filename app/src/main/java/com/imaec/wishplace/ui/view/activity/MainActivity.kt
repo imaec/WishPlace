@@ -66,6 +66,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             isSearchResult -> {
                 isSearchResult = false
                 setFragment(fragmentSearch)
+
+                if (binding.bottomNavigation.selectedItemId != R.id.navigation_home &&
+                    binding.bottomNavigation.selectedItemId != R.id.navigation_search) {
+                    binding.bottomNavigation.selectedItemId = R.id.navigation_home
+                } else if (binding.bottomNavigation.selectedItemId == R.id.navigation_home) {
+                    super.onBackPressed()
+                }
             }
             binding.bottomNavigation.selectedItemId != R.id.navigation_home -> {
                 binding.bottomNavigation.selectedItemId = R.id.navigation_home
@@ -102,6 +109,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         when (view.id) {
             R.id.fab -> {
                 startActivityForResult(Intent(this, WriteActivity::class.java), 0)
+            }
+            R.id.linear_option -> {
+                fragmentSearch.onClick(view)
             }
             R.id.image_search -> {
                 isSearchResult = true

@@ -13,6 +13,7 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
     private lateinit var viewModel: SearchViewModel
 
     var keyword = ""
+    var option = ""
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -23,9 +24,16 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
         binding.apply {
             lifecycleOwner = this@SearchResultFragment
             viewModel = this@SearchResultFragment.viewModel
-            textKeywordInfo.text = "'$keyword'에 대한 검색결과"
         }
 
-        viewModel.search(keyword)
+        arguments?.let {
+            keyword = it.getString("keyword") ?: ""
+            option = it.getString("option") ?: ""
+            binding.textKeywordInfo.text = "'$keyword'에 대한 검색결과"
+        }
+
+        viewModel.search(keyword, option) {
+            // onFail
+        }
     }
 }
