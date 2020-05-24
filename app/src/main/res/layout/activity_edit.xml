@@ -11,90 +11,129 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image_thumb"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:scaleType="centerCrop"
-            app:imgUrl="@{viewModel.liveImgUrl}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="82dp">
 
-        <ImageView
-            android:id="@+id/image_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="8dp"
-            android:src="@mipmap/ic_launcher"
-            android:onClick="onClick"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/edit_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bgAlpha"
-            android:padding="8dp"
-            android:singleLine="true"
-            android:lines="1"
-            android:text="@{viewModel.liveTitle}"
-            android:textSize="24sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/image_thumb"/>
+                <ImageView
+                    android:id="@+id/image_thumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:scaleType="centerCrop"
+                    app:imgUrl="@{viewModel.liveImgUrl}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            style="@style/TextInputTitle"
-            android:id="@+id/text_addr_title"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/address"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_name"/>
+                <ImageView
+                    android:id="@+id/image_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:onClick="onClick"
+                    android:padding="8dp"
+                    android:src="@mipmap/ic_launcher"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            style="@style/TextInput"
-            android:id="@+id/edit_addr"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:hint="@string/address_hint"
-            android:text="@{viewModel.liveAddress}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_addr_title"/>
+                <EditText
+                    android:id="@+id/edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bgAlpha"
+                    android:lines="1"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:text="@{viewModel.liveTitle}"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/image_thumb"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
-            style="@style/TextInputTitle"
-            android:id="@+id/text_site_title"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/site"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_addr"/>
+                <TextView
+                    android:id="@+id/text_addr_title"
+                    style="@style/TextInputTitle"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/address"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_name" />
 
-        <EditText
-            style="@style/TextInput"
-            android:id="@+id/edit_site"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:singleLine="false"
-            android:lines="3"
-            android:maxLines="4"
-            android:hint="@string/site_hint"
-            android:text="@{viewModel.liveSite}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_site_title"/>
+                <EditText
+                    android:id="@+id/edit_addr"
+                    style="@style/TextInput"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:hint="@string/address_hint"
+                    android:text="@{viewModel.liveAddress}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_addr_title" />
+
+                <TextView
+                    android:id="@+id/text_site_title"
+                    style="@style/TextInputTitle"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/site"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_addr" />
+
+                <EditText
+                    android:id="@+id/edit_site"
+                    style="@style/TextInput"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:padding="8dp"
+                    android:gravity="top"
+                    android:hint="@string/site_hint"
+                    android:maxLines="4"
+                    android:singleLine="false"
+                    android:text="@{viewModel.liveSite}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_site_title" />
+
+                <TextView
+                    android:id="@+id/text_content_title"
+                    style="@style/TextInputTitle"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="@string/content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_site" />
+
+                <EditText
+                    android:id="@+id/edit_content"
+                    style="@style/TextInput"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="top"
+                    android:hint="@string/content_hint"
+                    android:maxLines="100"
+                    android:minLines="2"
+                    android:padding="8dp"
+                    android:singleLine="false"
+                    android:text="@{viewModel.liveContent}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_content_title" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <TextView
             android:id="@+id/text_save"
@@ -102,16 +141,16 @@
             android:layout_height="50dp"
             android:layout_margin="16dp"
             android:background="@drawable/bg_button"
-            android:gravity="center"
-            android:onClick="onClick"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:onClick="onClick"
             android:text="@string/save"
-            android:textSize="16sp"
             android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

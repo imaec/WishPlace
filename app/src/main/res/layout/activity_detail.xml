@@ -97,7 +97,6 @@
                     android:layout_marginRight="8dp"
                     android:autoLink="web"
                     android:background="@null"
-                    android:lines="3"
                     android:maxLines="4"
                     android:singleLine="false"
                     android:text="@{viewModel.liveSite}"

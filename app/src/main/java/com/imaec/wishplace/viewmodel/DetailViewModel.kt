@@ -31,8 +31,6 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
         liveImgUrl.value = imgUrl
         liveSite.value = site
         liveIsVisit.value = isVisit
-
-        Log.d(TAG, "    ## $isVisit")
     }
 
     fun getData(placeId: Int) {

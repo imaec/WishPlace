@@ -36,6 +36,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                         putExtra(EXTRA_ADDRESS, entity.address)
                         putExtra(EXTRA_IMG_URL, entity.imageUrl)
                         putExtra(EXTRA_SITE_URL, entity.siteUrl)
+                        putExtra(EXTRA_CONTENT, entity.content)
                         putExtra(EXTRA_IS_VISIT, entity.visitFlag)
                     }, 0)
                 }
@@ -50,6 +51,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                             putExtra(EXTRA_ADDRESS, entity.address)
                             putExtra(EXTRA_IMG_URL, entity.imageUrl)
                             putExtra(EXTRA_SITE_URL, entity.siteUrl)
+                            putExtra(EXTRA_CONTENT, entity.content)
                             putExtra(EXTRA_IS_VISIT, entity.visitFlag)
                         }, 0)
                         dismiss()

@@ -2,6 +2,7 @@ package com.imaec.wishplace.ui.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -102,6 +103,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                             putExtra(EXTRA_ADDRESS, viewModel.liveAddress.value)
                             putExtra(EXTRA_IMG_URL, viewModel.liveImgUrl.value)
                             putExtra(EXTRA_SITE_URL, viewModel.liveSite.value)
+                            putExtra(EXTRA_CONTENT, viewModel.liveContent.value)
                             putExtra(EXTRA_IS_VISIT, viewModel.liveIsVisit.value)
                         }, 0)
                         overridePendingTransition(0, 0)

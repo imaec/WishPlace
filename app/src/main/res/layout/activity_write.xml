@@ -116,6 +116,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:padding="8dp"
+                    android:gravity="top"
                     android:singleLine="false"
                     android:hint="@string/site_hint"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -124,9 +125,9 @@
 
                 <TextView
                     style="@style/TextInputTitle"
+                    android:id="@+id/text_content_title"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:id="@+id/text_content_title"
                     android:text="@string/content"
                     android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toLeftOf="parent"
