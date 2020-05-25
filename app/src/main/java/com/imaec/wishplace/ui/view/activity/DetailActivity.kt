@@ -112,13 +112,13 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                     R.id.option_delete -> {
                         viewModel.delete(viewModel.livePlace.value) { isSuccess ->
                             if (isSuccess) {
-                                Toast.makeText(this@DetailActivity, R.string.msg_delete_place_success, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@DetailActivity, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
                                 setResult(RESULT_DELETE, Intent().apply {
                                     putExtra(EXTRA_IS_UPDATED, true)
                                 })
                                 finish()
                             } else {
-                                Toast.makeText(this@DetailActivity, R.string.msg_delete_place_fail, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@DetailActivity, R.string.msg_delete_fail, Toast.LENGTH_SHORT).show()
                             }
                         }
                         true

@@ -9,8 +9,12 @@ import com.imaec.wishplace.model.KeywordDTO
 import com.imaec.wishplace.TYPE_ITEM
 import com.imaec.wishplace.databinding.FooterDeleteBinding
 import com.imaec.wishplace.databinding.ItemKeywordBinding
+import com.imaec.wishplace.room.entity.KeywordEntity
 
 class KeywordAdapter : BaseAdapter() {
+
+    private lateinit var onDeleteClick: (KeywordEntity) -> Unit
+    private lateinit var onAllDeleteClick: () -> Unit
 
     override fun getItemViewType(position: Int): Int = if (listItem.size > 0 && position == listItem.size) { TYPE_FOOTER } else { TYPE_ITEM }
 
@@ -28,21 +32,41 @@ class KeywordAdapter : BaseAdapter() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemViewHolder) {
-            holder.onBind(listItem[position] as KeywordDTO)
+            holder.onBind(listItem[position] as KeywordEntity)
+        } else if (holder is FooterViewHolder) {
+            holder.onBind()
         }
     }
 
     inner class ItemViewHolder(private val binding: ItemKeywordBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: KeywordDTO) {
-            binding.item = item
+        fun onBind(item: KeywordEntity) {
+            binding.apply {
+                this.item = item
+                root.setOnClickListener {
+                    onClick(item)
+                }
+                imageItemDelete.setOnClickListener {
+                    onDeleteClick(item)
+                }
+            }
         }
     }
 
     inner class FooterViewHolder(private val binding: FooterDeleteBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: String) {
-
+        fun onBind() {
+            binding.textItemDelete.setOnClickListener {
+                onAllDeleteClick()
+            }
         }
+    }
+
+    fun addOnDeleteClickListener(onClick: (KeywordEntity) -> Unit) {
+        this.onDeleteClick = onClick
+    }
+
+    fun addOnAllDeleteClickListener(onClick: () -> Unit) {
+        this.onAllDeleteClick = onClick
     }
 }

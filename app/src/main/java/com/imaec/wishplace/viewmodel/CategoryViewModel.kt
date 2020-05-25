@@ -90,7 +90,6 @@ class CategoryViewModel(context: Context) : BaseViewModel(context) {
     }
 
     fun delete(entity: CategoryEntity, callback: (Boolean) -> Unit) {
-        Log.d(TAG, "    ## delete")
         selectPlaceByCategoryId(entity.categoryId) { size ->
             if (size > 0) {
                 viewModelScope.launch { callback(false) }

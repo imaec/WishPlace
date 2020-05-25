@@ -27,7 +27,7 @@ abstract class BaseViewModel(protected val context: Context) : ViewModel() {
 
     }
 
-    fun addOnClickListener(onClick: (Any) -> Unit) {
+    open fun addOnClickListener(onClick: (Any) -> Unit) {
         adapter.addOnClickListener(onClick)
     }
 

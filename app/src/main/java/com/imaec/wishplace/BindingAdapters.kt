@@ -2,6 +2,7 @@ package com.imaec.wishplace
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.imaec.wishplace.base.BaseAdapter
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.ui.adapter.HomeAdapter
+import com.imaec.wishplace.utils.Utils
 
 object BindingAdapters {
 
@@ -63,5 +65,11 @@ object BindingAdapters {
     @BindingAdapter("imgUrl")
     fun setImgUrl(imageView: ImageView, imgUrl: String) {
         Glide.with(imageView).load(imgUrl).into(imageView)
+    }
+
+    @JvmStatic
+    @BindingAdapter("date")
+    fun setDate(textView: TextView, strDate: String) {
+        textView.text = Utils.getDateChangeFormat(strDate, "yyyyMMddHHmmss", "yyyy.MM.dd")
     }
 }

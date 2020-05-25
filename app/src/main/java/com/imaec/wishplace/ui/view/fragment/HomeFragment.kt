@@ -67,7 +67,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     })
                     setOnDeleteClickListener(View.OnClickListener {
                         viewModel.delete(entity) {
-                            Toast.makeText(context, R.string.msg_delete_place_success, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
                             viewModel.getData()
                             dismiss()
                         }

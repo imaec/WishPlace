@@ -58,7 +58,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                     })
                     setOnDeleteClickListener(View.OnClickListener {
                         viewModel.delete(entity) {
-                            Toast.makeText(context, R.string.msg_delete_place_success, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
                             viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
                             viewModel.isUpdated = true
                             dismiss()

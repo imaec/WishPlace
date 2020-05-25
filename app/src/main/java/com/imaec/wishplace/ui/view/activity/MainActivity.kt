@@ -31,7 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     val fragmentSearchResult = SearchResultFragment()
     val fragmentSetting = SettingFragment()
 
-    private var isSearchResult = false
+    var isSearchResult = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +114,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 fragmentSearch.onClick(view)
             }
             R.id.image_search -> {
-                isSearchResult = true
                 fragmentSearch.onClick(view)
             }
             R.id.text_category_add,

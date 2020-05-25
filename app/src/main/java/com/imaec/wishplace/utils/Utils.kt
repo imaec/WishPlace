@@ -35,6 +35,13 @@ class Utils {
             return SimpleDateFormat(format).format(Date())
         }
 
+        @SuppressLint("SimpleDateFormat")
+        fun getDateChangeFormat(date: String, fromFormat: String = "yyyyMMdd", toFormat: String = "yyyyMMdd") : String {
+            val fromSdf = SimpleDateFormat(fromFormat)
+            val toSdf = SimpleDateFormat(toFormat)
+            return toSdf.format(fromSdf.parse(date) ?: Date())
+        }
+
         fun isNaverBolg(url: String) : Boolean {
             return url.contains("blog.naver.com")
         }
