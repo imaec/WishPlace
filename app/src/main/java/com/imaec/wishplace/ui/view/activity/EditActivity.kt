@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.imaec.wishplace.*
@@ -80,34 +79,45 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                 onBackPressed()
             }
             R.id.text_save -> {
-                viewModel.livePlace.value?.let {
-                    val entity = it
-                    viewModel.apply {
-                        entity.apply {
-                            name = liveTitle.value ?: "제목이 없습니다."
-                            address = liveAddress.value ?: "주소가 없습니다."
-                            siteUrl = liveSite.value ?: "사이트가 없습니다."
-                            content = liveContent.value ?: ""
-                        }
-
-                        checkUrl(entity.siteUrl, { imgUrl ->
-                            entity.imageUrl = imgUrl
-                            update(entity)
-                        }, { siteUrl ->
-                            CommonDialog(this@EditActivity, if (siteUrl == null) getString(R.string.msg_image_empty) else getString(R.string.msg_url_empty)).apply {
-                                setOnOkClickListener(View.OnClickListener {
-                                    entity.imageUrl = ""
-                                    update(entity)
-                                    dismiss()
-                                })
-                                show()
-                            }
-                        })
+                viewModel.livePlace.value?.let { entity ->
+                    val category = entity.category
+                    val title = binding.editName.text.toString()
+                    val address = binding.editAddr.text.toString()
+                    val result = viewModel.validateData(category, title, address)
+                    if (result == ValidateResult.SUCCESS) {
+                        checkUrl(entity)
+                    } else {
+                        Toast.makeText(this, result.msg, Toast.LENGTH_SHORT).show()
                     }
                 } ?: run {
                     Toast.makeText(this@EditActivity, R.string.msg_edit_place_fail, Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun checkUrl(entity: PlaceEntity) {
+        viewModel.apply {
+            entity.apply {
+                name = liveTitle.value ?: "제목이 없습니다."
+                address = liveAddress.value ?: "주소가 없습니다."
+                siteUrl = liveSite.value ?: "사이트가 없습니다."
+                content = liveContent.value ?: ""
+            }
+
+            checkUrl(entity.siteUrl, { imgUrl ->
+                entity.imageUrl = imgUrl
+                update(entity)
+            }, { siteUrl ->
+                CommonDialog(this@EditActivity, if (siteUrl == null) getString(R.string.msg_image_empty) else getString(R.string.msg_url_empty)).apply {
+                    setOnOkClickListener(View.OnClickListener {
+                        entity.imageUrl = ""
+                        update(entity)
+                        dismiss()
+                    })
+                    show()
+                }
+            })
         }
     }
 

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentHomeBinding
@@ -32,7 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         viewModel.apply {
-            addOnClickListener { entity ->
+            addOnClickListener { entity, view ->
                 if (entity is PlaceEntity) {
                     startActivityForResult(Intent(context, DetailActivity::class.java).apply {
                         putExtra(EXTRA_PLACE_ID, entity.placeId)
@@ -41,7 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         putExtra(EXTRA_IMG_URL, entity.imageUrl)
                         putExtra(EXTRA_SITE_URL, entity.siteUrl)
                         putExtra(EXTRA_IS_VISIT, entity.visitFlag)
-                    }, 0)
+                    }, 0, getTransitionOption(view).toBundle())
                 } else if (entity is CategoryEntity) {
                     startActivityForResult(Intent(context, ListActivity::class.java).apply {
                         putExtra(EXTRA_CATEGORY_ID, entity.categoryId)

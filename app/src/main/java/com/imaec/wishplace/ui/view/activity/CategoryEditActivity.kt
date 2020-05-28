@@ -27,7 +27,7 @@ class CategoryEditActivity : BaseActivity<ActivityCategoryBinding>(R.layout.acti
         }
 
         viewModel.apply {
-            addOnClickListener {
+            addOnClickListener { it ->
                 if (it is CategoryEntity) update(it)
             }
             addOnDeleteClickListener { entity -> delete(entity) }

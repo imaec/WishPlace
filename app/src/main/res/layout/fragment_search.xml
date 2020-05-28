@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/white"
-            app:adapter="@{viewModel.keywordAdapter}"
+            app:adapter="@{viewModel.adapter}"
             app:items="@{viewModel.liveListKeywordItem}"
             app:layoutManager="@{viewModel.linearLayoutManager}"
             app:layout_constraintLeft_toLeftOf="parent"

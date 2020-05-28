@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
+                android:transitionName="@string/transition_place"
                 app:imgUrl="@{item.imageUrl}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

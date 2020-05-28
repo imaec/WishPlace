@@ -35,11 +35,11 @@ class WriteViewModel(context: Context) : BaseViewModel(context) {
         }
     }
 
-    fun validateData(category: String, title: String, address: String) : WriteResult {
-        if (category.isEmpty()) return WriteResult.FAIL_CATEGORY
-        if (title.isEmpty()) return WriteResult.FAIL_TITLE
-        if (address.isEmpty()) return WriteResult.FAIL_ADDRESS
-        return WriteResult.SUCCESS
+    fun validateData(category: String, title: String, address: String) : ValidateResult {
+        if (category.isEmpty()) return ValidateResult.FAIL_CATEGORY
+        if (title.isEmpty()) return ValidateResult.FAIL_TITLE
+        if (address.isEmpty()) return ValidateResult.FAIL_ADDRESS
+        return ValidateResult.SUCCESS
     }
 
     fun checkUrl(url: String, onSuccess: (String) -> Unit, onFail: (String?) -> Unit) {

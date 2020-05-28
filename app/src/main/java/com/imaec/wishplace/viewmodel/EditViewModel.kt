@@ -3,6 +3,7 @@ package com.imaec.wishplace.viewmodel
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import com.imaec.wishplace.ValidateResult
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.PlaceDao
@@ -89,6 +90,13 @@ class EditViewModel(context: Context) : BaseViewModel(context) {
             if (it == null) onFail(null)
             else onSuccess(it)
         }
+    }
+
+    fun validateData(category: String, title: String, address: String) : ValidateResult {
+        if (category.isEmpty()) return ValidateResult.FAIL_CATEGORY
+        if (title.isEmpty()) return ValidateResult.FAIL_TITLE
+        if (address.isEmpty()) return ValidateResult.FAIL_ADDRESS
+        return ValidateResult.SUCCESS
     }
 
     fun update(entity: PlaceEntity?, callback: (Boolean) -> Unit) {

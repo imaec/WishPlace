@@ -1,6 +1,5 @@
 package com.imaec.wishplace.ui.view.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -10,13 +9,11 @@ import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSearchBinding
 import com.imaec.wishplace.room.entity.KeywordEntity
-import com.imaec.wishplace.ui.view.activity.EditActivity
 import com.imaec.wishplace.ui.view.activity.MainActivity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.utils.KeyboardUtil
 import com.imaec.wishplace.utils.SharedPreferenceManager
 import com.imaec.wishplace.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
@@ -50,23 +47,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     search(keyword, option)
                 }
             }
-            addOnDeleteClickListener { entity ->
-                delete(entity)
-            }
-            addOnAllDeleteClickListener {
-                deleteAll()
-            }
+            addOnDeleteClickListener { entity -> delete(entity) }
+            addOnAllDeleteClickListener { deleteAll() }
         }
     }
 
     fun onClick(view: View) {
         when (view.id) {
-            R.id.image_search -> {
-                search()
-            }
-            R.id.linear_option -> {
-                showPopup(view)
-            }
+            R.id.image_search -> search()
+            R.id.linear_option -> showPopup(view)
         }
     }
 

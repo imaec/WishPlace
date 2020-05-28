@@ -31,7 +31,11 @@ abstract class BaseViewModel(protected val context: Context) : ViewModel() {
         adapter.addOnClickListener(onClick)
     }
 
-    fun addOnLongClickListener(onLongClick: (PlaceEntity) -> Unit) {
+    open fun addOnClickListener(onClick: (Any, View) -> Unit) {
+        adapter.addOnClickListener(onClick)
+    }
+
+    open fun addOnLongClickListener(onLongClick: (PlaceEntity) -> Unit) {
         adapter.addOnLongClickListener(onLongClick)
     }
 

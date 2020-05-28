@@ -28,7 +28,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         viewModel.apply {
             liveCategory.value = intent.getStringExtra(EXTRA_CATEGORY)
-            addOnClickListener { entity ->
+            addOnClickListener { entity, view ->
                 if (entity is PlaceEntity) {
                     startActivityForResult(Intent(this@ListActivity, DetailActivity::class.java).apply {
                         putExtra(EXTRA_PLACE_ID, entity.placeId)
@@ -36,9 +36,8 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                         putExtra(EXTRA_ADDRESS, entity.address)
                         putExtra(EXTRA_IMG_URL, entity.imageUrl)
                         putExtra(EXTRA_SITE_URL, entity.siteUrl)
-                        putExtra(EXTRA_CONTENT, entity.content)
                         putExtra(EXTRA_IS_VISIT, entity.visitFlag)
-                    }, 0)
+                    }, 0, getTransitionOption(view).toBundle())
                 }
             }
             addOnLongClickListener { entity ->

@@ -2,11 +2,8 @@ package com.imaec.wishplace.ui.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityWriteBinding
@@ -68,7 +65,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                  val title = binding.editName.text.toString()
                  val address = binding.editAddr.text.toString()
                  val result = viewModel.validateData(category, title, address)
-                 if (result == WriteResult.SUCCESS) {
+                 if (result == ValidateResult.SUCCESS) {
                      save()
                  } else {
                      Toast.makeText(this, result.msg, Toast.LENGTH_SHORT).show()

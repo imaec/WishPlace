@@ -1,10 +1,13 @@
 package com.imaec.wishplace.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -24,5 +27,10 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutRe
 
     protected fun <T : ViewModel> getViewModel(modelClass: Class<T>) : T {
         return ViewModelProvider(this, BaseViewModelFactory(context!!)).get(modelClass)
+    }
+
+    protected fun getTransitionOption(view: View) : ActivityOptionsCompat {
+        val p1 = Pair.create(view, view.transitionName)
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!, p1)
     }
 }

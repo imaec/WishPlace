@@ -25,7 +25,7 @@ class CategorySelectActivity : BaseActivity<ActivityCategorySelectBinding>(R.lay
         }
 
         viewModel.apply {
-            addOnClickListener {
+            addOnClickListener { it ->
                 if (it is CategoryEntity) {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(EXTRA_CATEGORY_ID, it.categoryId)

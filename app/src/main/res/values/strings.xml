@@ -59,6 +59,9 @@
     <string name="error_edit_click">수정 버튼이 동작하지 않습니다.\n관리자에게 문의해주세요.</string>
     <string name="error_delete_click">삭제 버튼이 동작하지 않습니다.\n관리자에게 문의해주세요.</string>
 
+    <!-- Transition Name -->
+    <string name="transition_place">TRANSITION_PLACE</string>
+
 
     <string name="tempUrl">https://newsis.com/pol/?cid=10300</string>
 </resources>

@@ -37,9 +37,11 @@ class HomeAdapter : BaseAdapter() {
     inner class CategoryViewHolder(private val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(item: CategoryEntity) {
-            binding.item = item
-            binding.root.setOnClickListener {
-                onClick(item)
+            binding.apply {
+                this.item = item
+                root.setOnClickListener {
+                    onClickWithTransition(item, root)
+                }
             }
         }
     }
@@ -47,13 +49,15 @@ class HomeAdapter : BaseAdapter() {
     inner class ItemViewHolder(private val binding: ItemItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(item: PlaceEntity) {
-            binding.item = item
-            binding.root.setOnClickListener {
-                onClick(item)
-            }
-            binding.root.setOnLongClickListener {
-                onLongClick(item)
-                true
+            binding.apply {
+                this.item = item
+                root.setOnClickListener {
+                    onClickWithTransition(item, imageItemThumb)
+                }
+                root.setOnLongClickListener {
+                    onLongClick(item)
+                    true
+                }
             }
         }
     }

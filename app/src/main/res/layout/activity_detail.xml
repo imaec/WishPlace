@@ -28,6 +28,7 @@
                     android:layout_height="240dp"
                     android:onClick="onClick"
                     android:scaleType="centerCrop"
+                    android:transitionName="@string/transition_place"
                     app:imgUrl="@{viewModel.liveImgUrl}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
