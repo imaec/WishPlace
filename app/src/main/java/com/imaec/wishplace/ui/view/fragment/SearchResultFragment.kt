@@ -13,6 +13,7 @@ import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.activity.DetailActivity
 import com.imaec.wishplace.ui.view.activity.EditActivity
 import com.imaec.wishplace.ui.view.activity.ListActivity
+import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.SearchResultViewModel
 import com.imaec.wishplace.viewmodel.SearchViewModel
@@ -79,11 +80,8 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
                         dismiss()
                     })
                     setOnDeleteClickListener(View.OnClickListener {
-                        delete(entity) {
-                            Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                            search(keyword, option) {  }
-                            dismiss()
-                        }
+                        delete(entity)
+                        dismiss()
                     })
                 }
                 dialog.show()
@@ -96,6 +94,20 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> viewModel.search(keyword, option) {  }
+        }
+    }
+
+    private fun delete(entity: PlaceEntity) {
+        CommonDialog(context!!, "'${entity.name}' ${getString(R.string.msg_delete_place)}").apply {
+            setOk(getString(R.string.delete))
+            setOnOkClickListener(View.OnClickListener {
+                viewModel.delete(entity) {
+                    Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
+                    viewModel.search(keyword, option) {  }
+                    dismiss()
+                }
+            })
+            show()
         }
     }
 }

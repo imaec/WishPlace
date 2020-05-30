@@ -16,6 +16,7 @@ import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.activity.DetailActivity
 import com.imaec.wishplace.ui.view.activity.EditActivity
 import com.imaec.wishplace.ui.view.activity.ListActivity
+import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.HomeViewModel
 
@@ -68,11 +69,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         dismiss()
                     })
                     setOnDeleteClickListener(View.OnClickListener {
-                        viewModel.delete(entity) {
-                            Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                            viewModel.getData()
-                            dismiss()
-                        }
+                        delete(entity)
+                        dismiss()
                     })
                 }
                 dialog.show()
@@ -86,6 +84,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> viewModel.getData()
+        }
+    }
+
+    private fun delete(entity: PlaceEntity) {
+        CommonDialog(context!!, "'${entity.name}' ${getString(R.string.msg_delete_place)}").apply {
+            setOk(getString(R.string.delete))
+            setOnOkClickListener(View.OnClickListener {
+                viewModel.delete(entity) {
+                    Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
+                    viewModel.getData()
+                    dismiss()
+                }
+            })
+            show()
         }
     }
 

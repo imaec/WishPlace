@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityDetailBinding
+import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.viewmodel.DetailViewModel
 
 class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail) {
@@ -110,22 +111,32 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                         true
                     }
                     R.id.option_delete -> {
-                        viewModel.delete(viewModel.livePlace.value) { isSuccess ->
-                            if (isSuccess) {
-                                Toast.makeText(this@DetailActivity, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                                setResult(RESULT_DELETE, Intent().apply {
-                                    putExtra(EXTRA_IS_UPDATED, true)
-                                })
-                                finish()
-                            } else {
-                                Toast.makeText(this@DetailActivity, R.string.msg_delete_fail, Toast.LENGTH_SHORT).show()
-                            }
-                        }
+                        delete()
                         true
                     }
                     else -> false
                 }
             }
+            show()
+        }
+    }
+
+    private fun delete() {
+        CommonDialog(this, "'${viewModel.liveTitle.value}' ${getString(R.string.msg_delete_place)}").apply {
+            setOk(getString(R.string.delete))
+            setOnOkClickListener(View.OnClickListener {
+                viewModel.delete(viewModel.livePlace.value) { isSuccess ->
+                    if (isSuccess) {
+                        Toast.makeText(this@DetailActivity, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
+                        setResult(RESULT_DELETE, Intent().apply {
+                            putExtra(EXTRA_IS_UPDATED, true)
+                        })
+                        finish()
+                    } else {
+                        Toast.makeText(this@DetailActivity, R.string.msg_delete_fail, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
             show()
         }
     }

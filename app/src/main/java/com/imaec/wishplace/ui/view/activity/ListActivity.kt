@@ -9,6 +9,7 @@ import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityListBinding
 import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.entity.PlaceEntity
+import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.ListViewModel
 
@@ -56,12 +57,8 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                         dismiss()
                     })
                     setOnDeleteClickListener(View.OnClickListener {
-                        viewModel.delete(entity) {
-                            Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                            viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
-                            viewModel.isUpdated = true
-                            dismiss()
-                        }
+                        delete(entity)
+                        dismiss()
                     })
                 }
                 dialog.show()
@@ -84,5 +81,20 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
     override fun onBackPressed() {
         if (viewModel.isUpdated) setResult(RESULT_EDIT)
         super.onBackPressed()
+    }
+
+    private fun delete(entity: PlaceEntity) {
+        CommonDialog(this, "'${entity.name}' ${getString(R.string.msg_delete_place)}").apply {
+            setOk(getString(R.string.delete))
+            setOnOkClickListener(View.OnClickListener {
+                viewModel.delete(entity) {
+                    Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
+                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
+                    viewModel.isUpdated = true
+                    dismiss()
+                }
+            })
+            show()
+        }
     }
 }
