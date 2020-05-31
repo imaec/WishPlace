@@ -27,6 +27,9 @@ class SearchResultViewModel(context: Context) : BaseViewModel(context) {
     val liveListSearchItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
 
     fun search(keyword: String, option: String, onFail: () -> Unit) {
+        (adapter as SearchAdapter).setKeyword(keyword)
+        (adapter as SearchAdapter).setOption(option)
+
         viewModelScope.launch {
             var listPlace = ArrayList<Any>()
             withContext(Dispatchers.IO) {

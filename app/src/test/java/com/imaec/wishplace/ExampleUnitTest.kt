@@ -11,7 +11,23 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun multipleSpannableTest() {
+        val content = "123456781234sdafasdf123asdfgasdfasdfk12sadfasdfjkhnjkhn123gfaedfasd"
+        val keyword = "123"
+        var lastIndex = 0
+
+        while (true) {
+            if (content.indexOf(keyword, lastIndex) == -1) break
+
+            val start = content.indexOf(keyword, lastIndex)
+            val end = start + keyword.length
+
+            println("$start / $end")
+            println(content.substring(start, end))
+
+            lastIndex = end
+        }
+
+        assert(true)
     }
 }

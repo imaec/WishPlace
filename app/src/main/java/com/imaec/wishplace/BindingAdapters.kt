@@ -1,5 +1,8 @@
 package com.imaec.wishplace
 
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -71,5 +74,29 @@ object BindingAdapters {
     @BindingAdapter("date")
     fun setDate(textView: TextView, strDate: String) {
         textView.text = Utils.getDateChangeFormat(strDate, "yyyyMMddHHmmss", "yyyy.MM.dd")
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["bind:highlight", "bind:option"], requireAll = true)
+    fun setHighlight(textView: TextView, keyword: String?, option: String?) {
+        if (textView.contentDescription != option) return
+
+        keyword?.let {
+            val content = textView.text.toString()
+            val spannableString = SpannableString(content)
+            var lastIndex = 0
+
+            while (true) {
+                if (content.indexOf(keyword, lastIndex) == -1) break
+
+                val start = content.indexOf(keyword, lastIndex)
+                val end = start + keyword.length
+
+                spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#2196F3")), start, end, 0)
+
+                lastIndex = end
+            }
+            textView.text = spannableString
+        }
     }
 }

@@ -10,6 +10,9 @@ import com.imaec.wishplace.room.entity.PlaceEntity
 
 class SearchAdapter : BaseAdapter() {
 
+    private var keyword = ""
+    private var option = ""
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         binding = ItemItemBinding.inflate(LayoutInflater.from(parent.context))
         return ItemViewHolder(binding as ItemItemBinding)
@@ -26,6 +29,8 @@ class SearchAdapter : BaseAdapter() {
         fun onBind(item: PlaceEntity) {
             binding.apply {
                 this.item = item
+                this.keyword = this@SearchAdapter.keyword
+                this.option = this@SearchAdapter.option
                 root.setOnClickListener {
                     onClickWithTransition(item, imageItemThumb)
                 }
@@ -35,5 +40,13 @@ class SearchAdapter : BaseAdapter() {
                 }
             }
         }
+    }
+
+    fun setKeyword(keyword: String) {
+        this.keyword = keyword
+    }
+
+    fun setOption(option: String) {
+        this.option = option
     }
 }
