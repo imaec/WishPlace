@@ -26,7 +26,7 @@ class SearchResultViewModel(context: Context) : BaseViewModel(context) {
     val itemDecoration = PlaceItemDecoration(context)
     val liveListSearchItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
 
-    fun search(keyword: String, option: String, onFail: () -> Unit) {
+    fun search(keyword: String, option: String, callback: (Boolean) -> Unit) {
         (adapter as SearchAdapter).setKeyword(keyword)
         (adapter as SearchAdapter).setOption(option)
 
@@ -36,10 +36,11 @@ class SearchResultViewModel(context: Context) : BaseViewModel(context) {
                 when (option) {
                     "이름" -> listPlace = dao.selectByName("%$keyword%") as ArrayList<Any>
                     "주소" -> listPlace = dao.selectByAddress("%$keyword%") as ArrayList<Any>
-                    else -> onFail()
+                    else -> callback(false)
                 }
             }
             liveListSearchItem.value = listPlace
+            callback(true)
         }
     }
 

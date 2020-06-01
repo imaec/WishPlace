@@ -75,7 +75,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
                 dialog.show()
             }
-            getData()
+            showProgress()
+            getData { hideProgress() }
         }
     }
 
@@ -83,7 +84,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (resultCode) {
-            RESULT_EDIT, RESULT_DELETE -> viewModel.getData()
+            RESULT_EDIT, RESULT_DELETE -> {
+                showProgress()
+                viewModel.getData { hideProgress() }
+            }
         }
     }
 
@@ -93,7 +97,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                    viewModel.getData()
+
+                    showProgress()
+                    viewModel.getData { hideProgress() }
                     dismiss()
                 }
             })
@@ -102,6 +108,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     fun notifyItemAdded() {
-        viewModel.getData()
+        showProgress()
+        viewModel.getData { hideProgress() }
     }
 }

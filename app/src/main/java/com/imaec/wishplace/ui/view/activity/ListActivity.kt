@@ -63,7 +63,8 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                 }
                 dialog.show()
             }
-            getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
+            showProgress()
+            getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) { hideProgress() }
         }
     }
 
@@ -71,7 +72,10 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (resultCode) {
-            RESULT_EDIT, RESULT_DELETE -> viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
+            RESULT_EDIT, RESULT_DELETE -> {
+                showProgress()
+                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) { hideProgress() }
+            }
         }
         data?.let {
             viewModel.isUpdated = it.getBooleanExtra(EXTRA_IS_UPDATED, false)
@@ -89,7 +93,9 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
+
+                    showProgress()
+                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) { hideProgress() }
                     viewModel.isUpdated = true
                     dismiss()
                 }

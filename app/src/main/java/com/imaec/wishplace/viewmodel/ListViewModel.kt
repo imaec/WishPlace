@@ -29,7 +29,7 @@ class ListViewModel(context: Context) : BaseViewModel(context) {
         adapter = ListAdapter()
     }
 
-    fun getData(categoryId: Int) {
+    fun getData(categoryId: Int, callback: () -> Unit) {
         select(categoryId) { listEntity ->
             val listPlace = ArrayList<Any>()
             listEntity
@@ -43,6 +43,7 @@ class ListViewModel(context: Context) : BaseViewModel(context) {
 
             viewModelScope.launch {
                 liveListItem.value = listPlace
+                callback()
             }
         }
     }

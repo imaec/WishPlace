@@ -66,6 +66,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                  val address = binding.editAddr.text.toString()
                  val result = viewModel.validateData(category, title, address)
                  if (result == ValidateResult.SUCCESS) {
+                     showProgress()
                      save()
                  } else {
                      Toast.makeText(this, result.msg, Toast.LENGTH_SHORT).show()
@@ -84,6 +85,10 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                     save("")
                     dismiss()
                 })
+                setOnCancelClickListener(View.OnClickListener {
+                    hideProgress()
+                    dismiss()
+                })
                 show()
             }
         })
@@ -99,6 +104,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
             siteUrl = binding.editSite.text.toString(),
             imageUrl = url
         )) {
+            hideProgress()
             Toast.makeText(this, R.string.msg_write_place_success, Toast.LENGTH_SHORT).show()
             setResult(RESULT_WRITE)
             finish()

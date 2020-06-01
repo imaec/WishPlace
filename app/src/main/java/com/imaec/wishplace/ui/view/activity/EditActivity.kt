@@ -97,6 +97,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
     }
 
     private fun checkUrl(entity: PlaceEntity) {
+        showProgress()
+
         viewModel.apply {
             entity.apply {
                 name = liveTitle.value ?: "제목이 없습니다."
@@ -115,6 +117,10 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                         update(entity)
                         dismiss()
                     })
+                    setOnCancelClickListener(View.OnClickListener {
+                        hideProgress()
+                        dismiss()
+                    })
                     show()
                 }
             })
@@ -123,6 +129,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
 
     private fun update(entity: PlaceEntity) {
         viewModel.update(entity) { isSuccess ->
+            hideProgress()
+
             if (isSuccess) {
                 Toast.makeText(this@EditActivity, R.string.msg_edit_place_success, Toast.LENGTH_SHORT).show()
                 setResult(RESULT_EDIT, Intent().apply {

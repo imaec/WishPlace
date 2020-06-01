@@ -40,7 +40,7 @@ class HomeViewModel(context: Context) : BaseViewModel(context) {
     val itemDecoration = HomeItemDecoration(context)
     val liveListItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
 
-    fun getData() {
+    fun getData(callback: () -> Unit) {
         select { listEntity ->
             val listPlace = ArrayList<Any>()
             listEntity
@@ -55,6 +55,7 @@ class HomeViewModel(context: Context) : BaseViewModel(context) {
 
             viewModelScope.launch {
                 liveListItem.value = listPlace
+                callback()
             }
         }
     }
