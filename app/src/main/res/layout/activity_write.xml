@@ -9,165 +9,205 @@
             type="com.imaec.wishplace.viewmodel.WriteViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="82dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/text_category_title"
+                        style="@style/TextInputTitle"
+                        android:layout_marginTop="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/category"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_category"
+                        style="@style/TextInput"
+                        android:layout_marginLeft="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="onClick"
+                        android:text="@{viewModel.liveCategory}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/image_category_add"
+                        app:layout_constraintTop_toBottomOf="@id/text_category_title"
+                        app:layout_constraintWidth_percent="0.8" />
+
+                    <ImageView
+                        android:id="@+id/image_category_add"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="16dp"
+                        android:onClick="onClick"
+                        android:padding="6dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:layout_constraintLeft_toRightOf="@id/text_category"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_category_title"
+                        app:layout_constraintWidth_percent="0.15" />
+
+                    <TextView
+                        android:id="@+id/text_name_title"
+                        style="@style/TextInputTitle"
+                        android:layout_marginTop="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/name"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_category" />
+
+                    <EditText
+                        android:id="@+id/edit_name"
+                        style="@style/TextInput"
+                        android:layout_marginLeft="16dp"
+                        android:hint="@string/name_hint"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/image_search_name"
+                        app:layout_constraintTop_toBottomOf="@id/text_name_title"
+                        app:layout_constraintWidth_percent="0.8" />
+
+                    <ImageView
+                        android:id="@+id/image_search_name"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="16dp"
+                        android:onClick="onClick"
+                        android:padding="6dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:layout_constraintLeft_toRightOf="@id/edit_name"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_name_title"
+                        app:layout_constraintWidth_percent="0.15" />
+
+                    <TextView
+                        android:id="@+id/text_addr_title"
+                        style="@style/TextInputTitle"
+                        android:layout_marginTop="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/address"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/edit_name" />
+
+                    <EditText
+                        android:id="@+id/edit_addr"
+                        style="@style/TextInput"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:hint="@string/address_hint"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_addr_title" />
+
+                    <TextView
+                        android:id="@+id/text_site_title"
+                        style="@style/TextInputTitle"
+                        android:layout_marginTop="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/site"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/edit_addr" />
+
+                    <EditText
+                        android:id="@+id/edit_site"
+                        style="@style/TextInput"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:gravity="top"
+                        android:hint="@string/site_hint"
+                        android:padding="8dp"
+                        android:singleLine="false"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_site_title" />
+
+                    <TextView
+                        android:id="@+id/text_content_title"
+                        style="@style/TextInputTitle"
+                        android:layout_marginTop="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/edit_site" />
+
+                    <EditText
+                        android:id="@+id/edit_content"
+                        style="@style/TextInput"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="top"
+                        android:hint="@string/content_hint"
+                        android:maxLines="100"
+                        android:minLines="2"
+                        android:padding="8dp"
+                        android:singleLine="false"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_content_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
+            <TextView
+                android:id="@+id/text_save"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/bg_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="82dp">
+            android:background="@color/bgAlpha"
+            android:visibility="gone"
+            android:onClick="onClick"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/TextInputTitle"
-                    android:id="@+id/text_category_title"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:text="@string/category"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    style="@style/TextInput"
-                    android:id="@+id/text_category"
-                    android:layout_marginLeft="16dp"
-                    android:text="@{viewModel.liveCategory}"
-                    android:onClick="onClick"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/image_category_add"
-                    app:layout_constraintTop_toBottomOf="@id/text_category_title"
-                    app:layout_constraintWidth_percent="0.8"/>
-
-                <ImageView
-                    android:id="@+id/image_category_add"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="16dp"
-                    android:padding="6dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:onClick="onClick"
-                    app:layout_constraintLeft_toRightOf="@id/text_category"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_category_title"
-                    app:layout_constraintWidth_percent="0.15"/>
-
-                <TextView
-                    style="@style/TextInputTitle"
-                    android:id="@+id/text_name_title"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:text="@string/name"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_category"/>
-
-                <EditText
-                    style="@style/TextInput"
-                    android:id="@+id/edit_name"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:hint="@string/name_hint"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_name_title"/>
-
-                <TextView
-                    style="@style/TextInputTitle"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:id="@+id/text_addr_title"
-                    android:text="@string/address"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edit_name"/>
-
-                <EditText
-                    style="@style/TextInput"
-                    android:id="@+id/edit_addr"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:hint="@string/address_hint"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_addr_title"/>
-
-                <TextView
-                    style="@style/TextInputTitle"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:id="@+id/text_site_title"
-                    android:text="@string/site"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edit_addr"/>
-
-                <EditText
-                    style="@style/TextInput"
-                    android:id="@+id/edit_site"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:padding="8dp"
-                    android:gravity="top"
-                    android:singleLine="false"
-                    android:hint="@string/site_hint"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_site_title"/>
-
-                <TextView
-                    style="@style/TextInputTitle"
-                    android:id="@+id/text_content_title"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:text="@string/content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edit_site"/>
-
-                <EditText
-                    style="@style/TextInput"
-                    android:id="@+id/edit_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:padding="8dp"
-                    android:gravity="top"
-                    android:singleLine="false"
-                    android:minLines="2"
-                    android:maxLines="100"
-                    android:hint="@string/content_hint"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_content_title"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-
-        <TextView
-            android:id="@+id/text_save"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/bg_button"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:text="@string/save"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="250dp"
+            android:background="@color/white"
+            app:adapter="@{viewModel.adapter}"
+            app:itemDecoration="@{viewModel.itemDecoration}"
+            app:items="@{viewModel.liveNaverPlace}"
+            app:layoutManager="@{viewModel.layoutManager}"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="250dp"
+            app:behavior_skipCollapsed="false"
+            app:layout_behavior="@string/bottom_sheet_behavior"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

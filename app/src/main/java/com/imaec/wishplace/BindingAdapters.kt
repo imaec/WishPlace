@@ -1,6 +1,7 @@
 package com.imaec.wishplace
 
 import android.graphics.Color
+import android.text.Html
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
@@ -74,6 +75,12 @@ object BindingAdapters {
     @BindingAdapter("date")
     fun setDate(textView: TextView, strDate: String) {
         textView.text = Utils.getDateChangeFormat(strDate, "yyyyMMddHHmmss", "yyyy.MM.dd")
+    }
+
+    @JvmStatic
+    @BindingAdapter("html")
+    fun setHtml(textView: TextView, text: String) {
+        textView.text = Html.fromHtml(text)
     }
 
     @JvmStatic

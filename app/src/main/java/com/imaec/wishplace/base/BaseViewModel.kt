@@ -43,9 +43,4 @@ abstract class BaseViewModel(protected val context: Context) : ViewModel() {
         this.value = value
         return this
     }
-
-    fun MutableLiveData<String>.set(value: String) : MutableLiveData<String> {
-        this.value = value
-        return this
-    }
 }

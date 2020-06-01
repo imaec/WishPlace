@@ -2,26 +2,45 @@ package com.imaec.wishplace.viewmodel
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseViewModel
+import com.imaec.wishplace.model.NaverPlaceDTO
+import com.imaec.wishplace.retrofit.NaverAPI
+import com.imaec.wishplace.retrofit.RetrofitClient
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
+import com.imaec.wishplace.ui.adapter.NaverPlaceAdapter
 import com.imaec.wishplace.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
 import org.jsoup.Jsoup
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
+@Suppress("UNCHECKED_CAST")
 class WriteViewModel(context: Context) : BaseViewModel(context) {
+
+    init {
+        adapter = NaverPlaceAdapter()
+    }
 
     private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(context).categoryDao() }
     private val placeDao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
 
     val liveCategory = MutableLiveData<String>().set("")
+    val liveNaverPlace = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    val layoutManager = LinearLayoutManager(context)
+    val itemDecoration = DividerItemDecoration(context, layoutManager.orientation)
 
     fun addCategory(category: String, callback: (Boolean) -> Unit) {
         getCount(category) { count ->
@@ -33,6 +52,31 @@ class WriteViewModel(context: Context) : BaseViewModel(context) {
                 callback(false)
             }
         }
+    }
+
+    fun getNaverPlace(name: String, callback: (NaverPlaceResult) -> Unit) {
+        if (name.isEmpty()) {
+            callback(NaverPlaceResult.FAIL_EMPTY_NAME)
+            return
+        }
+
+        val api = RetrofitClient.getInstnace().create(NaverAPI::class.java)
+        val callPlace = api.callPlace(query = name)
+        callPlace.enqueue(object : Callback<NaverPlaceDTO> {
+            override fun onResponse(call: Call<NaverPlaceDTO>, response: Response<NaverPlaceDTO>) {
+                response.body()?.let {
+                    if (it.items.isEmpty()) callback(NaverPlaceResult.FAIL_EMPTY_RESULT)
+                    else {
+                        liveNaverPlace.value = it.items as ArrayList<Any>
+                        callback(NaverPlaceResult.SUCCESS)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<NaverPlaceDTO>, t: Throwable) {
+                callback(NaverPlaceResult.FAIL_UNKNWON)
+            }
+        })
     }
 
     fun validateData(category: String, title: String, address: String) : ValidateResult {

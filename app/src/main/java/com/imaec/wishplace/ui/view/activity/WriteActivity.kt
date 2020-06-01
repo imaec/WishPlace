@@ -2,19 +2,26 @@ package com.imaec.wishplace.ui.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityWriteBinding
+import com.imaec.wishplace.model.NaverPlaceDTO
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.InputDialog
+import com.imaec.wishplace.utils.KeyboardUtil
 import com.imaec.wishplace.viewmodel.WriteViewModel
+import kotlinx.android.synthetic.main.activity_write.*
 
 class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
     private lateinit var viewModel: WriteViewModel
+    private lateinit var bottomSheet: BottomSheetBehavior<RecyclerView>
     private var categoryId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +32,23 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
         binding.apply {
             lifecycleOwner = this@WriteActivity
             viewModel = this@WriteActivity.viewModel
+            bottomSheet = BottomSheetBehavior.from(recyclerBottomSheet).apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
+        }
+
+        viewModel.apply {
+            addOnClickListener { item ->
+                hideBottomSheet()
+                if (item is NaverPlaceDTO.Item) {
+                    binding.apply {
+                        editName.setText(Html.fromHtml(item.title).toString())
+                        editName.setSelection(editName.length())
+                        editAddr.setText(item.roadAddress)
+                        editSite.setText(item.link)
+                    }
+                }
+            }
         }
 
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
@@ -39,6 +63,14 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
             categoryId = data?.getIntExtra(EXTRA_CATEGORY_ID, 0) ?: 0
             val category = data?.getStringExtra(EXTRA_CATEGORY)
             viewModel.liveCategory.value = category
+        }
+    }
+
+    override fun onBackPressed() {
+        if (bottomSheet.state == BottomSheetBehavior.STATE_COLLAPSED) {
+            hideBottomSheet()
+        } else {
+            super.onBackPressed()
         }
     }
 
@@ -57,6 +89,22 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                      }
                  }.show()
              }
+             R.id.image_search_name -> {
+                 val name = binding.editName.text.toString()
+                 viewModel.getNaverPlace(name) { result ->
+                     when (result) {
+                         NaverPlaceResult.SUCCESS -> {
+                             KeyboardUtil.hideKeyboardFrom(this)
+                             bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+                             binding.viewBg.visibility = View.VISIBLE
+                         }
+                         NaverPlaceResult.FAIL_EMPTY_NAME, NaverPlaceResult.FAIL_UNKNWON -> {
+                             Toast.makeText(this, result.msg, Toast.LENGTH_SHORT).show()
+                         }
+                         else -> {}
+                     }
+                 }
+             }
              R.id.text_category -> {
                  startActivityForResult(Intent(this, CategorySelectActivity::class.java), 0)
              }
@@ -71,6 +119,9 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                  } else {
                      Toast.makeText(this, result.msg, Toast.LENGTH_SHORT).show()
                  }
+             }
+             R.id.view_bg -> {
+                 hideBottomSheet()
              }
          }
     }
@@ -108,6 +159,13 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
             Toast.makeText(this, R.string.msg_write_place_success, Toast.LENGTH_SHORT).show()
             setResult(RESULT_WRITE)
             finish()
+        }
+    }
+
+    private fun hideBottomSheet() {
+        if (bottomSheet.state != BottomSheetBehavior.STATE_HIDDEN) {
+            bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+            view_bg.visibility = View.GONE
         }
     }
 }

@@ -1,5 +1,9 @@
 package com.imaec.wishplace
 
+const val URL_NAVER_API = "https://openapi.naver.com/"
+const val NAVER_CLIENT_ID = "dfZuM0rKVq4nnJsFf6vZ"
+const val NAVER_CLIENT_SECRET = "GDUUuzlmrD"
+
 const val TYPE_CATEGORY = 0
 const val TYPE_ITEM = 1
 const val TYPE_FOOTER = 2
