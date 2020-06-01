@@ -7,7 +7,6 @@ import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.KeywordDao
 import com.imaec.wishplace.room.entity.KeywordEntity
-import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.adapter.KeywordAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,9 +26,12 @@ class SearchViewModel(context: Context) : BaseViewModel(context) {
 
     fun getKeyword() {
         viewModelScope.launch {
-            var listKeyword = ArrayList<Any>()
+            val listKeyword = ArrayList<Any>()
             withContext(Dispatchers.IO) {
-                listKeyword = dao.select() as ArrayList<Any>
+                val listTemp = dao.select()
+                listTemp
+                    .sortedByDescending { it.saveTime }
+                    .forEach { listKeyword.add(it) }
             }
             liveListKeywordItem.value = listKeyword
         }
