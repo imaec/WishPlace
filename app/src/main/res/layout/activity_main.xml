@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:onClick="onClick"
-            app:backgroundTint="@color/colorPrimaryDark"
+            app:backgroundTint="@color/colorPrimary"
             app:borderWidth="0dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"/>

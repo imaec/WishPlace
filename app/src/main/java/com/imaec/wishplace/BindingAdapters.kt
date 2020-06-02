@@ -84,8 +84,8 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("isVisit")
     fun setIsVisit(textView: TextView, isVisit: Boolean) {
-        textView.setBackgroundResource(if (isVisit) R.drawable.bg_circle_accent else R.drawable.bg_circle_gray)
-        textView.setTextColor(if (isVisit) ContextCompat.getColor(textView.context, R.color.colorAccent) else ContextCompat.getColor(textView.context, R.color.gray))
+        textView.setBackgroundResource(if (isVisit) R.drawable.bg_circle_primary_dark else R.drawable.bg_circle_gray)
+        textView.setTextColor(if (isVisit) ContextCompat.getColor(textView.context, R.color.colorPrimaryDark) else ContextCompat.getColor(textView.context, R.color.gray))
     }
 
     @JvmStatic
@@ -110,7 +110,7 @@ object BindingAdapters {
                 val start = content.indexOf(keyword, lastIndex)
                 val end = start + keyword.length
 
-                spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#2196F3")), start, end, 0)
+                spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(textView.context, R.color.colorAccent)), start, end, 0)
 
                 lastIndex = end
             }

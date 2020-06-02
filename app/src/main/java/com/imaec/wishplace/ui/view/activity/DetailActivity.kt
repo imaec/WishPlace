@@ -2,7 +2,6 @@ package com.imaec.wishplace.ui.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -39,8 +38,8 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             )
             getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
             liveIsVisit.observe(this@DetailActivity, Observer {
-                binding.textVisit.setBackgroundResource(if (it) R.drawable.bg_circle_accent else R.drawable.bg_circle_gray)
-                binding.textVisit.setTextColor(if (it) ContextCompat.getColor(this@DetailActivity, R.color.colorAccent) else ContextCompat.getColor(this@DetailActivity, R.color.gray))
+                binding.textVisit.setBackgroundResource(if (it) R.drawable.bg_circle_primary_dark else R.drawable.bg_circle_gray)
+                binding.textVisit.setTextColor(if (it) ContextCompat.getColor(this@DetailActivity, R.color.colorPrimaryDark) else ContextCompat.getColor(this@DetailActivity, R.color.gray))
             })
         }
     }

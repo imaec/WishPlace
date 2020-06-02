@@ -2,9 +2,7 @@ package com.imaec.wishplace.viewmodel
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseViewModel
@@ -17,11 +15,11 @@ import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.adapter.NaverPlaceAdapter
+import com.imaec.wishplace.ui.util.NaverPlaceItemDecoration
 import com.imaec.wishplace.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
 import org.jsoup.Jsoup
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,7 +38,7 @@ class WriteViewModel(context: Context) : BaseViewModel(context) {
     val liveCategory = MutableLiveData<String>().set("")
     val liveNaverPlace = MutableLiveData<ArrayList<Any>>().set(ArrayList())
     val layoutManager = LinearLayoutManager(context)
-    val itemDecoration = DividerItemDecoration(context, layoutManager.orientation)
+    val itemDecoration = NaverPlaceItemDecoration(context)
 
     fun addCategory(category: String, callback: (Boolean) -> Unit) {
         getCount(category) { count ->

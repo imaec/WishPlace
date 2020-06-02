@@ -3,8 +3,11 @@ package com.imaec.wishplace.ui.view.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSearchResultBinding
@@ -39,7 +42,12 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
         arguments?.let {
             keyword = it.getString("keyword") ?: ""
             option = it.getString("option") ?: ""
-            binding.textKeywordInfo.text = "'$keyword'에 대한 검색결과"
+
+            val ss = SpannableString("'$keyword'에 대한 검색결과")
+            val start = ss.toString().indexOf(keyword)
+            val end = start + keyword.length
+            ss.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorAccent)), start, end, 0)
+            binding.textKeywordInfo.text = ss
         }
 
         viewModel.apply {
