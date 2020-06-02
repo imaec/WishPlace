@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/text_title"
+            android:id="@+id/linear_title"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal"
@@ -44,7 +44,7 @@
             app:layoutManager="@{viewModel.gridLayoutManager}"
             app:itemDecoration="@{viewModel.itemDecoration}"
             app:items="@{viewModel.liveListItem}"
-            app:layout_constraintTop_toBottomOf="@id/text_title"
+            app:layout_constraintTop_toBottomOf="@id/linear_title"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <FrameLayout

@@ -90,8 +90,13 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                  }.show()
              }
              R.id.image_search_name -> {
+                 showProgress()
+                 KeyboardUtil.hideKeyboardFrom(this)
+
                  val name = binding.editName.text.toString()
+
                  viewModel.getNaverPlace(name) { result ->
+                     hideProgress()
                      when (result) {
                          NaverPlaceResult.SUCCESS -> {
                              KeyboardUtil.hideKeyboardFrom(this)
