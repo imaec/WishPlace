@@ -63,8 +63,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                 }
                 dialog.show()
             }
-            showProgress()
-            getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) { hideProgress() }
+            getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) {  }
         }
     }
 
@@ -73,8 +72,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
-                showProgress()
-                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) { hideProgress() }
+                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) {  }
             }
         }
         data?.let {
@@ -93,9 +91,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-
-                    showProgress()
-                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) { hideProgress() }
+                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) {  }
                     viewModel.isUpdated = true
                     dismiss()
                 }

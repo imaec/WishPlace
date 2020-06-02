@@ -75,8 +75,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
                 dialog.show()
             }
-            showProgress()
-            getData { hideProgress() }
+            getData {  }
         }
     }
 
@@ -85,8 +84,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
-                showProgress()
-                viewModel.getData { hideProgress() }
+                viewModel.getData {  }
             }
         }
     }
@@ -97,9 +95,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-
-                    showProgress()
-                    viewModel.getData { hideProgress() }
+                    viewModel.getData {  }
                     dismiss()
                 }
             })
@@ -108,7 +104,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     fun notifyItemAdded() {
-        showProgress()
-        viewModel.getData { hideProgress() }
+        viewModel.getData {  }
     }
 }

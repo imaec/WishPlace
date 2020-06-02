@@ -43,10 +43,7 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
         }
 
         viewModel.apply {
-            showProgress()
-            search(keyword, option) {
-                hideProgress()
-            }
+            search(keyword, option) {  }
             addOnClickListener { entity, view ->
                 if (entity is PlaceEntity) {
                     startActivityForResult(Intent(context, DetailActivity::class.java).apply {
@@ -95,8 +92,7 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
-                showProgress()
-                viewModel.search(keyword, option) { hideProgress() }
+                viewModel.search(keyword, option) {  }
             }
         }
     }
@@ -107,9 +103,7 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-
-                    showProgress()
-                    viewModel.search(keyword, option) { hideProgress() }
+                    viewModel.search(keyword, option) {  }
                     dismiss()
                 }
             })

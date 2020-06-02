@@ -7,6 +7,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,13 +69,23 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("imgUrl")
     fun setImgUrl(imageView: ImageView, imgUrl: String) {
-        Glide.with(imageView).load(imgUrl).into(imageView)
+        Glide.with(imageView)
+            .load(imgUrl)
+            .error(R.mipmap.ic_launcher_round)
+            .into(imageView)
     }
 
     @JvmStatic
     @BindingAdapter("date")
     fun setDate(textView: TextView, strDate: String) {
         textView.text = Utils.getDateChangeFormat(strDate, "yyyyMMddHHmmss", "yyyy.MM.dd")
+    }
+
+    @JvmStatic
+    @BindingAdapter("isVisit")
+    fun setIsVisit(textView: TextView, isVisit: Boolean) {
+        textView.setBackgroundResource(if (isVisit) R.drawable.bg_circle_accent else R.drawable.bg_circle_gray)
+        textView.setTextColor(if (isVisit) ContextCompat.getColor(textView.context, R.color.colorAccent) else ContextCompat.getColor(textView.context, R.color.gray))
     }
 
     @JvmStatic

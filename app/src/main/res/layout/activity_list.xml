@@ -13,21 +13,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_category"
+        <LinearLayout
+            android:id="@+id/linear_category"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:gravity="center"
+            android:orientation="horizontal"
+            android:elevation="2dp"
             android:background="@drawable/bg_title"
-            android:text="@{viewModel.liveCategory}"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:elevation="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/recycler_list"/>
+            app:layout_constraintBottom_toTopOf="@id/recycler_list">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_title"
+                android:text="@{viewModel.liveCategory}"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_list"
@@ -38,7 +47,7 @@
             app:layoutManager="@{viewModel.gridLayoutManager}"
             app:itemDecoration="@{viewModel.itemDecoration}"
             app:items="@{viewModel.liveListItem}"
-            app:layout_constraintTop_toBottomOf="@id/text_category"
+            app:layout_constraintTop_toBottomOf="@id/linear_category"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

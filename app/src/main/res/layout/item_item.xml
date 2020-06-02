@@ -23,19 +23,18 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        app:cardElevation="5dp"
-        app:cardCornerRadius="10dp"
-        app:cardBackgroundColor="@color/white"
-        app:contentPadding="5dp">
+        app:cardElevation="0dp"
+        app:cardCornerRadius="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp">
 
             <ImageView
                 android:id="@+id/image_item_thumb"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/transition_place"
                 app:imgUrl="@{item.imageUrl}"
@@ -44,10 +43,25 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/text_visit"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="4dp"
+                android:gravity="center"
+                android:background="@drawable/bg_circle_gray"
+                android:text="@string/visit"
+                android:textSize="8sp"
+                android:textColor="@color/gray"
+                android:textStyle="bold"
+                app:isVisit="@{item.visitFlag}"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
                 android:id="@+id/text_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="8dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:text="@{item.name}"
@@ -65,9 +79,10 @@
                 android:id="@+id/text_item_addr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{item.address}"
+                android:layout_marginTop="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
+                android:text="@{item.address}"
                 android:textSize="10sp"
                 android:textColor="@color/gray"
                 android:contentDescription="@string/address"
