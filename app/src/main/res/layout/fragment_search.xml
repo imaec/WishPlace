@@ -50,7 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:orientation="horizontal"
-            android:background="@drawable/bg_input"
+            android:background="@drawable/bg_input_solid"
             android:layout_margin="16dp"
             app:layout_constraintLeft_toRightOf="@id/linear_option"
             app:layout_constraintRight_toRightOf="parent"

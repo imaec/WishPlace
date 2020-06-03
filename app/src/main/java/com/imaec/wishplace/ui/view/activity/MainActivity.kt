@@ -2,15 +2,14 @@ package com.imaec.wishplace.ui.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.imaec.wishplace.R
-import com.imaec.wishplace.RESULT_DELETE
-import com.imaec.wishplace.RESULT_EDIT
 import com.imaec.wishplace.RESULT_WRITE
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityMainBinding
@@ -20,7 +19,6 @@ import com.imaec.wishplace.ui.view.fragment.SearchFragment
 import com.imaec.wishplace.ui.view.fragment.SearchResultFragment
 import com.imaec.wishplace.ui.view.fragment.SettingFragment
 import com.imaec.wishplace.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -35,6 +33,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        startActivity(Intent(this, IntroActivity::class.java))
 
         viewModel = getViewModel(MainViewModel::class.java)
 
@@ -125,6 +125,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     }
 
     private fun setFragment(fragment: Fragment) {
+        updateStatusBarColor(if (fragment is SearchFragment) ContextCompat.getColor(this, R.color.colorPrimary) else ContextCompat.getColor(this, R.color.white))
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame, fragment)
@@ -162,5 +163,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 intent = null
             }
         }
+    }
+
+    private fun updateStatusBarColor(color: Int) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = color
     }
 }

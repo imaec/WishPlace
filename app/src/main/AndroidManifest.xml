@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity android:name="com.imaec.wishplace.ui.view.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -28,6 +28,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.view.activity.IntroActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.WriteActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.CategoryEditActivity"
