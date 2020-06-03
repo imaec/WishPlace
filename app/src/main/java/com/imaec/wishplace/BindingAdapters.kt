@@ -71,7 +71,7 @@ object BindingAdapters {
     fun setImgUrl(imageView: ImageView, imgUrl: String) {
         Glide.with(imageView)
             .load(imgUrl)
-            .error(R.mipmap.ic_launcher_round)
+            .error(R.drawable.img_empty)
             .into(imageView)
     }
 

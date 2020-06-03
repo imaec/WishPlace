@@ -2,6 +2,7 @@ package com.imaec.wishplace.ui.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -34,7 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startActivity(Intent(this, IntroActivity::class.java))
+        startIntro()
 
         viewModel = getViewModel(MainViewModel::class.java)
 
@@ -122,6 +123,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 fragmentSetting.onClick(view)
             }
         }
+    }
+
+    private fun startIntro() {
+        startActivity(Intent(this, IntroActivity::class.java))
+        Handler().postDelayed({
+            binding.viewTemp.visibility = View.GONE
+        }, 1000)
     }
 
     private fun setFragment(fragment: Fragment) {

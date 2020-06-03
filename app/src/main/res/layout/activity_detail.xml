@@ -38,9 +38,12 @@
                     android:id="@+id/image_edit"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:padding="14dp"
+                    android:src="@drawable/ic_more"
                     android:onClick="onClick"
-                    android:padding="8dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

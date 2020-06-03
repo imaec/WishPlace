@@ -22,13 +22,19 @@
             android:layout_marginBottom="?attr/actionBarSize"
             android:background="@color/white"/>
 
+        <View
+            android:id="@+id/view_temp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             app:menu="@menu/menu_bottom"
-            app:labelVisibilityMode="labeled"
+            app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:onClick="onClick"
+            android:src="@drawable/ic_write"
             app:backgroundTint="@color/colorPrimary"
             app:borderWidth="0dp"
             app:layout_constraintRight_toRightOf="parent"

@@ -36,9 +36,12 @@
                     android:id="@+id/image_back"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:padding="14dp"
+                    android:src="@drawable/ic_back_white"
                     android:onClick="onClick"
-                    android:padding="8dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
