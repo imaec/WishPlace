@@ -38,6 +38,8 @@
     <string name="category_edit">카테고리 편집</string>
     <string name="app_info">앱 정보</string>
     <string name="app_version">앱 버전</string>
+    <string name="app_license">라이센스 정보</string>
+    <string name="app_license_desc">앱에 사용된 Icon에 대한 라이센스 정보입니다.</string>
     <string name="share_app">친구에게 앱 알려주기</string>
 
     <!-- Message -->

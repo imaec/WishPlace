@@ -131,6 +131,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             }
             R.id.text_category_add,
             R.id.text_category_edit,
+            R.id.text_app_license,
             R.id.text_share -> {
                 fragmentSetting.onClick(view)
             }

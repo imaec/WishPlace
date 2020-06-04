@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.imaec.wishplace.viewmodel.LicenseViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/linear_title"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal"
+            android:elevation="2dp"
+            android:background="@drawable/bg_title"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/app_license"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_license_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@string/app_license_desc"
+            android:textSize="14sp"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@id/linear_title"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_license"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:adapter="@{viewModel.adapter}"
+            app:layoutManager="@{viewModel.layoutManager}"
+            app:items="@{viewModel.liveListLicense}"
+            app:layout_constraintTop_toBottomOf="@id/text_license_desc"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

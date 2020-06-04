@@ -9,6 +9,7 @@ import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSettingBinding
 import com.imaec.wishplace.ui.view.activity.CategoryEditActivity
+import com.imaec.wishplace.ui.view.activity.LicenseActivity
 import com.imaec.wishplace.ui.view.dialog.InputDialog
 import com.imaec.wishplace.viewmodel.SettingViewModel
 
@@ -45,6 +46,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
             }
             R.id.text_category_edit -> {
                 startActivity(Intent(context, CategoryEditActivity::class.java))
+            }
+            R.id.text_app_license -> {
+                startActivity(Intent(context, LicenseActivity::class.java))
             }
             R.id.text_share -> {
                 viewModel.share {

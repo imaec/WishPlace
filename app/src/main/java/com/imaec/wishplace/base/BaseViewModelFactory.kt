@@ -20,6 +20,7 @@ class BaseViewModelFactory(private val context: Context) : ViewModelProvider.Fac
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> SearchViewModel(context) as T
             modelClass.isAssignableFrom(SearchResultViewModel::class.java) -> SearchResultViewModel(context) as T
             modelClass.isAssignableFrom(SettingViewModel::class.java) -> SettingViewModel(context) as T
+            modelClass.isAssignableFrom(LicenseViewModel::class.java) -> LicenseViewModel(context) as T
             modelClass.isAssignableFrom(CategoryViewModel::class.java) -> CategoryViewModel(context) as T
             modelClass.isAssignableFrom(WriteViewModel::class.java) -> WriteViewModel(context) as T
             modelClass.isAssignableFrom(CategorySelectViewModel::class.java) -> CategorySelectViewModel(context) as T

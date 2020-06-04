@@ -53,6 +53,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.ListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.activity.LicenseActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
