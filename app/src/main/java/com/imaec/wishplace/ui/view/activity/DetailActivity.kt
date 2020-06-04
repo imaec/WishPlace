@@ -7,6 +7,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityDetailBinding
@@ -38,8 +39,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             )
             getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
             liveIsVisit.observe(this@DetailActivity, Observer {
-                binding.textVisit.setBackgroundResource(if (it) R.drawable.bg_circle_primary_dark else R.drawable.bg_circle_gray)
-                binding.textVisit.setTextColor(if (it) ContextCompat.getColor(this@DetailActivity, R.color.colorPrimaryDark) else ContextCompat.getColor(this@DetailActivity, R.color.gray))
+                Glide.with(this@DetailActivity)
+                    .load(if (it) R.drawable.ic_visit else R.drawable.ic_novisit)
+                    .error(R.drawable.img_empty)
+                    .into(binding.imageIsVisit)
             })
         }
     }
@@ -75,7 +78,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             R.id.image_edit -> {
                 showPopup(view)
             }
-            R.id.text_visit -> {
+            R.id.image_is_visit -> {
                 viewModel.updateVisit { isSuccess ->
                     if (isSuccess) {
                         viewModel.isUpdated = true

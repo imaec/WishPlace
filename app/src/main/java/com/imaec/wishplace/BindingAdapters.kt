@@ -76,16 +76,18 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("date")
-    fun setDate(textView: TextView, strDate: String) {
-        textView.text = Utils.getDateChangeFormat(strDate, "yyyyMMddHHmmss", "yyyy.MM.dd")
+    @BindingAdapter("isVisit")
+    fun setIsVisit(imageView: ImageView, isVisit: Boolean) {
+        Glide.with(imageView)
+            .load(if (isVisit) R.drawable.ic_visit else R.drawable.ic_novisit)
+            .error(R.drawable.img_empty)
+            .into(imageView)
     }
 
     @JvmStatic
-    @BindingAdapter("isVisit")
-    fun setIsVisit(textView: TextView, isVisit: Boolean) {
-        textView.setBackgroundResource(if (isVisit) R.drawable.bg_circle_primary_dark else R.drawable.bg_circle_gray)
-        textView.setTextColor(if (isVisit) ContextCompat.getColor(textView.context, R.color.colorPrimaryDark) else ContextCompat.getColor(textView.context, R.color.gray))
+    @BindingAdapter("date")
+    fun setDate(textView: TextView, strDate: String) {
+        textView.text = Utils.getDateChangeFormat(strDate, "yyyyMMddHHmmss", "yyyy.MM.dd")
     }
 
     @JvmStatic
