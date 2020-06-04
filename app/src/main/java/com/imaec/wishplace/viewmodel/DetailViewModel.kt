@@ -87,7 +87,7 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
 
     fun share(callback: (KakaoLinkResponse?) -> Unit) {
         val templateArgs: MutableMap<String, String> = HashMap()
-        templateArgs["thumb"] = liveImgUrl.value ?: ""
+        templateArgs["thumb"] = if (liveImgUrl.value.isNullOrEmpty()) "https://k.kakaocdn.net/14/dn/btqEEgbQEVZ/vkV9mSPTnzWLDQojPwTS5k/o.jpg" else liveImgUrl.value!!
         templateArgs["name"] = liveTitle.value ?: "Wish Place"
         templateArgs["addr"] = liveAddress.value ?: ""
         templateArgs["site"] = liveSite.value ?: ""
