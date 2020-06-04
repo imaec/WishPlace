@@ -12,7 +12,8 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.imaec.wishplace.ui.view.activity.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW"/>
@@ -24,6 +25,15 @@
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/kakao_scheme"
+                    android:host="kakaolink" />
             </intent-filter>
         </activity>
 
@@ -43,6 +53,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.ListActivity"
             android:screenOrientation="portrait"/>
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="a524394b92a5ee46b9964478cc2811cd" />
     </application>
 
 </manifest>

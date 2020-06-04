@@ -54,4 +54,6 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    // 카카오링크
+    implementation group: project.KAKAO_SDK_GROUP, name: 'kakaolink', version: project.KAKAO_SDK_VERSION
 }

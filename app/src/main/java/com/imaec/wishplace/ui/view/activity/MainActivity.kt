@@ -3,6 +3,7 @@ package com.imaec.wishplace.ui.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -10,6 +11,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.imaec.wishplace.EXTRA_ADDRESS
+import com.imaec.wishplace.EXTRA_TITLE
 import com.imaec.wishplace.R
 import com.imaec.wishplace.RESULT_WRITE
 import com.imaec.wishplace.base.BaseActivity
@@ -49,8 +52,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
         viewModel.isExistCategory { isExist -> if (!isExist) addCategory() }
 
-        if (intent.action == Intent.ACTION_SEND) {
-            receiveIntent()
+        onNewIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        intent?.let {
+            when (intent.action) {
+                Intent.ACTION_SEND -> receiveIntent(intent)
+                Intent.ACTION_VIEW -> receiveKakaoIntent(intent)
+            }
         }
     }
 
@@ -160,15 +172,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         }
     }
 
-    private fun receiveIntent() {
+    private fun receiveIntent(intent: Intent) {
         intent.type?.let {
             if (it == "text/plain") {
                 val text = intent.getStringExtra(Intent.EXTRA_TEXT)
                 startActivityForResult(Intent(this, WriteActivity::class.java).apply {
                     putExtra(Intent.EXTRA_TEXT, text)
                 }, 0)
+            }
+        }
+    }
 
-                intent = null
+    private fun receiveKakaoIntent(intent: Intent) {
+        intent.data?.let {
+            if (it.host == "kakaolink") {
+                if (it.query.isNullOrEmpty()) return
+
+                startActivityForResult(Intent(this, WriteActivity::class.java).apply {
+                    putExtra(Intent.EXTRA_TEXT, it.getQueryParameter("site"))
+                    putExtra(EXTRA_TITLE, it.getQueryParameter("name"))
+                    putExtra(EXTRA_ADDRESS, it.getQueryParameter("addr"))
+                }, 0)
             }
         }
     }

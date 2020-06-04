@@ -47,7 +47,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
                 startActivity(Intent(context, CategoryEditActivity::class.java))
             }
             R.id.text_share -> {
-
+                viewModel.share {
+                    // Success
+                }
             }
         }
     }

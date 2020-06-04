@@ -89,7 +89,9 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                 }
             }
             R.id.text_share -> {
-
+                viewModel.share {
+                    // Success
+                }
             }
         }
     }

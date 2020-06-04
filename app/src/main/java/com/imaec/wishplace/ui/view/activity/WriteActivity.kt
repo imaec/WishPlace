@@ -51,6 +51,12 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
             }
         }
 
+        intent.getStringExtra(EXTRA_TITLE)?.let {
+            binding.editName.setText(it)
+        }
+        intent.getStringExtra(EXTRA_ADDRESS)?.let {
+            binding.editAddr.setText(it)
+        }
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             binding.editSite.setText(it)
         }
