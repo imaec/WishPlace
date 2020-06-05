@@ -45,7 +45,8 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                         editName.setText(Html.fromHtml(item.title).toString())
                         editName.setSelection(editName.length())
                         editAddr.setText(item.roadAddress)
-                        editSite.setText(item.link)
+
+                        if (editSite.text.toString().isEmpty()) editSite.setText(item.link)
                     }
                 }
             }
