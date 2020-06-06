@@ -183,7 +183,7 @@
                 android:layout_margin="16dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="@drawable/bg_button"
+                android:background="@drawable/ripple_primary_dark"
                 android:gravity="center"
                 android:onClick="onClick"
                 android:text="@string/save"

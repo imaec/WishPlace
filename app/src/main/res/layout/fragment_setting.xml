@@ -117,7 +117,7 @@
             android:onClick="onClick"
             android:clickable="true"
             android:focusable="true"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/ripple_primary_dark"
             android:text="@string/share_app"
             android:textColor="@color/white"
             android:textStyle="bold"
