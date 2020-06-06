@@ -11,7 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -154,10 +155,9 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_margin="16dp"
-            android:background="@drawable/bg_button"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_primary_dark"
             android:gravity="center"
             android:text="@string/share"
             android:textColor="@color/white"
