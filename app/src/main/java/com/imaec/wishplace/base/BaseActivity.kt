@@ -3,6 +3,7 @@ package com.imaec.wishplace.base
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
@@ -33,6 +34,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutRe
     protected fun getTransitionOption(view: View) : ActivityOptionsCompat {
         val p1 = Pair.create(view, view.transitionName)
         return ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1)
+    }
+
+    protected fun updateStatusBarColor(color: Int) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = color
     }
 
     protected fun showProgress() {

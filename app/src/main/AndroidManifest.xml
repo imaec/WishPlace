@@ -48,7 +48,8 @@
         <activity android:name=".ui.view.activity.DetailActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.ImageActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Image"/>
         <activity android:name=".ui.view.activity.EditActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.ListActivity"

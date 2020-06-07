@@ -10,9 +10,9 @@
         <item name="android:statusBarColor">@color/white</item>
     </style>
 
-    <style name="AppTheme.Search">
+    <style name="AppTheme.Image">
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/darkGray</item>
     </style>
 
     <style name="TextInputTitle">

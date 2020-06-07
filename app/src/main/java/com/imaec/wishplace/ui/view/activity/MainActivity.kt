@@ -197,9 +197,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             }
         }
     }
-
-    private fun updateStatusBarColor(color: Int) {
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = color
-    }
 }
