@@ -3,7 +3,6 @@ package com.imaec.wishplace.ui.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -17,6 +16,9 @@ import com.imaec.wishplace.R
 import com.imaec.wishplace.RESULT_WRITE
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityMainBinding
+import com.imaec.wishplace.repository.CategoryRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.ui.view.dialog.InputDialog
 import com.imaec.wishplace.ui.view.fragment.HomeFragment
 import com.imaec.wishplace.ui.view.fragment.SearchFragment
@@ -26,6 +28,7 @@ import com.imaec.wishplace.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), BottomNavigationView.OnNavigationItemSelectedListener {
 
+    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(this).categoryDao() }
     private lateinit var viewModel: MainViewModel
 
     val fragmentHome = HomeFragment()
@@ -40,7 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
         startIntro()
 
-        viewModel = getViewModel(MainViewModel::class.java)
+        viewModel = getViewModel(MainViewModel::class.java, CategoryRepository.getInstance(categoryDao))
 
         binding.apply {
             lifecycleOwner = this@MainActivity
@@ -123,9 +126,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             R.id.fab -> {
                 startActivityForResult(Intent(this, WriteActivity::class.java), 0)
             }
-            R.id.linear_option -> {
-                fragmentSearch.onClick(view)
-            }
+            R.id.linear_option,
             R.id.image_search -> {
                 fragmentSearch.onClick(view)
             }
@@ -155,19 +156,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
     private fun addCategory() {
         InputDialog(this).apply {
-            setTitle("카테고리 추가해주세요.")
+            setTitle(getString(R.string.msg_category_add))
             setOnAddClickListener {
-                viewModel.addCategory(it) { isSuccess ->
-                    Toast.makeText(this@MainActivity,
-                        if (isSuccess) { "'$it' " + getString(R.string.msg_category_added) } else "'$it' " + context.getString(R.string.msg_category_exist),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    dismiss()
+                viewModel.addCategory(it) {
+                    Toast.makeText(this@MainActivity, "'$it' " + getString(R.string.msg_category_added), Toast.LENGTH_SHORT).show()
                 }
             }
             setOnCancelClickListener {
-                Toast.makeText(this@MainActivity, R.string.msg_category_add_canceled, Toast.LENGTH_SHORT).show()
                 dismiss()
+                Toast.makeText(this@MainActivity, R.string.msg_category_add_canceled, Toast.LENGTH_SHORT).show()
             }
             show()
         }

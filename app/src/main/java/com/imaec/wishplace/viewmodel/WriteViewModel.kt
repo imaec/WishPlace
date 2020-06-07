@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.model.NaverPlaceDTO
+import com.imaec.wishplace.repository.CategoryRepository
 import com.imaec.wishplace.retrofit.NaverAPI
 import com.imaec.wishplace.retrofit.RetrofitClient
 import com.imaec.wishplace.room.AppDatabase
@@ -26,13 +27,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Suppress("UNCHECKED_CAST")
-class WriteViewModel(context: Context) : BaseViewModel(context) {
+class WriteViewModel(
+    private val categoryRepository: CategoryRepository
+) : BaseViewModel() {
 
     init {
         adapter = NaverPlaceAdapter()
     }
 
-    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(context).categoryDao() }
     private val placeDao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
 
     val liveCategory = MutableLiveData<String>().set("")

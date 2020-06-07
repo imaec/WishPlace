@@ -11,6 +11,9 @@ import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityWriteBinding
 import com.imaec.wishplace.model.NaverPlaceDTO
+import com.imaec.wishplace.repository.CategoryRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.InputDialog
@@ -20,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_write.*
 
 class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
+    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(this).categoryDao() }
+
     private lateinit var viewModel: WriteViewModel
     private lateinit var bottomSheet: BottomSheetBehavior<RecyclerView>
     private var categoryId = 0
@@ -27,7 +32,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel(WriteViewModel::class.java)
+        viewModel = getViewModel(WriteViewModel::class.java, CategoryRepository.getInstance(categoryDao))
 
         binding.apply {
             lifecycleOwner = this@WriteActivity

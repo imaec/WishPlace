@@ -48,6 +48,7 @@
     <string name="msg_keyword_empty">검색어를 입력해주세요.</string>
     <string name="msg_search_empty">검색 결과가 없습니다.</string>
     <string name="msg_category_empty">카테고리명을 입력해주세요.</string>
+    <string name="msg_category_add">카테고리가를 추가 해주세요.</string>
     <string name="msg_category_added">카테고리가 추가 되었습니다.</string>
     <string name="msg_category_exist">카테고리가 이미 존재합니다.</string>
     <string name="msg_category_add_canceled">카테고리는 [설정]에서 [카테고리 추가]로 추가하실 수 있습니다.</string>

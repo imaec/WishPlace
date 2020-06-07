@@ -2,12 +2,14 @@ package com.imaec.wishplace.ui.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSettingBinding
+import com.imaec.wishplace.repository.CategoryRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.ui.view.activity.CategoryEditActivity
 import com.imaec.wishplace.ui.view.activity.LicenseActivity
 import com.imaec.wishplace.ui.view.dialog.InputDialog
@@ -15,12 +17,14 @@ import com.imaec.wishplace.viewmodel.SettingViewModel
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {
 
+    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(context!!).categoryDao() }
+
     private lateinit var viewModel: SettingViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel(SettingViewModel::class.java)
+        viewModel = getViewModel(SettingViewModel::class.java, CategoryRepository.getInstance(categoryDao))
 
         binding.apply {
             lifecycleOwner = this@SettingFragment
