@@ -22,12 +22,6 @@
             android:layout_marginBottom="?attr/actionBarSize"
             android:background="@color/white"/>
 
-        <View
-            android:id="@+id/view_temp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"/>
-
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
@@ -49,5 +43,12 @@
             app:borderWidth="0dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"/>
+
+        <View
+            android:id="@+id/view_temp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:elevation="10dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
