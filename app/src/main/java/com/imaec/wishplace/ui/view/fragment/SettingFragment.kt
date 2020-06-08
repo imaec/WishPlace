@@ -8,24 +8,38 @@ import android.widget.Toast
 import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSettingBinding
+import com.imaec.wishplace.repository.CategoryRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.ui.view.activity.CategoryEditActivity
 import com.imaec.wishplace.ui.view.activity.LicenseActivity
 import com.imaec.wishplace.ui.view.dialog.InputDialog
+import com.imaec.wishplace.utils.Utils
 import com.imaec.wishplace.viewmodel.SettingViewModel
+import com.kakao.kakaolink.v2.KakaoLinkResponse
+import com.kakao.kakaolink.v2.KakaoLinkService
+import com.kakao.network.ErrorResult
+import com.kakao.network.callback.ResponseCallback
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {
 
     private lateinit var viewModel: SettingViewModel
+    private lateinit var categoryDao: CategoryDao
+    private lateinit var categoryRepository: CategoryRepository
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel(SettingViewModel::class.java)
+        init()
+
+        viewModel = getViewModel(SettingViewModel::class.java, categoryRepository)
 
         binding.apply {
             lifecycleOwner = this@SettingFragment
             viewModel = this@SettingFragment.viewModel
         }
+
+        viewModel.appVersion.value = Utils.getVersion(context!!)
     }
 
     fun onClick(view: View) {
@@ -51,10 +65,23 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
                 startActivity(Intent(context, LicenseActivity::class.java))
             }
             R.id.text_share -> {
-                viewModel.share {
-                    // Success
-                }
+                KakaoLinkService.getInstance()
+                    .sendCustom(context, context!!.getString(R.string.template_id_app), null, object : ResponseCallback<KakaoLinkResponse>() {
+                        override fun onSuccess(result: KakaoLinkResponse?) {
+
+                        }
+
+                        override fun onFailure(errorResult: ErrorResult?) {
+                            Log.e(TAG, errorResult.toString())
+                            Toast.makeText(context, R.string.msg_share_fail, Toast.LENGTH_SHORT).show()
+                        }
+                    })
             }
         }
+    }
+
+    private fun init() {
+        categoryDao = AppDatabase.getInstance(context!!).categoryDao()
+        categoryRepository = CategoryRepository.getInstance(categoryDao)
     }
 }

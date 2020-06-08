@@ -209,8 +209,6 @@
             android:background="@color/white"
             app:adapter="@{viewModel.adapter}"
             app:items="@{viewModel.liveNaverPlace}"
-            app:layoutManager="@{viewModel.layoutManager}"
-            app:itemDecoration="@{viewModel.itemDecoration}"
             app:behavior_hideable="true"
             app:behavior_peekHeight="250dp"
             app:behavior_skipCollapsed="false"

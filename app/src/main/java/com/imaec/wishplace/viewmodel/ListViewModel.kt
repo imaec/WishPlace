@@ -1,27 +1,18 @@
 package com.imaec.wishplace.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.GridLayoutManager
 import com.imaec.wishplace.base.BaseViewModel
-import com.imaec.wishplace.model.PlaceDTO
-import com.imaec.wishplace.room.AppDatabase
-import com.imaec.wishplace.room.dao.PlaceDao
+import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.adapter.ListAdapter
-import com.imaec.wishplace.ui.util.PlaceItemDecoration
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @Suppress("UNCHECKED_CAST")
-class ListViewModel(context: Context) : BaseViewModel(context) {
-
-    private val dao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
+class ListViewModel(
+    private val placeRepository: PlaceRepository
+) : BaseViewModel() {
 
     val liveCategory = MutableLiveData<String>()
-    val gridLayoutManager = GridLayoutManager(context, 2)
-    val itemDecoration = PlaceItemDecoration(context)
     val liveListItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
     var isUpdated = false
 
@@ -29,38 +20,29 @@ class ListViewModel(context: Context) : BaseViewModel(context) {
         adapter = ListAdapter()
     }
 
-    fun getData(categoryId: Int, callback: () -> Unit) {
-        select(categoryId) { listEntity ->
-            val listPlace = ArrayList<Any>()
-            listEntity
-                .sortedByDescending { it.saveTime }
-                .groupBy { it.category }
-                .forEach {
-                    it.value.forEach { entity ->
-                        listPlace.add(entity)
-                    }
-                }
-
-            viewModelScope.launch {
-                liveListItem.value = listPlace
-                callback()
-            }
-        }
-    }
-
-    private fun select(categoryId: Int, callback: (List<PlaceEntity>) -> Unit) {
+    fun getData(categoryId: Int) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                callback(dao.selectByCategory(categoryId))
+            val listTemp = ArrayList<Any>()
+            placeRepository.getListByCategory(categoryId) { listPlace ->
+                listPlace
+                    .sortedByDescending { it.saveTime }
+                    .groupBy { it.category }
+                    .forEach {
+                        it.value.forEach { entity ->
+                            listTemp.add(entity)
+                        }
+                    }
+
+                viewModelScope.launch {
+                    liveListItem.value = listTemp
+                }
             }
         }
     }
 
     fun delete(entity: PlaceEntity, callback: () -> Unit) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                dao.delete(entity)
-            }
+            placeRepository.delete(entity)
             callback()
         }
     }

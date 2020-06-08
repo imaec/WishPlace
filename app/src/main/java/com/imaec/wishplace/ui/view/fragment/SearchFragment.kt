@@ -5,9 +5,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSearchBinding
+import com.imaec.wishplace.repository.KeywordRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.KeywordDao
 import com.imaec.wishplace.room.entity.KeywordEntity
 import com.imaec.wishplace.ui.view.activity.MainActivity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
@@ -18,11 +22,16 @@ import com.imaec.wishplace.viewmodel.SearchViewModel
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private lateinit var viewModel: SearchViewModel
+    private lateinit var keywordDao: KeywordDao
+    private lateinit var keywordRepository: KeywordRepository
+    private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel(SearchViewModel::class.java)
+        init()
+
+        viewModel = getViewModel(SearchViewModel::class.java, keywordRepository)
 
         binding.apply {
             lifecycleOwner = this@SearchFragment
@@ -36,6 +45,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                 }
                 false
             }
+            recyclerKeyword.layoutManager = this@SearchFragment.layoutManager
         }
 
         viewModel.apply {
@@ -57,6 +67,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             R.id.image_search -> search()
             R.id.linear_option -> showPopup(view)
         }
+    }
+
+    private fun init() {
+        keywordDao = AppDatabase.getInstance(context!!).keywordDao()
+        keywordRepository = KeywordRepository.getInstance(keywordDao)
+        layoutManager = LinearLayoutManager(context)
     }
 
     private fun showPopup(view: View) {

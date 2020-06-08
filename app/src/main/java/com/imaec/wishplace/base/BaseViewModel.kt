@@ -1,17 +1,15 @@
 package com.imaec.wishplace.base
 
-import android.content.Context
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.entity.PlaceEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 
-abstract class BaseViewModel(protected val context: Context) : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     protected val TAG = this::class.java.simpleName
     private val job = Job()

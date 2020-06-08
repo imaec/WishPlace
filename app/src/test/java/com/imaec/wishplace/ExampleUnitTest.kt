@@ -30,4 +30,19 @@ class ExampleUnitTest {
 
         assert(true)
     }
+
+    @Test
+    fun varargTest() {
+        vararg1("a", "b", "c", "d", "e", "f", "g")
+    }
+
+    private fun vararg1(vararg str: String) {
+        vararg2(*str)
+    }
+
+    private fun vararg2(vararg str: String) {
+        str.forEach {
+            println(it)
+        }
+    }
 }

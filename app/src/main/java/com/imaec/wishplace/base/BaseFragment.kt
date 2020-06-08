@@ -27,8 +27,8 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutRe
         return binding.root
     }
 
-    protected fun <T : ViewModel> getViewModel(modelClass: Class<T>) : T {
-        return ViewModelProvider(this, BaseViewModelFactory(context!!)).get(modelClass)
+    protected fun <T : ViewModel> getViewModel(modelClass: Class<T>, vararg repository: Any) : T {
+        return ViewModelProvider(this, BaseViewModelFactory(*repository)).get(modelClass)
     }
 
     protected fun getTransitionOption(view: View) : ActivityOptionsCompat {

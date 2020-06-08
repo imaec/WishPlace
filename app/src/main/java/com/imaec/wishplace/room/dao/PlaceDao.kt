@@ -28,9 +28,6 @@ interface PlaceDao {
     fun selectByAddress(address: String) : List<PlaceEntity>
 
     @Update
-    fun update(entity: PlaceEntity) : Int
-
-    @Update
     fun update(vararg entity: PlaceEntity) : Int
 
     @Delete

@@ -1,25 +1,14 @@
 package com.imaec.wishplace.viewmodel
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseViewModel
-import com.imaec.wishplace.room.AppDatabase
-import com.imaec.wishplace.room.dao.PlaceDao
+import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.entity.PlaceEntity
-import com.kakao.kakaolink.v2.KakaoLinkResponse
-import com.kakao.kakaolink.v2.KakaoLinkService
-import com.kakao.network.ErrorResult
-import com.kakao.network.callback.ResponseCallback
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class DetailViewModel(context: Context) : BaseViewModel(context) {
-
-    private val dao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
+class DetailViewModel(
+    private val placeRepository: PlaceRepository
+) : BaseViewModel() {
 
     val livePlace = MutableLiveData<PlaceEntity>()
     val liveTitle = MutableLiveData<String>()
@@ -40,14 +29,12 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
     }
 
     fun getData(placeId: Int) {
-        var place: PlaceEntity? = null
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                place = dao.select(placeId)
-            }
-            livePlace.value = place
-            place?.let {
-                setData(it.name, it.address, it.content, it.imageUrl, it.siteUrl, it.visitFlag)
+            placeRepository.getPlace(placeId) { place ->
+                viewModelScope.launch {
+                    livePlace.value = place
+                    setData(place.name, place.address, place.content, place.imageUrl, place.siteUrl, place.visitFlag)
+                }
             }
         }
     }
@@ -58,9 +45,7 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
             return
         }
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                dao.delete(entity)
-            }
+            placeRepository.delete(entity)
             callback(true)
         }
     }
@@ -75,9 +60,8 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
         }
         entity.visitFlag = !isVisit
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val result = dao.update(entity)
-                launch(Dispatchers.Main) {
+            placeRepository.update(entity) { result ->
+                viewModelScope.launch {
                     liveIsVisit.value = !isVisit
                     callback(result > 0)
                 }
@@ -85,23 +69,14 @@ class DetailViewModel(context: Context) : BaseViewModel(context) {
         }
     }
 
-    fun share(callback: (KakaoLinkResponse?) -> Unit) {
-        val templateArgs: MutableMap<String, String> = HashMap()
-        templateArgs["thumb"] = if (liveImgUrl.value.isNullOrEmpty()) "https://k.kakaocdn.net/14/dn/btqEEgbQEVZ/vkV9mSPTnzWLDQojPwTS5k/o.jpg" else liveImgUrl.value!!
-        templateArgs["name"] = liveTitle.value ?: "Wish Place"
-        templateArgs["addr"] = liveAddress.value ?: ""
-        templateArgs["site"] = liveSite.value ?: ""
+    fun getArgs() : HashMap<String, String> {
+        val templateArgs: MutableMap<String, String> = HashMap<String, String>().apply {
+            this["thumb"] = if (liveImgUrl.value.isNullOrEmpty()) "https://k.kakaocdn.net/14/dn/btqEEgbQEVZ/vkV9mSPTnzWLDQojPwTS5k/o.jpg" else liveImgUrl.value!!
+            this["name"] = liveTitle.value ?: "Wish Place"
+            this["addr"] = liveAddress.value ?: ""
+            this["site"] = liveSite.value ?: ""
+        }
 
-        KakaoLinkService.getInstance()
-            .sendCustom(context, context.getString(R.string.template_id_detail), templateArgs, object : ResponseCallback<KakaoLinkResponse>() {
-                override fun onSuccess(result: KakaoLinkResponse?) {
-                    callback(result)
-                }
-
-                override fun onFailure(errorResult: ErrorResult?) {
-                    Log.e(TAG, errorResult.toString())
-                    Toast.makeText(context, "공유하기에 실패했습니다.\n잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-                }
-            })
+        return templateArgs as HashMap<String, String>
     }
 }

@@ -27,8 +27,8 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutRe
         binding = DataBindingUtil.setContentView(this, layoutResId)
     }
 
-    protected fun <T : ViewModel> getViewModel(modelClass: Class<T>) : T {
-        return ViewModelProvider(this, BaseViewModelFactory(this)).get(modelClass)
+    protected fun <T : ViewModel> getViewModel(modelClass: Class<T>, vararg repository: Any) : T {
+        return ViewModelProvider(this, BaseViewModelFactory(*repository)).get(modelClass)
     }
 
     protected fun getTransitionOption(view: View) : ActivityOptionsCompat {

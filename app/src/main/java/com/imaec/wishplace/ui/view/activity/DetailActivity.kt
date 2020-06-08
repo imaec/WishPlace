@@ -2,26 +2,37 @@ package com.imaec.wishplace.ui.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityDetailBinding
+import com.imaec.wishplace.repository.PlaceRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.viewmodel.DetailViewModel
+import com.kakao.kakaolink.v2.KakaoLinkResponse
+import com.kakao.kakaolink.v2.KakaoLinkService
+import com.kakao.network.ErrorResult
+import com.kakao.network.callback.ResponseCallback
 
 class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail) {
 
     private lateinit var viewModel: DetailViewModel
+    private lateinit var placeDao: PlaceDao
+    private lateinit var placeRepository: PlaceRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel(DetailViewModel::class.java)
+        init()
+
+        viewModel = getViewModel(DetailViewModel::class.java, placeRepository)
 
         binding.apply {
             lifecycleOwner = this@DetailActivity
@@ -89,11 +100,24 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                 }
             }
             R.id.text_share -> {
-                viewModel.share {
-                    // Success
-                }
+                KakaoLinkService.getInstance()
+                    .sendCustom(this, getString(R.string.template_id_detail), viewModel.getArgs(), object : ResponseCallback<KakaoLinkResponse>() {
+                        override fun onSuccess(result: KakaoLinkResponse?) {
+
+                        }
+
+                        override fun onFailure(errorResult: ErrorResult?) {
+                            Log.e(TAG, errorResult.toString())
+                            Toast.makeText(this@DetailActivity, R.string.msg_share_fail, Toast.LENGTH_SHORT).show()
+                        }
+                    })
             }
         }
+    }
+
+    private fun init() {
+        placeDao = AppDatabase.getInstance(this).placeDao()
+        placeRepository = PlaceRepository.getInstance(placeDao)
     }
 
     private fun showPopup(view: View) {
@@ -130,6 +154,8 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             setOk(getString(R.string.delete))
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(viewModel.livePlace.value) { isSuccess ->
+                    dismiss()
+
                     if (isSuccess) {
                         Toast.makeText(this@DetailActivity, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
                         setResult(RESULT_DELETE, Intent().apply {

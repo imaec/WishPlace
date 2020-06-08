@@ -52,8 +52,6 @@
             android:layout_height="0dp"
             app:adapter="@{viewModel.adapter}"
             app:items="@{viewModel.liveListSearchItem}"
-            app:layoutManager="@{viewModel.gridLayoutManager}"
-            app:itemDecoration="@{viewModel.itemDecoration}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_divider2"

@@ -48,6 +48,7 @@
     <string name="msg_keyword_empty">검색어를 입력해주세요.</string>
     <string name="msg_search_empty">검색 결과가 없습니다.</string>
     <string name="msg_category_empty">카테고리명을 입력해주세요.</string>
+    <string name="msg_category_add">카테고리가를 추가 해주세요.</string>
     <string name="msg_category_added">카테고리가 추가 되었습니다.</string>
     <string name="msg_category_exist">카테고리가 이미 존재합니다.</string>
     <string name="msg_category_add_canceled">카테고리는 [설정]에서 [카테고리 추가]로 추가하실 수 있습니다.</string>
@@ -63,6 +64,7 @@
     <string name="msg_delete_place">장소를 삭제하시겠습니까?</string>
     <string name="msg_delete_success">삭제 되었습니다.</string>
     <string name="msg_delete_fail">삭제에 실패했습니다. 잠시 후 다시 시도해주세요.</string>
+    <string name="msg_share_fail">"공유하기에 실패했습니다.\n잠시 후 다시 시도해주세요."</string>
     <string name="error_edit_click">수정 버튼이 동작하지 않습니다.\n관리자에게 문의해주세요.</string>
     <string name="error_delete_click">삭제 버튼이 동작하지 않습니다.\n관리자에게 문의해주세요.</string>
 

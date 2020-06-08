@@ -43,8 +43,6 @@
             android:layout_height="0dp"
             android:background="@color/white"
             app:adapter="@{viewModel.adapter}"
-            app:layoutManager="@{viewModel.gridLayoutManager}"
-            app:itemDecoration="@{viewModel.itemDecoration}"
             app:items="@{viewModel.liveListItem}"
             app:layout_constraintTop_toBottomOf="@id/linear_category"
             app:layout_constraintBottom_toBottomOf="parent"/>

@@ -9,6 +9,9 @@ import android.widget.Toast
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityEditBinding
+import com.imaec.wishplace.repository.PlaceRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.viewmodel.EditViewModel
@@ -16,11 +19,15 @@ import com.imaec.wishplace.viewmodel.EditViewModel
 class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
 
     private lateinit var viewModel: EditViewModel
+    private lateinit var placeDao: PlaceDao
+    private lateinit var placeRepository: PlaceRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel(EditViewModel::class.java)
+        init()
+
+        viewModel = getViewModel(EditViewModel::class.java, placeRepository)
 
         binding.apply {
             lifecycleOwner = this@EditActivity
@@ -64,7 +71,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                 intent.getStringExtra(EXTRA_CONTENT) ?: "",
                 intent.getBooleanExtra(EXTRA_IS_VISIT, false)
             )
-            getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
+            getPlace(intent.getIntExtra(EXTRA_PLACE_ID, 0))
         }
     }
 
@@ -94,6 +101,11 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                 }
             }
         }
+    }
+
+    private fun init() {
+        placeDao = AppDatabase.getInstance(this).placeDao()
+        placeRepository = PlaceRepository.getInstance(placeDao)
     }
 
     private fun checkUrl(entity: PlaceEntity) {

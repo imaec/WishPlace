@@ -5,13 +5,20 @@ import android.os.Bundle
 import android.text.Html
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityWriteBinding
 import com.imaec.wishplace.model.NaverPlaceDTO
+import com.imaec.wishplace.repository.CategoryRepository
+import com.imaec.wishplace.repository.PlaceRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.CategoryDao
+import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.PlaceEntity
+import com.imaec.wishplace.ui.util.NaverPlaceItemDecoration
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.InputDialog
 import com.imaec.wishplace.utils.KeyboardUtil
@@ -20,18 +27,30 @@ import kotlinx.android.synthetic.main.activity_write.*
 
 class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
+
     private lateinit var viewModel: WriteViewModel
     private lateinit var bottomSheet: BottomSheetBehavior<RecyclerView>
+    private lateinit var categoryDao: CategoryDao
+    private lateinit var categoryRepository: CategoryRepository
+    private lateinit var placeDao: PlaceDao
+    private lateinit var placeRepository: PlaceRepository
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var itemDecoration: NaverPlaceItemDecoration
+
     private var categoryId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel(WriteViewModel::class.java)
+        init()
+
+        viewModel = getViewModel(WriteViewModel::class.java, categoryRepository, placeRepository)
 
         binding.apply {
             lifecycleOwner = this@WriteActivity
             viewModel = this@WriteActivity.viewModel
+            recyclerBottomSheet.layoutManager = this@WriteActivity.layoutManager
+            recyclerBottomSheet.addItemDecoration(itemDecoration)
             bottomSheet = BottomSheetBehavior.from(recyclerBottomSheet).apply {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
@@ -136,6 +155,15 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                  hideBottomSheet()
              }
          }
+    }
+
+    private fun init() {
+        categoryDao = AppDatabase.getInstance(this).categoryDao()
+        categoryRepository = CategoryRepository.getInstance(categoryDao)
+        placeDao = AppDatabase.getInstance(this).placeDao()
+        placeRepository = PlaceRepository.getInstance(placeDao)
+        layoutManager = LinearLayoutManager(this)
+        itemDecoration = NaverPlaceItemDecoration(this)
     }
 
     private fun save() {

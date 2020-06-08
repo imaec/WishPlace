@@ -1,102 +1,86 @@
 package com.imaec.wishplace.viewmodel
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaec.wishplace.CategoryUpdateResult
 import com.imaec.wishplace.TYPE_CATEGORY_EDIT
 import com.imaec.wishplace.base.BaseViewModel
-import com.imaec.wishplace.room.AppDatabase
-import com.imaec.wishplace.room.dao.CategoryDao
-import com.imaec.wishplace.room.dao.PlaceDao
+import com.imaec.wishplace.repository.CategoryRepository
+import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.ui.adapter.CategoryAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @Suppress("UNCHECKED_CAST")
-class CategoryViewModel(context: Context) : BaseViewModel(context) {
-
-    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(context).categoryDao() }
-    private val placeDao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
-
-    var layoutManager = LinearLayoutManager(context)
-    val liveListCategory = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+class CategoryViewModel(
+    private val categoryRepository: CategoryRepository,
+    private val placeRepository: PlaceRepository
+) : BaseViewModel() {
 
     init {
         adapter = CategoryAdapter(TYPE_CATEGORY_EDIT)
     }
 
-    private fun selectPlaceByCategoryId(categoryId: Int, callback: (Int) -> Unit) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                callback(placeDao.selectByCategory(categoryId).size)
-            }
-        }
-    }
-
-    private fun selectCategoryByCategory(category: String, callback: (Int) -> Unit) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                callback(categoryDao.getCount(category))
-            }
-        }
-    }
+    val liveListCategory = MutableLiveData<ArrayList<Any>>().set(ArrayList())
 
     fun selectCategory() {
-        Log.d(TAG, "    ## select")
-        viewModelScope.launch(Dispatchers.IO) {
-            val listCategory = categoryDao.select() as ArrayList<Any>
-            launch(Dispatchers.Main) {
-                liveListCategory.value = listCategory
+        viewModelScope.launch {
+            categoryRepository.getList { listCategory ->
+                viewModelScope.launch { liveListCategory.value = listCategory as ArrayList<Any> }
             }
         }
     }
 
     fun update(entity: CategoryEntity, category: String, callback: (CategoryUpdateResult) -> Unit) {
-        selectCategoryByCategory(category) { size ->
-            if (size > 0) {
-                viewModelScope.launch { callback(CategoryUpdateResult.FAIL_EXIST) }
-            } else {
-                entity.category = category
-                val resultCategory = categoryDao.update(entity)
+        viewModelScope.launch {
+            categoryRepository.getCount(category) { size ->
+                if (size > 0) {
+                    launch { callback(CategoryUpdateResult.FAIL_EXIST) }
+                } else {
+                    entity.category = category
+                    launch(Dispatchers.IO) {
+                        val resultCategory = categoryRepository.update(entity)
+                        if (resultCategory == 0) {
+                            viewModelScope.launch { callback(CategoryUpdateResult.FAIL) }
+                        }
 
-                if (resultCategory == 0) {
-                    viewModelScope.launch { callback(CategoryUpdateResult.FAIL) }
+                        updatePlace(entity) { result -> callback(result) }
+                    }
                 }
-
-                updatePlace(entity) { result -> callback(result) }
             }
         }
     }
 
     fun updatePlace(entity: CategoryEntity, callback: (CategoryUpdateResult) -> Unit) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val listPlace = placeDao.selectByCategory(entity.categoryId)
+            placeRepository.getListByCategory(entity.categoryId) { listPlace ->
                 listPlace.forEach {
                     it.category = entity.category
                 }
 
-                val result = placeDao.update(*listPlace.toTypedArray())
-                viewModelScope.launch {
-                    if (result > 0) callback(CategoryUpdateResult.SUCCESS)
-                    else callback(CategoryUpdateResult.FAIL)
+                launch {
+                    placeRepository.update(*listPlace.toTypedArray()) { result ->
+                        if (result > 0) callback(CategoryUpdateResult.SUCCESS)
+                        else callback(CategoryUpdateResult.FAIL)
+                    }
                 }
             }
         }
     }
 
     fun delete(entity: CategoryEntity, callback: (Boolean) -> Unit) {
-        selectPlaceByCategoryId(entity.categoryId) { size ->
-            if (size > 0) {
-                viewModelScope.launch { callback(false) }
-            } else {
-                // 삭제 처리
-                categoryDao.delete(entity)
-                viewModelScope.launch { callback(true) }
+        viewModelScope.launch {
+            placeRepository.getListByCategory(entity.categoryId) { listPlace ->
+                if (listPlace.isNotEmpty()) {
+                    // 카테고리를 사용하는 장소가 있으면 false
+                    launch { callback(false) }
+                } else {
+                    // 삭제 처리
+                    launch {
+                        categoryRepository.delete(entity)
+                        callback(true)
+                    }
+                }
             }
         }
     }
