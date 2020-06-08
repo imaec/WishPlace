@@ -1,6 +1,5 @@
 package com.imaec.wishplace
 
-import android.graphics.Color
 import android.text.Html
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -9,12 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.imaec.wishplace.base.BaseAdapter
-import com.imaec.wishplace.room.entity.CategoryEntity
-import com.imaec.wishplace.ui.adapter.HomeAdapter
 import com.imaec.wishplace.utils.Utils
 
 object BindingAdapters {
@@ -25,23 +21,6 @@ object BindingAdapters {
     @BindingAdapter("adapter")
     fun setAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
         recyclerView.adapter = adapter
-    }
-
-    @JvmStatic
-    @BindingAdapter("layoutManager")
-    fun setLayoutManager(recyclerView: RecyclerView, layoutManager: RecyclerView.LayoutManager) {
-        if (recyclerView.id == R.id.recycler_home) {
-            (layoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    return if ((recyclerView.adapter as HomeAdapter).getItem(position) is CategoryEntity) {
-                        2
-                    } else {
-                        1
-                    }
-                }
-            }
-        }
-        recyclerView.layoutManager = layoutManager
     }
 
     @JvmStatic

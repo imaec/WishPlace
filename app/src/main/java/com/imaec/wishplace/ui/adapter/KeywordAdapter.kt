@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.imaec.wishplace.TYPE_FOOTER
 import com.imaec.wishplace.base.BaseAdapter
-import com.imaec.wishplace.model.KeywordDTO
 import com.imaec.wishplace.TYPE_ITEM
 import com.imaec.wishplace.databinding.FooterDeleteBinding
 import com.imaec.wishplace.databinding.ItemKeywordBinding

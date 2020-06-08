@@ -3,9 +3,7 @@ package com.imaec.wishplace.viewmodel
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.CategoryRepository
 import com.imaec.wishplace.room.entity.CategoryEntity
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val categoryRepository: CategoryRepository

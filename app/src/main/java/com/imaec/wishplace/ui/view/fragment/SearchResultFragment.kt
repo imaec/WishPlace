@@ -24,7 +24,6 @@ import com.imaec.wishplace.ui.view.activity.ListActivity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.SearchResultViewModel
-import com.imaec.wishplace.viewmodel.SearchViewModel
 
 class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
 

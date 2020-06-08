@@ -18,9 +18,6 @@ interface CategoryDao {
     @Query("SELECT * FROM CategoryENTITY")
     fun select() : List<CategoryEntity>
 
-    @Query("SELECT category FROM CategoryENTITY WHERE categoryId = :id")
-    fun selectById(id: Int) : String
-
     @Update
     fun update(entity: CategoryEntity) : Int
 

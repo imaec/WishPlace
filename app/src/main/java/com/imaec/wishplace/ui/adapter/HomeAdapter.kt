@@ -8,7 +8,6 @@ import com.imaec.wishplace.TYPE_ITEM
 import com.imaec.wishplace.base.BaseAdapter
 import com.imaec.wishplace.databinding.ItemCategoryBinding
 import com.imaec.wishplace.databinding.ItemItemBinding
-import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
 

@@ -2,16 +2,12 @@ package com.imaec.wishplace.ui.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import androidx.recyclerview.widget.GridLayoutManager
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentHomeBinding
-import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.PlaceDao

@@ -33,12 +33,6 @@ class CategoryRepository(
         }
     }
 
-    suspend fun getCategory(id: Int, callback: (String) -> Unit) {
-        withContext(Dispatchers.IO) {
-            callback(dao.selectById(id))
-        }
-    }
-
     suspend fun update(entity: CategoryEntity) : Int {
         var result = 0
         withContext(Dispatchers.IO) {

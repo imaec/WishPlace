@@ -1,20 +1,25 @@
 package com.imaec.wishplace
 
+// Naver API
 const val URL_NAVER_API = "https://openapi.naver.com/"
 const val NAVER_CLIENT_ID = "dfZuM0rKVq4nnJsFf6vZ"
 const val NAVER_CLIENT_SECRET = "GDUUuzlmrD"
 
+// Home List Item Type
 const val TYPE_CATEGORY = 0
 const val TYPE_ITEM = 1
 const val TYPE_FOOTER = 2
 
+// Category List Item Type
 const val TYPE_CATEGORY_EDIT = 0
 const val TYPE_CATEGORY_SELECT = 1
 
+// 장소 추가/삭제/수정 결과
 const val RESULT_DELETE = 2
 const val RESULT_EDIT = 3
 const val RESULT_WRITE = 4
 
+// Intent Extra Key
 const val EXTRA_CATEGORY_ID = "extra_category_id"
 const val EXTRA_CATEGORY = "extra_category"
 const val EXTRA_PLACE_ID = "extra_place_id"

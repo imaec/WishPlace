@@ -3,7 +3,6 @@ package com.imaec.wishplace.base
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.entity.PlaceEntity
 
 abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

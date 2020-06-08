@@ -4,8 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.CategoryRepository
 import com.imaec.wishplace.room.entity.CategoryEntity
-import com.imaec.wishplace.utils.Utils
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SettingViewModel(

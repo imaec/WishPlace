@@ -11,7 +11,7 @@ import com.imaec.wishplace.databinding.ItemCategoryEditBinding
 import com.imaec.wishplace.databinding.ItemCategorySelectBinding
 import com.imaec.wishplace.room.entity.CategoryEntity
 
-class CategoryAdapter(val viewType: Int) : BaseAdapter() {
+class CategoryAdapter(private val viewType: Int) : BaseAdapter() {
 
     private lateinit var onDeleteClick: (CategoryEntity) -> Unit
 
