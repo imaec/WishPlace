@@ -1,12 +1,10 @@
 package com.imaec.wishplace.viewmodel
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.ValidateResult
 import com.imaec.wishplace.base.BaseViewModel
-import com.imaec.wishplace.room.AppDatabase
-import com.imaec.wishplace.room.dao.PlaceDao
+import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.utils.Utils
 import kotlinx.coroutines.Dispatchers
@@ -14,9 +12,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
-class EditViewModel(context: Context) : BaseViewModel(context) {
-
-    private val dao: PlaceDao by lazy { AppDatabase.getInstance(context).placeDao() }
+class EditViewModel(
+    private val placeRepository: PlaceRepository
+) : BaseViewModel() {
 
     val livePlace = MutableLiveData<PlaceEntity>()
     val liveTitle = MutableLiveData<String>()
@@ -70,14 +68,19 @@ class EditViewModel(context: Context) : BaseViewModel(context) {
         liveIsVisit.value = isVisit
     }
 
-    fun getData(placeId: Int) {
-        var place: PlaceEntity? = null
+    fun getPlace(placeId: Int) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                place = dao.select(placeId)
+            placeRepository.getPlace(placeId) { place ->
+                viewModelScope.launch { livePlace.value = place }
             }
-            livePlace.value = place
         }
+    }
+
+    fun validateData(category: String, title: String, address: String) : ValidateResult {
+        if (category.isEmpty()) return ValidateResult.FAIL_CATEGORY
+        if (title.isEmpty()) return ValidateResult.FAIL_TITLE
+        if (address.isEmpty()) return ValidateResult.FAIL_ADDRESS
+        return ValidateResult.SUCCESS
     }
 
     fun checkUrl(url: String, onSuccess: (String) -> Unit, onFail: (String?) -> Unit) {
@@ -92,24 +95,11 @@ class EditViewModel(context: Context) : BaseViewModel(context) {
         }
     }
 
-    fun validateData(category: String, title: String, address: String) : ValidateResult {
-        if (category.isEmpty()) return ValidateResult.FAIL_CATEGORY
-        if (title.isEmpty()) return ValidateResult.FAIL_TITLE
-        if (address.isEmpty()) return ValidateResult.FAIL_ADDRESS
-        return ValidateResult.SUCCESS
-    }
-
-    fun update(entity: PlaceEntity?, callback: (Boolean) -> Unit) {
-        if (entity == null) {
-            callback(false)
-            return
-        }
-        var result = 0
+    fun update(entity: PlaceEntity, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                result = dao.update(entity)
+            placeRepository.update(entity) { result ->
+                viewModelScope.launch { callback(result > 0) }
             }
-            callback(result > 0)
         }
     }
 }

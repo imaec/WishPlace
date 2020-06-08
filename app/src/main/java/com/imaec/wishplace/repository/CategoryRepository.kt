@@ -5,7 +5,9 @@ import com.imaec.wishplace.room.entity.CategoryEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class CategoryRepository(private val dao: CategoryDao) {
+class CategoryRepository(
+    private val dao: CategoryDao
+) {
 
     suspend fun insert(entity: CategoryEntity) {
         withContext(Dispatchers.IO) {

@@ -9,6 +9,7 @@ import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityCategoryBinding
 import com.imaec.wishplace.repository.CategoryRepository
+import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.room.dao.PlaceDao
@@ -19,16 +20,19 @@ import com.imaec.wishplace.viewmodel.CategoryViewModel
 
 class CategoryEditActivity : BaseActivity<ActivityCategoryBinding>(R.layout.activity_category) {
 
-    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(this).categoryDao() }
-    private val placeDao: PlaceDao by lazy { AppDatabase.getInstance(this).placeDao() }
-    private val layoutManager by lazy { LinearLayoutManager(this) }
-
     private lateinit var viewModel: CategoryViewModel
+    private lateinit var categoryDao: CategoryDao
+    private lateinit var placeDao: PlaceDao
+    private lateinit var categoryRepository: CategoryRepository
+    private lateinit var placeRepository: PlaceRepository
+    private lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel(CategoryViewModel::class.java, CategoryRepository.getInstance(categoryDao))
+        init()
+
+        viewModel = getViewModel(CategoryViewModel::class.java, categoryRepository, placeRepository)
 
         binding.apply {
             lifecycleOwner = this@CategoryEditActivity
@@ -43,6 +47,14 @@ class CategoryEditActivity : BaseActivity<ActivityCategoryBinding>(R.layout.acti
             addOnDeleteClickListener { entity -> delete(entity) }
             selectCategory()
         }
+    }
+
+    private fun init() {
+        categoryDao = AppDatabase.getInstance(this).categoryDao()
+        placeDao = AppDatabase.getInstance(this).placeDao()
+        categoryRepository = CategoryRepository.getInstance(categoryDao)
+        placeRepository = PlaceRepository.getInstance(placeDao)
+        layoutManager = LinearLayoutManager(this)
     }
 
     private fun update(entity: CategoryEntity) {

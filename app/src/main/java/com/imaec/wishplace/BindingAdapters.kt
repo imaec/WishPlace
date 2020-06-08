@@ -45,12 +45,6 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("itemDecoration")
-    fun setItemDecoration(recyclerView: RecyclerView, itemDecoration: RecyclerView.ItemDecoration) {
-        recyclerView.addItemDecoration(itemDecoration)
-    }
-
-    @JvmStatic
     @BindingAdapter("items")
     fun setItems(recyclerView: RecyclerView, items: ArrayList<Any>) {
         (recyclerView.adapter as BaseAdapter).apply {

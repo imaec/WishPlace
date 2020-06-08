@@ -7,12 +7,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.recyclerview.widget.GridLayoutManager
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentHomeBinding
 import com.imaec.wishplace.model.PlaceDTO
+import com.imaec.wishplace.repository.PlaceRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
+import com.imaec.wishplace.ui.util.HomeItemDecoration
 import com.imaec.wishplace.ui.view.activity.DetailActivity
 import com.imaec.wishplace.ui.view.activity.EditActivity
 import com.imaec.wishplace.ui.view.activity.ListActivity
@@ -23,15 +28,23 @@ import com.imaec.wishplace.viewmodel.HomeViewModel
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private lateinit var viewModel: HomeViewModel
+    private lateinit var placeDao: PlaceDao
+    private lateinit var placeRepository: PlaceRepository
+    private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var itemDecoration: HomeItemDecoration
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel(HomeViewModel::class.java)
+        init()
+
+        viewModel = getViewModel(HomeViewModel::class.java, placeRepository)
 
         binding.apply {
             lifecycleOwner = this@HomeFragment
             viewModel = this@HomeFragment.viewModel
+            recyclerHome.layoutManager = gridLayoutManager
+            recyclerHome.addItemDecoration(itemDecoration)
         }
 
         viewModel.apply {
@@ -75,7 +88,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
                 dialog.show()
             }
-            getData {  }
+            getData()
         }
     }
 
@@ -84,9 +97,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
-                viewModel.getData {  }
+                viewModel.getData()
             }
         }
+    }
+
+    private fun init() {
+        placeDao = AppDatabase.getInstance(context!!).placeDao()
+        placeRepository = PlaceRepository.getInstance(placeDao)
+        gridLayoutManager =
+            GridLayoutManager(context, 2).apply {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return when (viewModel.adapter.getItemViewType(position)) {
+                            TYPE_CATEGORY -> 2
+                            TYPE_ITEM -> 1
+                            else -> 1
+                        }
+                    }
+                }
+            }
+        itemDecoration = HomeItemDecoration(context!!)
     }
 
     private fun delete(entity: PlaceEntity) {
@@ -95,7 +126,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                    viewModel.getData {  }
+                    viewModel.getData()
                     dismiss()
                 }
             })
@@ -104,6 +135,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     fun notifyItemAdded() {
-        viewModel.getData {  }
+        viewModel.getData()
     }
 }

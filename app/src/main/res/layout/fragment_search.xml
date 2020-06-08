@@ -120,7 +120,6 @@
             android:background="@color/white"
             app:adapter="@{viewModel.adapter}"
             app:items="@{viewModel.liveListKeywordItem}"
-            app:layoutManager="@{viewModel.linearLayoutManager}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_keyword"

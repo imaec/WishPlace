@@ -4,11 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityListBinding
-import com.imaec.wishplace.model.PlaceDTO
+import com.imaec.wishplace.repository.PlaceRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.PlaceEntity
+import com.imaec.wishplace.ui.util.PlaceItemDecoration
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.ListViewModel
@@ -16,15 +20,23 @@ import com.imaec.wishplace.viewmodel.ListViewModel
 class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
     private lateinit var viewModel: ListViewModel
+    private lateinit var placeDao: PlaceDao
+    private lateinit var placeRepository: PlaceRepository
+    private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var itemDecoration: PlaceItemDecoration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel(ListViewModel::class.java)
+        init()
+
+        viewModel = getViewModel(ListViewModel::class.java, placeRepository)
 
         binding.apply {
             lifecycleOwner = this@ListActivity
             viewModel = this@ListActivity.viewModel
+            recyclerList.layoutManager = gridLayoutManager
+            recyclerList.addItemDecoration(itemDecoration)
         }
 
         viewModel.apply {
@@ -63,7 +75,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                 }
                 dialog.show()
             }
-            getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) {  }
+            getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
         }
     }
 
@@ -72,7 +84,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
-                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) {  }
+                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
             }
         }
         data?.let {
@@ -85,13 +97,20 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
         super.onBackPressed()
     }
 
+    private fun init() {
+        placeDao = AppDatabase.getInstance(this).placeDao()
+        placeRepository = PlaceRepository.getInstance(placeDao)
+        gridLayoutManager = GridLayoutManager(this, 2)
+        itemDecoration = PlaceItemDecoration(this)
+    }
+
     private fun delete(entity: PlaceEntity) {
         CommonDialog(this, "'${entity.name}' ${getString(R.string.msg_delete_place)}").apply {
             setOk(getString(R.string.delete))
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0)) {  }
+                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
                     viewModel.isUpdated = true
                     dismiss()
                 }

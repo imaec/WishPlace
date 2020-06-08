@@ -8,11 +8,16 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSearchResultBinding
+import com.imaec.wishplace.repository.PlaceRepository
+import com.imaec.wishplace.room.AppDatabase
+import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
+import com.imaec.wishplace.ui.util.PlaceItemDecoration
 import com.imaec.wishplace.ui.view.activity.DetailActivity
 import com.imaec.wishplace.ui.view.activity.EditActivity
 import com.imaec.wishplace.ui.view.activity.ListActivity
@@ -24,6 +29,10 @@ import com.imaec.wishplace.viewmodel.SearchViewModel
 class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
 
     private lateinit var viewModel: SearchResultViewModel
+    private lateinit var placeDao: PlaceDao
+    private lateinit var placeRepository: PlaceRepository
+    private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var itemDecoration: PlaceItemDecoration
 
     var keyword = ""
     var option = ""
@@ -32,11 +41,15 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel(SearchResultViewModel::class.java)
+        init()
+
+        viewModel = getViewModel(SearchResultViewModel::class.java, placeRepository)
 
         binding.apply {
             lifecycleOwner = this@SearchResultFragment
             viewModel = this@SearchResultFragment.viewModel
+            recyclerSearch.layoutManager = gridLayoutManager
+            recyclerSearch.addItemDecoration(itemDecoration)
         }
 
         arguments?.let {
@@ -103,6 +116,13 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
                 viewModel.search(keyword, option) {  }
             }
         }
+    }
+
+    private fun init() {
+        placeDao = AppDatabase.getInstance(context!!).placeDao()
+        placeRepository = PlaceRepository.getInstance(placeDao)
+        gridLayoutManager = GridLayoutManager(context, 2)
+        itemDecoration = PlaceItemDecoration(context!!)
     }
 
     private fun delete(entity: PlaceEntity) {

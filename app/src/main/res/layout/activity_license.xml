@@ -51,7 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:adapter="@{viewModel.adapter}"
-            app:layoutManager="@{viewModel.layoutManager}"
             app:items="@{viewModel.liveListLicense}"
             app:layout_constraintTop_toBottomOf="@id/text_license_desc"
             app:layout_constraintBottom_toBottomOf="parent"/>

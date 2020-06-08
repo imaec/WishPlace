@@ -1,20 +1,17 @@
 package com.imaec.wishplace.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.ui.adapter.LicenseAdapter
 
 @Suppress("UNCHECKED_CAST")
-class LicenseViewModel(context: Context) : BaseViewModel(context) {
+class LicenseViewModel : BaseViewModel() {
 
     init {
         adapter = LicenseAdapter()
     }
 
     val liveListLicense = MutableLiveData<ArrayList<Any>>().set(ArrayList())
-    val layoutManager = LinearLayoutManager(context)
 
     fun getData() {
         val list = arrayListOf(

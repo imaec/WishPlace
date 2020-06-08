@@ -28,8 +28,9 @@ import com.imaec.wishplace.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private val categoryDao: CategoryDao by lazy { AppDatabase.getInstance(this).categoryDao() }
     private lateinit var viewModel: MainViewModel
+    private lateinit var categoryDao: CategoryDao
+    private lateinit var categoryRepository: CategoryRepository
 
     val fragmentHome = HomeFragment()
     val fragmentSearch = SearchFragment()
@@ -43,7 +44,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
         startIntro()
 
-        viewModel = getViewModel(MainViewModel::class.java, CategoryRepository.getInstance(categoryDao))
+        init()
+
+        viewModel = getViewModel(MainViewModel::class.java, categoryRepository)
 
         binding.apply {
             lifecycleOwner = this@MainActivity
@@ -144,6 +147,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         Handler().postDelayed({
             binding.viewTemp.visibility = View.GONE
         }, 1000)
+    }
+
+    private fun init() {
+        categoryDao = AppDatabase.getInstance(this).categoryDao()
+        categoryRepository = CategoryRepository.getInstance(categoryDao)
     }
 
     private fun setFragment(fragment: Fragment) {
