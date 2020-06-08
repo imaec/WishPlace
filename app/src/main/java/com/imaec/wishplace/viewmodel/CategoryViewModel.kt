@@ -26,7 +26,7 @@ class CategoryViewModel(
     fun selectCategory() {
         viewModelScope.launch {
             categoryRepository.getList { listCategory ->
-                viewModelScope.launch { liveListCategory.value = listCategory as ArrayList<Any> }
+                launch { liveListCategory.value = listCategory as ArrayList<Any> }
             }
         }
     }
@@ -41,7 +41,7 @@ class CategoryViewModel(
                     launch(Dispatchers.IO) {
                         val resultCategory = categoryRepository.update(entity)
                         if (resultCategory == 0) {
-                            viewModelScope.launch { callback(CategoryUpdateResult.FAIL) }
+                            launch { callback(CategoryUpdateResult.FAIL) }
                         }
 
                         updatePlace(entity) { result -> callback(result) }
@@ -60,8 +60,7 @@ class CategoryViewModel(
 
                 launch {
                     placeRepository.update(*listPlace.toTypedArray()) { result ->
-                        if (result > 0) callback(CategoryUpdateResult.SUCCESS)
-                        else callback(CategoryUpdateResult.FAIL)
+                        launch { callback(CategoryUpdateResult.SUCCESS) }
                     }
                 }
             }

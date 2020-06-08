@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.dialog_input.text_cancel
 class InputDialog(context: Context) : Dialog(context) {
 
     private var title = ""
+    private var content = ""
     private var ok = ""
     private var cancel = ""
     private lateinit var addClick: (String) -> Unit
@@ -45,16 +46,18 @@ class InputDialog(context: Context) : Dialog(context) {
 
     private fun initLayout() {
         text_title.text = title
+        edit_content.setText(content)
+        edit_content.setSelection(content.length)
         text_add.text = ok
         text_cancel.text = cancel
 
         if (::addClick.isInitialized) {
             text_add.setOnClickListener {
-                if (edit_category.text.isEmpty()) {
+                if (edit_content.text.isEmpty()) {
                     Toast.makeText(context, R.string.msg_category_empty, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                addClick(edit_category.text.toString())
+                addClick(edit_content.text.toString())
             }
         } else text_add.setOnClickListener { dismiss() }
 
@@ -67,6 +70,10 @@ class InputDialog(context: Context) : Dialog(context) {
 
     fun setTitle(title: String) {
         this.title = title
+    }
+
+    fun setContent(content: String) {
+        this.content = content
     }
 
     fun setOk(ok: String) {

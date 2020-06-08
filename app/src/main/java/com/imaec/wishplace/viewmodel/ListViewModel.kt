@@ -33,9 +33,7 @@ class ListViewModel(
                         }
                     }
 
-                viewModelScope.launch {
-                    liveListItem.value = listTemp
-                }
+                launch { liveListItem.value = listTemp }
             }
         }
     }

@@ -20,7 +20,7 @@ class SettingViewModel(
                 if (count == 0) {
                     launch { categoryRepository.insert(CategoryEntity(category = category)) }
                 }
-                viewModelScope.launch { callback(count == 0) }
+                launch { callback(count == 0) }
             }
         }
     }

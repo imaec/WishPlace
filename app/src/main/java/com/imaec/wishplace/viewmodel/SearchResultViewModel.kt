@@ -26,12 +26,12 @@ class SearchResultViewModel(
             when (option) {
                 "이름" -> {
                     placeRepository.getListByName("%$keyword%") { listPlace ->
-                        viewModelScope.launch { liveListSearchItem.value = listPlace as ArrayList<Any> }
+                        launch { liveListSearchItem.value = listPlace as ArrayList<Any> }
                     }
                 }
                 "주소" -> {
                     placeRepository.getListByAddress("%$keyword%") { listPlace ->
-                        viewModelScope.launch { liveListSearchItem.value = listPlace as ArrayList<Any> }
+                        launch { liveListSearchItem.value = listPlace as ArrayList<Any> }
                     }
                 }
                 else -> {

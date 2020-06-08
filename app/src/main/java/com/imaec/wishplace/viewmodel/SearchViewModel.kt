@@ -26,7 +26,7 @@ class SearchViewModel(
                     .sortedByDescending { it.saveTime }
                     .forEach { listTemp.add(it) }
 
-                viewModelScope.launch { liveListKeywordItem.value = listTemp }
+                launch { liveListKeywordItem.value = listTemp }
             }
         }
     }

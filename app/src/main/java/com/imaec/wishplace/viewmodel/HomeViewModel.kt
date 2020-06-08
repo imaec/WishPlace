@@ -32,9 +32,7 @@ class HomeViewModel(
                         }
                     }
 
-                launch {
-                    liveListItem.value = listTemp
-                }
+                launch { liveListItem.value = listTemp }
             }
         }
     }

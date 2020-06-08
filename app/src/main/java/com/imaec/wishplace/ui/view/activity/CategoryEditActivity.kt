@@ -60,6 +60,7 @@ class CategoryEditActivity : BaseActivity<ActivityCategoryBinding>(R.layout.acti
     private fun update(entity: CategoryEntity) {
         InputDialog(this).apply {
             setTitle(getString(R.string.category_edit))
+            setContent(entity.category)
             setOk(getString(R.string.edit))
             setOnAddClickListener { category ->
                 viewModel.update(entity, category) { result ->

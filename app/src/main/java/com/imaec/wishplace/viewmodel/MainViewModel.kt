@@ -14,7 +14,7 @@ class MainViewModel(
     fun isExistCategory(callback: (Boolean) -> Unit) {
         viewModelScope.launch {
             categoryRepository.getCount { count ->
-                launch(Dispatchers.Main) { callback(count > 0) }
+                launch { callback(count > 0) }
             }
         }
     }

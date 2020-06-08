@@ -96,7 +96,7 @@ class WriteViewModel(
                         categoryRepository.insert(CategoryEntity(category = category))
                     }
                 }
-                viewModelScope.launch { callback(count == 0) }
+                launch { callback(count == 0) }
             }
         }
     }

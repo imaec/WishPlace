@@ -168,6 +168,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             setOnAddClickListener {
                 viewModel.addCategory(it) {
                     Toast.makeText(this@MainActivity, "'$it' " + getString(R.string.msg_category_added), Toast.LENGTH_SHORT).show()
+                    dismiss()
                 }
             }
             setOnCancelClickListener {

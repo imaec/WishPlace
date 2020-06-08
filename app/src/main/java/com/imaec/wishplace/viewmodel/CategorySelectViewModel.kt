@@ -21,7 +21,7 @@ class CategorySelectViewModel(
     fun selectCategory() {
         viewModelScope.launch {
             categoryRepository.getList { listCategory ->
-                viewModelScope.launch { liveListCategory.value = listCategory as ArrayList<Any> }
+                launch { liveListCategory.value = listCategory as ArrayList<Any> }
             }
         }
     }

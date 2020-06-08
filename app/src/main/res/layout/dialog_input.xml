@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <EditText
-            android:id="@+id/edit_category"
+            android:id="@+id/edit_content"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
@@ -60,7 +60,7 @@
             android:textColor="@color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/text_add"
-            app:layout_constraintTop_toBottomOf="@id/edit_category"/>
+            app:layout_constraintTop_toBottomOf="@id/edit_content"/>
 
         <TextView
             android:id="@+id/text_add"
@@ -80,6 +80,6 @@
             android:textColor="@color/white"
             app:layout_constraintLeft_toRightOf="@id/text_cancel"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_category"/>
+            app:layout_constraintTop_toBottomOf="@id/edit_content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

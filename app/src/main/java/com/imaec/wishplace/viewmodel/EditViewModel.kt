@@ -71,7 +71,7 @@ class EditViewModel(
     fun getPlace(placeId: Int) {
         viewModelScope.launch {
             placeRepository.getPlace(placeId) { place ->
-                viewModelScope.launch { livePlace.value = place }
+                launch { livePlace.value = place }
             }
         }
     }
@@ -98,7 +98,7 @@ class EditViewModel(
     fun update(entity: PlaceEntity, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
             placeRepository.update(entity) { result ->
-                viewModelScope.launch { callback(result > 0) }
+                launch { callback(result > 0) }
             }
         }
     }

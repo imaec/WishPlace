@@ -31,7 +31,7 @@ class DetailViewModel(
     fun getData(placeId: Int) {
         viewModelScope.launch {
             placeRepository.getPlace(placeId) { place ->
-                viewModelScope.launch {
+                launch {
                     livePlace.value = place
                     setData(place.name, place.address, place.content, place.imageUrl, place.siteUrl, place.visitFlag)
                 }
@@ -61,7 +61,7 @@ class DetailViewModel(
         entity.visitFlag = !isVisit
         viewModelScope.launch {
             placeRepository.update(entity) { result ->
-                viewModelScope.launch {
+                launch {
                     liveIsVisit.value = !isVisit
                     callback(result > 0)
                 }
