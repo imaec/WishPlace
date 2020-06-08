@@ -22,6 +22,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
     private lateinit var placeDao: PlaceDao
     private lateinit var placeRepository: PlaceRepository
 
+    private var categoryId = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,6 +66,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
 
         viewModel.apply {
             setData(
+                intent.getStringExtra(EXTRA_CATEGORY) ?: "카테고리가 없습니다.",
                 intent.getStringExtra(EXTRA_TITLE) ?: "제목이 없습니다.",
                 intent.getStringExtra(EXTRA_ADDRESS) ?: "주소가 없습니다.",
                 intent.getStringExtra(EXTRA_IMG_URL) ?: "",
@@ -72,6 +75,16 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                 intent.getBooleanExtra(EXTRA_IS_VISIT, false)
             )
             getPlace(intent.getIntExtra(EXTRA_PLACE_ID, 0))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK) {
+            categoryId = data?.getIntExtra(EXTRA_CATEGORY_ID, 0) ?: 0
+            val category = data?.getStringExtra(EXTRA_CATEGORY)
+            viewModel.liveCategory.value = category
         }
     }
 
@@ -85,13 +98,20 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
             R.id.image_back -> {
                 onBackPressed()
             }
+            R.id.text_category -> {
+                startActivityForResult(Intent(this, CategorySelectActivity::class.java), 0)
+            }
             R.id.text_save -> {
                 viewModel.livePlace.value?.let { entity ->
-                    val category = entity.category
+                    val category = viewModel.liveCategory.value ?: entity.category
                     val title = binding.editName.text.toString()
                     val address = binding.editAddr.text.toString()
                     val result = viewModel.validateData(category, title, address)
                     if (result == ValidateResult.SUCCESS) {
+                        if (categoryId != 0) {
+                            entity.foreignId = categoryId
+                            entity.category = category
+                        }
                         checkUrl(entity)
                     } else {
                         Toast.makeText(this, result.msg, Toast.LENGTH_SHORT).show()

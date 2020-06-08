@@ -41,6 +41,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
 
         viewModel.apply {
             setData(
+                intent.getStringExtra(EXTRA_CATEGORY) ?: "카테고리가 없습니다.",
                 intent.getStringExtra(EXTRA_TITLE) ?: "제목이 없습니다.",
                 intent.getStringExtra(EXTRA_ADDRESS) ?: "주소가 없습니다.",
                 intent.getStringExtra(EXTRA_CONTENT) ?: "",
@@ -128,6 +129,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                     R.id.option_edit -> {
                         startActivityForResult(Intent(this@DetailActivity, EditActivity::class.java).apply {
                             putExtra(EXTRA_PLACE_ID, intent.getIntExtra(EXTRA_PLACE_ID, 0))
+                            putExtra(EXTRA_CATEGORY, viewModel.liveCategory.value)
                             putExtra(EXTRA_TITLE, viewModel.liveTitle.value)
                             putExtra(EXTRA_ADDRESS, viewModel.liveAddress.value)
                             putExtra(EXTRA_IMG_URL, viewModel.liveImgUrl.value)

@@ -45,6 +45,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                 if (entity is PlaceEntity) {
                     startActivityForResult(Intent(this@ListActivity, DetailActivity::class.java).apply {
                         putExtra(EXTRA_PLACE_ID, entity.placeId)
+                        putExtra(EXTRA_CATEGORY, entity.category)
                         putExtra(EXTRA_TITLE, entity.name)
                         putExtra(EXTRA_ADDRESS, entity.address)
                         putExtra(EXTRA_IMG_URL, entity.imageUrl)
@@ -59,6 +60,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                     setOnEditClickListener(View.OnClickListener {
                         startActivityForResult(Intent(context, EditActivity::class.java).apply {
                             putExtra(EXTRA_PLACE_ID, entity.placeId)
+                            putExtra(EXTRA_CATEGORY, entity.category)
                             putExtra(EXTRA_TITLE, entity.name)
                             putExtra(EXTRA_ADDRESS, entity.address)
                             putExtra(EXTRA_IMG_URL, entity.imageUrl)

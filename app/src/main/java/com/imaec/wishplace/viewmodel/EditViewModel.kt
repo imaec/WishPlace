@@ -17,6 +17,7 @@ class EditViewModel(
 ) : BaseViewModel() {
 
     val livePlace = MutableLiveData<PlaceEntity>()
+    val liveCategory = MutableLiveData<String>()
     val liveTitle = MutableLiveData<String>()
     val liveAddress = MutableLiveData<String>()
     val liveImgUrl = MutableLiveData<String>()
@@ -59,7 +60,8 @@ class EditViewModel(
         }
     }
 
-    fun setData(title: String, address: String, imgUrl: String, site: String, content: String, isVisit: Boolean) {
+    fun setData(category: String, title: String, address: String, imgUrl: String, site: String, content: String, isVisit: Boolean) {
+        liveCategory.value = category
         liveTitle.value = title
         liveAddress.value = address
         liveImgUrl.value = imgUrl

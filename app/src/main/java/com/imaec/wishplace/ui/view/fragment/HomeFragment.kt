@@ -52,6 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 if (entity is PlaceEntity) {
                     startActivityForResult(Intent(context, DetailActivity::class.java).apply {
                         putExtra(EXTRA_PLACE_ID, entity.placeId)
+                        putExtra(EXTRA_CATEGORY, entity.category)
                         putExtra(EXTRA_TITLE, entity.name)
                         putExtra(EXTRA_ADDRESS, entity.address)
                         putExtra(EXTRA_IMG_URL, entity.imageUrl)
@@ -71,6 +72,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     setOnEditClickListener(View.OnClickListener {
                         startActivityForResult(Intent(context, EditActivity::class.java).apply {
                             putExtra(EXTRA_PLACE_ID, entity.placeId)
+                            putExtra(EXTRA_CATEGORY, entity.category)
                             putExtra(EXTRA_TITLE, entity.name)
                             putExtra(EXTRA_ADDRESS, entity.address)
                             putExtra(EXTRA_CONTENT, entity.content)
