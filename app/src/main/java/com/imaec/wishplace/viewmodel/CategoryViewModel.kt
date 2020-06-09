@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.CategoryUpdateResult
 import com.imaec.wishplace.TYPE_CATEGORY_EDIT
@@ -21,12 +22,14 @@ class CategoryViewModel(
         adapter = CategoryAdapter(TYPE_CATEGORY_EDIT)
     }
 
-    val liveListCategory = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listCategory = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    val listCategory: LiveData<ArrayList<Any>>
+        get() = _listCategory
 
     fun selectCategory() {
         viewModelScope.launch {
             categoryRepository.getList { listCategory ->
-                launch { liveListCategory.value = listCategory as ArrayList<Any> }
+                launch { _listCategory.value = listCategory as ArrayList<Any> }
             }
         }
     }

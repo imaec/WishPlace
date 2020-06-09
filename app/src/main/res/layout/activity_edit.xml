@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
                     android:scaleType="centerCrop"
-                    app:imgUrl="@{viewModel.liveImgUrl}"
+                    app:imgUrl="@{viewModel.imgUrl}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +55,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?attr/selectableItemBackground"
-                    android:text="@{viewModel.liveCategory}"
+                    android:text="@{viewModel.category}"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:textStyle="bold"
@@ -70,7 +70,7 @@
                     android:lines="1"
                     android:padding="8dp"
                     android:singleLine="true"
-                    android:text="@{viewModel.liveTitle}"
+                    android:text="@{viewModel.title}"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -94,7 +94,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:hint="@string/address_hint"
-                    android:text="@{viewModel.liveAddress}"
+                    android:text="@{viewModel.address}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_addr_title" />
@@ -120,7 +120,7 @@
                     android:hint="@string/site_hint"
                     android:maxLines="4"
                     android:singleLine="false"
-                    android:text="@{viewModel.liveSite}"
+                    android:text="@{viewModel.site}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_site_title" />
@@ -148,7 +148,7 @@
                     android:minLines="2"
                     android:padding="8dp"
                     android:singleLine="false"
-                    android:text="@{viewModel.liveContent}"
+                    android:text="@{viewModel.content}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_content_title" />

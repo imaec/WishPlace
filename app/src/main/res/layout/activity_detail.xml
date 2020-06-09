@@ -30,7 +30,7 @@
                     android:onClick="onClick"
                     android:scaleType="centerCrop"
                     android:transitionName="@string/transition_place"
-                    app:imgUrl="@{viewModel.liveImgUrl}"
+                    app:imgUrl="@{viewModel.imgUrl}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/bgAlpha"
                     android:padding="8dp"
-                    android:text="@{viewModel.liveTitle}"
+                    android:text="@{viewModel.title}"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -79,7 +79,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@null"
-                    android:text="@{viewModel.liveAddress}"
+                    android:text="@{viewModel.address}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_addr_title" />
@@ -104,7 +104,7 @@
                     android:background="@null"
                     android:maxLines="4"
                     android:singleLine="false"
-                    android:text="@{viewModel.liveSite}"
+                    android:text="@{viewModel.site}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_site_title" />
@@ -127,7 +127,7 @@
                     android:layout_marginRight="8dp"
                     android:background="@null"
                     android:singleLine="false"
-                    android:text="@{viewModel.liveContent}"
+                    android:text="@{viewModel.content}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_content_title" />
@@ -146,6 +146,7 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
+            app:isVisit="@{viewModel.isVisit}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/text_share"
             app:layout_constraintBottom_toBottomOf="parent"/>

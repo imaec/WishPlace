@@ -25,6 +25,8 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var itemDecoration: PlaceItemDecoration
 
+    private var isUpdated = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,7 +42,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
         }
 
         viewModel.apply {
-            liveCategory.value = intent.getStringExtra(EXTRA_CATEGORY)
+            setCategory(intent.getStringExtra(EXTRA_CATEGORY))
             addOnClickListener { entity, view ->
                 if (entity is PlaceEntity) {
                     startActivityForResult(Intent(this@ListActivity, DetailActivity::class.java).apply {
@@ -90,12 +92,12 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
             }
         }
         data?.let {
-            viewModel.isUpdated = it.getBooleanExtra(EXTRA_IS_UPDATED, false)
+            isUpdated = it.getBooleanExtra(EXTRA_IS_UPDATED, false)
         }
     }
 
     override fun onBackPressed() {
-        if (viewModel.isUpdated) setResult(RESULT_EDIT)
+        if (isUpdated) setResult(RESULT_EDIT)
         super.onBackPressed()
     }
 
@@ -113,7 +115,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
                     viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
-                    viewModel.isUpdated = true
+                    isUpdated = true
                     dismiss()
                 }
             })

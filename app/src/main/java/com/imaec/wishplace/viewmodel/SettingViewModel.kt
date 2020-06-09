@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.CategoryRepository
@@ -10,7 +11,13 @@ class SettingViewModel(
     private val categoryRepository: CategoryRepository
 ) : BaseViewModel() {
 
-    val appVersion = MutableLiveData<String>().set("")
+    private val _appVersion = MutableLiveData<String>().set("")
+    val appVersion: LiveData<String>
+        get() = _appVersion
+
+    fun setAppVersion(appVersion: String) {
+        _appVersion.value = appVersion
+    }
 
     fun addCategory(category: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {

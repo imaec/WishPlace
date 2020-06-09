@@ -27,7 +27,6 @@ import kotlinx.android.synthetic.main.activity_write.*
 
 class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
-
     private lateinit var viewModel: WriteViewModel
     private lateinit var bottomSheet: BottomSheetBehavior<RecyclerView>
     private lateinit var categoryDao: CategoryDao
@@ -88,7 +87,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
         if (resultCode == RESULT_OK) {
             categoryId = data?.getIntExtra(EXTRA_CATEGORY_ID, 0) ?: 0
             val category = data?.getStringExtra(EXTRA_CATEGORY)
-            viewModel.liveCategory.value = category
+            viewModel.setCategory(category)
         }
     }
 

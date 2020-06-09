@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@{viewModel.liveCategory}"
+                android:text="@{viewModel.category}"
                 android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"/>
@@ -43,7 +43,7 @@
             android:layout_height="0dp"
             android:background="@color/white"
             app:adapter="@{viewModel.adapter}"
-            app:items="@{viewModel.liveListItem}"
+            app:items="@{viewModel.listItem}"
             app:layout_constraintTop_toBottomOf="@id/linear_category"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

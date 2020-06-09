@@ -1,6 +1,7 @@
 package com.imaec.wishplace.viewmodel
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.ValidateResult
 import com.imaec.wishplace.base.BaseViewModel
@@ -16,14 +17,30 @@ class EditViewModel(
     private val placeRepository: PlaceRepository
 ) : BaseViewModel() {
 
-    val livePlace = MutableLiveData<PlaceEntity>()
-    val liveCategory = MutableLiveData<String>()
-    val liveTitle = MutableLiveData<String>()
-    val liveAddress = MutableLiveData<String>()
-    val liveImgUrl = MutableLiveData<String>()
-    val liveSite = MutableLiveData<String>()
-    val liveContent = MutableLiveData<String>()
-    val liveIsVisit = MutableLiveData<Boolean>()
+    private val _place = MutableLiveData<PlaceEntity>()
+    val place: LiveData<PlaceEntity>
+        get() = _place
+    private val _category = MutableLiveData<String>()
+    val category: LiveData<String>
+        get() = _category
+    private val _title = MutableLiveData<String>()
+    val title: LiveData<String>
+        get() = _title
+    private val _address = MutableLiveData<String>()
+    val address: LiveData<String>
+        get() = _address
+    private val _content = MutableLiveData<String>()
+    val content: LiveData<String>
+        get() = _content
+    private val _imgUrl = MutableLiveData<String>()
+    val imgUrl: LiveData<String>
+        get() = _imgUrl
+    private val _site = MutableLiveData<String>()
+    val site: LiveData<String>
+        get() = _site
+    private val _isVisit = MutableLiveData<Boolean>()
+    val isVisit: LiveData<Boolean>
+        get() = _isVisit
 
     private fun getImgUrl(url: String, callback: (String?) -> Unit) {
         val url2 = if (Utils.isNaverBolg(url)) {
@@ -61,19 +78,39 @@ class EditViewModel(
     }
 
     fun setData(category: String, title: String, address: String, imgUrl: String, site: String, content: String, isVisit: Boolean) {
-        liveCategory.value = category
-        liveTitle.value = title
-        liveAddress.value = address
-        liveImgUrl.value = imgUrl
-        liveSite.value = site
-        liveContent.value = content
-        liveIsVisit.value = isVisit
+        _category.value = category
+        _title.value = title
+        _address.value = address
+        _imgUrl.value = imgUrl
+        _site.value = site
+        _content.value = content
+        _isVisit.value = isVisit
+    }
+
+    fun setCategory(category: String?) {
+        _category.value = category
+    }
+
+    fun setTitle(title: String?) {
+        _title.value = title
+    }
+
+    fun setAddress(address: String?) {
+        _address.value = address
+    }
+
+    fun setSite(site: String?) {
+        _site.value = site
+    }
+
+    fun setContent(content: String?) {
+        _content.value = content
     }
 
     fun getPlace(placeId: Int) {
         viewModelScope.launch {
             placeRepository.getPlace(placeId) { place ->
-                launch { livePlace.value = place }
+                launch { _place.value = place }
             }
         }
     }

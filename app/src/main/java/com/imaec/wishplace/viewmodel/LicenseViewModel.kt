@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.ui.adapter.LicenseAdapter
@@ -11,7 +12,9 @@ class LicenseViewModel : BaseViewModel() {
         adapter = LicenseAdapter()
     }
 
-    val liveListLicense = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listLicense = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    val listLicense: LiveData<ArrayList<Any>>
+        get() = _listLicense
 
     fun getData() {
         val list = arrayListOf(
@@ -21,6 +24,6 @@ class LicenseViewModel : BaseViewModel() {
             "Icon made by Kiranshastry from www.flaticon.com",
             "Icon made by bqlqn from www.flaticon.com"
         )
-        liveListLicense.value = list as ArrayList<Any>
+        _listLicense.value = list as ArrayList<Any>
     }
 }

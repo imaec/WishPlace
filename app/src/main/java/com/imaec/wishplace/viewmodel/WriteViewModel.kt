@@ -1,6 +1,7 @@
 package com.imaec.wishplace.viewmodel
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseViewModel
@@ -31,8 +32,12 @@ class WriteViewModel(
         adapter = NaverPlaceAdapter()
     }
 
-    val liveCategory = MutableLiveData<String>().set("")
-    val liveNaverPlace = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _category = MutableLiveData<String>().set("")
+    val category: LiveData<String>
+        get() = _category
+    private val _listNaverPlace = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    val listNaverPlace: LiveData<ArrayList<Any>>
+        get() = _listNaverPlace
 
     private fun getImgUrl(url: String, callback: (String?) -> Unit) {
         val url2 = if (Utils.isNaverBolg(url)) {
@@ -67,6 +72,10 @@ class WriteViewModel(
             }
             callback(imgUrl)
         }
+    }
+
+    fun setCategory(category: String?) {
+        _category.value = category
     }
 
     fun validateData(category: String, title: String, address: String) : ValidateResult {
@@ -114,7 +123,7 @@ class WriteViewModel(
                 response.body()?.let {
                     if (it.items.isEmpty()) callback(NaverPlaceResult.FAIL_EMPTY_RESULT)
                     else {
-                        liveNaverPlace.value = it.items as ArrayList<Any>
+                        _listNaverPlace.value = it.items as ArrayList<Any>
                         callback(NaverPlaceResult.SUCCESS)
                     }
                 }

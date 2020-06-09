@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.ui.adapter.HomeAdapter
@@ -16,7 +17,9 @@ class HomeViewModel(
         adapter = HomeAdapter()
     }
 
-    val liveListItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    val listItem: LiveData<ArrayList<Any>>
+        get() = _listItem
 
     fun getData() {
         viewModelScope.launch {
@@ -32,7 +35,7 @@ class HomeViewModel(
                         }
                     }
 
-                launch { liveListItem.value = listTemp }
+                launch { _listItem.value = listTemp }
             }
         }
     }

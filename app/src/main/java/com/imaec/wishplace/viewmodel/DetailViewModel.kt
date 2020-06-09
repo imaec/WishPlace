@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.PlaceRepository
@@ -10,31 +11,46 @@ class DetailViewModel(
     private val placeRepository: PlaceRepository
 ) : BaseViewModel() {
 
-    val livePlace = MutableLiveData<PlaceEntity>()
-    val liveCategory = MutableLiveData<String>()
-    val liveTitle = MutableLiveData<String>()
-    val liveAddress = MutableLiveData<String>()
-    val liveContent = MutableLiveData<String>()
-    val liveImgUrl = MutableLiveData<String>()
-    val liveSite = MutableLiveData<String>()
-    val liveIsVisit = MutableLiveData<Boolean>()
-    var isUpdated = false
+    private val _place = MutableLiveData<PlaceEntity>()
+    val place: LiveData<PlaceEntity>
+        get() = _place
+    private val _category = MutableLiveData<String>()
+    val category: LiveData<String>
+        get() = _category
+    private val _title = MutableLiveData<String>()
+    val title: LiveData<String>
+        get() = _title
+    private val _address = MutableLiveData<String>()
+    val address: LiveData<String>
+        get() = _address
+    private val _content = MutableLiveData<String>()
+    val content: LiveData<String>
+        get() = _content
+    private val _imgUrl = MutableLiveData<String>()
+    val imgUrl: LiveData<String>
+        get() = _imgUrl
+    private val _site = MutableLiveData<String>()
+    val site: LiveData<String>
+        get() = _site
+    private val _isVisit = MutableLiveData<Boolean>()
+    val isVisit: LiveData<Boolean>
+        get() = _isVisit
 
     fun setData(category: String, title: String, address: String, content: String, imgUrl: String, site: String, isVisit: Boolean) {
-        liveCategory.value = category
-        liveTitle.value = title
-        liveAddress.value = address
-        liveContent.value = content
-        liveImgUrl.value = imgUrl
-        liveSite.value = site
-        liveIsVisit.value = isVisit
+        _category.value = category
+        _title.value = title
+        _address.value = address
+        _content.value = content
+        _imgUrl.value = imgUrl
+        _site.value = site
+        _isVisit.value = isVisit
     }
 
     fun getData(placeId: Int) {
         viewModelScope.launch {
             placeRepository.getPlace(placeId) { place ->
                 launch {
-                    livePlace.value = place
+                    _place.value = place
                     setData(place.category, place.name, place.address, place.content, place.imageUrl, place.siteUrl, place.visitFlag)
                 }
             }
@@ -53,8 +69,8 @@ class DetailViewModel(
     }
 
     fun updateVisit(callback: (Boolean) -> Unit) {
-        val entity = livePlace.value
-        val isVisit = liveIsVisit.value
+        val entity = _place.value
+        val isVisit = _isVisit.value
 
         if (isVisit == null || entity == null) {
             callback(false)
@@ -64,7 +80,7 @@ class DetailViewModel(
         viewModelScope.launch {
             placeRepository.update(entity) { result ->
                 launch {
-                    liveIsVisit.value = !isVisit
+                    _isVisit.value = !isVisit
                     callback(result > 0)
                 }
             }
@@ -73,10 +89,10 @@ class DetailViewModel(
 
     fun getArgs() : HashMap<String, String> {
         val templateArgs: MutableMap<String, String> = HashMap<String, String>().apply {
-            this["thumb"] = if (liveImgUrl.value.isNullOrEmpty()) "https://k.kakaocdn.net/14/dn/btqEEgbQEVZ/vkV9mSPTnzWLDQojPwTS5k/o.jpg" else liveImgUrl.value!!
-            this["name"] = liveTitle.value ?: "Wish Place"
-            this["addr"] = liveAddress.value ?: ""
-            this["site"] = liveSite.value ?: ""
+            this["thumb"] = if (_imgUrl.value.isNullOrEmpty()) "https://k.kakaocdn.net/14/dn/btqEEgbQEVZ/vkV9mSPTnzWLDQojPwTS5k/o.jpg" else _imgUrl.value!!
+            this["name"] = _title.value ?: "Wish Place"
+            this["addr"] = _address.value ?: ""
+            this["site"] = _site.value ?: ""
         }
 
         return templateArgs as HashMap<String, String>

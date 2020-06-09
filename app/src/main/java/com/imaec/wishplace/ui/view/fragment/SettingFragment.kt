@@ -39,7 +39,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
             viewModel = this@SettingFragment.viewModel
         }
 
-        viewModel.appVersion.value = Utils.getVersion(context!!)
+        viewModel.setAppVersion(Utils.getVersion(context!!))
     }
 
     fun onClick(view: View) {

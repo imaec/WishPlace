@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.PlaceRepository
@@ -16,7 +17,9 @@ class SearchResultViewModel(
         adapter = SearchAdapter()
     }
 
-    val liveListSearchItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listSearchItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    val listSearchItem: LiveData<ArrayList<Any>>
+        get() = _listSearchItem
 
     fun search(keyword: String, option: String, callback: (Boolean) -> Unit) {
         (adapter as SearchAdapter).setKeyword(keyword)
@@ -26,12 +29,12 @@ class SearchResultViewModel(
             when (option) {
                 "이름" -> {
                     placeRepository.getListByName("%$keyword%") { listPlace ->
-                        launch { liveListSearchItem.value = listPlace as ArrayList<Any> }
+                        launch { _listSearchItem.value = listPlace as ArrayList<Any> }
                     }
                 }
                 "주소" -> {
                     placeRepository.getListByAddress("%$keyword%") { listPlace ->
-                        launch { liveListSearchItem.value = listPlace as ArrayList<Any> }
+                        launch { _listSearchItem.value = listPlace as ArrayList<Any> }
                     }
                 }
                 else -> {

@@ -38,28 +38,28 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                 override fun afterTextChanged(p0: Editable?) {}
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    this@EditActivity.viewModel.liveTitle.value = p0.toString()
+                    this@EditActivity.viewModel.setTitle(p0.toString())
                 }
             })
             editAddr.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {}
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    this@EditActivity.viewModel.liveAddress.value = p0.toString()
+                    this@EditActivity.viewModel.setAddress(p0.toString())
                 }
             })
             editSite.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {}
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    this@EditActivity.viewModel.liveSite.value = p0.toString()
+                    this@EditActivity.viewModel.setSite(p0.toString())
                 }
             })
             editContent.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {}
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    this@EditActivity.viewModel.liveContent.value = p0.toString()
+                    this@EditActivity.viewModel.setContent(p0.toString())
                 }
             })
         }
@@ -84,7 +84,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
         if (resultCode == RESULT_OK) {
             categoryId = data?.getIntExtra(EXTRA_CATEGORY_ID, 0) ?: 0
             val category = data?.getStringExtra(EXTRA_CATEGORY)
-            viewModel.liveCategory.value = category
+            viewModel.setCategory(category)
         }
     }
 
@@ -102,8 +102,8 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                 startActivityForResult(Intent(this, CategorySelectActivity::class.java), 0)
             }
             R.id.text_save -> {
-                viewModel.livePlace.value?.let { entity ->
-                    val category = viewModel.liveCategory.value ?: entity.category
+                viewModel.place.value?.let { entity ->
+                    val category = viewModel.category.value ?: entity.category
                     val title = binding.editName.text.toString()
                     val address = binding.editAddr.text.toString()
                     val result = viewModel.validateData(category, title, address)
@@ -133,10 +133,10 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
 
         viewModel.apply {
             entity.apply {
-                name = liveTitle.value ?: "제목이 없습니다."
-                address = liveAddress.value ?: "주소가 없습니다."
-                siteUrl = liveSite.value ?: "사이트가 없습니다."
-                content = liveContent.value ?: ""
+                name = title.value ?: "제목이 없습니다."
+                address = viewModel.address.value ?: "주소가 없습니다."
+                siteUrl = site.value ?: "사이트가 없습니다."
+                content = viewModel.content.value ?: ""
             }
 
             checkUrl(entity.siteUrl, { imgUrl ->

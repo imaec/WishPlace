@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.KeywordRepository
@@ -16,7 +17,9 @@ class SearchViewModel(
         adapter = KeywordAdapter()
     }
 
-    val liveListKeywordItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listKeywordItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    val listKeywordItem: LiveData<ArrayList<Any>>
+        get() = _listKeywordItem
 
     fun getKeyword() {
         viewModelScope.launch {
@@ -26,7 +29,7 @@ class SearchViewModel(
                     .sortedByDescending { it.saveTime }
                     .forEach { listTemp.add(it) }
 
-                launch { liveListKeywordItem.value = listTemp }
+                launch { _listKeywordItem.value = listTemp }
             }
         }
     }
@@ -45,7 +48,7 @@ class SearchViewModel(
     }
 
     fun deleteAll(callback: () -> Unit) {
-        liveListKeywordItem.value?.let { listKeyword ->
+        _listKeywordItem.value?.let { listKeyword ->
             viewModelScope.launch {
                 keywordRepository.delete(*(listKeyword as ArrayList<KeywordEntity>).toTypedArray())
                 callback()

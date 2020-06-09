@@ -21,6 +21,6 @@ class ImageActivity : BaseActivity<ActivityImageBinding>(R.layout.activity_image
             viewModel = this@ImageActivity.viewModel
         }
 
-        viewModel.liveImgUrl.value = intent.getStringExtra(EXTRA_IMG_URL) ?: ""
+        viewModel.setImgUrl(intent.getStringExtra(EXTRA_IMG_URL) ?: "")
     }
 }

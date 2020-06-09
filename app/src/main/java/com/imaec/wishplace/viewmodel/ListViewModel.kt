@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.PlaceRepository
@@ -12,12 +13,19 @@ class ListViewModel(
     private val placeRepository: PlaceRepository
 ) : BaseViewModel() {
 
-    val liveCategory = MutableLiveData<String>()
-    val liveListItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
-    var isUpdated = false
+    private val _category = MutableLiveData<String>()
+    val category: LiveData<String>
+        get() = _category
+    private val _listItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    val listItem: LiveData<ArrayList<Any>>
+        get() = _listItem
 
     init {
         adapter = ListAdapter()
+    }
+
+    fun setCategory(category: String?) {
+        _category.value = category
     }
 
     fun getData(categoryId: Int) {
@@ -33,7 +41,7 @@ class ListViewModel(
                         }
                     }
 
-                launch { liveListItem.value = listTemp }
+                launch { _listItem.value = listTemp }
             }
         }
     }
