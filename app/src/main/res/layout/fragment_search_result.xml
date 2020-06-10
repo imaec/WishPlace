@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -55,7 +56,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_divider2"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toTopOf="@id/adView"/>
 
         <TextView
             android:id="@+id/text_empty"
@@ -71,17 +72,14 @@
             app:layout_constraintTop_toBottomOf="@id/view_divider2"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <FrameLayout
-            android:id="@+id/frame_progress"
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bgAlpha"
-            android:visibility="gone">
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/ad_id_search_result_banner"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

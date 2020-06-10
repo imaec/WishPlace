@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.google.android.gms.ads.AdRequest
 import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSettingBinding
@@ -81,6 +82,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
     }
 
     private fun init() {
+        binding.adView.loadAd(AdRequest.Builder().build())
+
         categoryDao = AppDatabase.getInstance(context!!).categoryDao()
         categoryRepository = CategoryRepository.getInstance(categoryDao)
     }

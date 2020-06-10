@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.MobileAds
 import com.imaec.wishplace.ui.view.dialog.ProgressDialog
 
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutResId: Int) : AppCompatActivity() {
@@ -24,6 +25,8 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutRe
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, layoutResId)
+
+        MobileAds.initialize(this) {}
     }
 
     protected fun <T : ViewModel> getViewModel(modelClass: Class<T>, vararg repository: Any) : T {

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "670879341028",
+    "firebase_url": "https://wishplace-6f40a.firebaseio.com",
+    "project_id": "wishplace-6f40a",
+    "storage_bucket": "wishplace-6f40a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670879341028:android:a246c8cf664e2384e28ff1",
+        "android_client_info": {
+          "package_name": "com.imaec.wishplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670879341028-u0oesmi6o3af9u16img178tthl8714tk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAWjmDVx3HJJwwEq2dYrP4TJkEIb-GUg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670879341028-u0oesmi6o3af9u16img178tthl8714tk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

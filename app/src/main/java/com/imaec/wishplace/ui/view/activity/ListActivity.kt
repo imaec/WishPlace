@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.ads.AdRequest
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityListBinding
@@ -102,6 +103,8 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
     }
 
     private fun init() {
+        binding.adView.loadAd(AdRequest.Builder().build())
+
         placeDao = AppDatabase.getInstance(this).placeDao()
         placeRepository = PlaceRepository.getInstance(placeDao)
         gridLayoutManager = GridLayoutManager(this, 2)

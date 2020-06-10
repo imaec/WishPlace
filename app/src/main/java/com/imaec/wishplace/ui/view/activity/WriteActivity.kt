@@ -3,10 +3,14 @@ package com.imaec.wishplace.ui.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
@@ -24,6 +28,7 @@ import com.imaec.wishplace.ui.view.dialog.InputDialog
 import com.imaec.wishplace.utils.KeyboardUtil
 import com.imaec.wishplace.viewmodel.WriteViewModel
 import kotlinx.android.synthetic.main.activity_write.*
+import java.util.*
 
 class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
@@ -35,6 +40,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
     private lateinit var placeRepository: PlaceRepository
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var itemDecoration: NaverPlaceItemDecoration
+    private lateinit var interstitialAd: InterstitialAd
 
     private var categoryId = 0
 
@@ -194,10 +200,12 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
             siteUrl = binding.editSite.text.toString(),
             imageUrl = url
         )) {
-            hideProgress()
-            Toast.makeText(this, R.string.msg_write_place_success, Toast.LENGTH_SHORT).show()
-            setResult(RESULT_WRITE)
-            finish()
+            showAd {
+                hideProgress()
+                Toast.makeText(this, R.string.msg_write_place_success, Toast.LENGTH_SHORT).show()
+                setResult(RESULT_WRITE)
+                finish()
+            }
         }
     }
 
@@ -205,6 +213,42 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
         if (bottomSheet.state != BottomSheetBehavior.STATE_HIDDEN) {
             bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
             view_bg.visibility = View.GONE
+        }
+    }
+
+    private fun showAd(callback: () -> Unit) {
+        Random().let {
+            val ran = it.nextInt(4) + 1
+            if (ran == 1) {
+                showProgress()
+
+                interstitialAd = InterstitialAd(this).apply {
+                    adUnitId =  getString(R.string.ad_id_write_front)
+                    adListener = object : AdListener() {
+                        override fun onAdLoaded() {
+                            interstitialAd.show()
+                        }
+
+                        override fun onAdFailedToLoad(p0: Int) {
+                            super.onAdFailedToLoad(p0)
+
+                            Log.d(TAG, "    ## ad failed to load : $p0")
+                            hideProgress()
+                            callback()
+                        }
+
+                        override fun onAdClosed() {
+                            super.onAdClosed()
+
+                            hideProgress()
+                            callback()
+                        }
+                    }
+                }
+                interstitialAd.loadAd(AdRequest.Builder().build())
+            } else {
+                callback()
+            }
         }
     }
 }

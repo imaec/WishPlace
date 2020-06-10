@@ -60,6 +60,11 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="a524394b92a5ee46b9964478cc2811cd" />
+
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id"/>
     </application>
 
 </manifest>

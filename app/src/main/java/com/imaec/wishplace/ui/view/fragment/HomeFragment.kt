@@ -2,9 +2,13 @@ package com.imaec.wishplace.ui.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentHomeBinding
@@ -20,6 +24,7 @@ import com.imaec.wishplace.ui.view.activity.ListActivity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.HomeViewModel
+import java.util.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
@@ -28,6 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var placeRepository: PlaceRepository
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var itemDecoration: HomeItemDecoration
+    private lateinit var interstitialAd: InterstitialAd
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,15 +52,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         viewModel.apply {
             addOnClickListener { entity, view ->
                 if (entity is PlaceEntity) {
-                    startActivityForResult(Intent(context, DetailActivity::class.java).apply {
-                        putExtra(EXTRA_PLACE_ID, entity.placeId)
-                        putExtra(EXTRA_CATEGORY, entity.category)
-                        putExtra(EXTRA_TITLE, entity.name)
-                        putExtra(EXTRA_ADDRESS, entity.address)
-                        putExtra(EXTRA_IMG_URL, entity.imageUrl)
-                        putExtra(EXTRA_SITE_URL, entity.siteUrl)
-                        putExtra(EXTRA_IS_VISIT, entity.visitFlag)
-                    }, 0, getTransitionOption(view).toBundle())
+                    showAd {
+                        startActivityForResult(Intent(context, DetailActivity::class.java).apply {
+                            putExtra(EXTRA_PLACE_ID, entity.placeId)
+                            putExtra(EXTRA_CATEGORY, entity.category)
+                            putExtra(EXTRA_TITLE, entity.name)
+                            putExtra(EXTRA_ADDRESS, entity.address)
+                            putExtra(EXTRA_IMG_URL, entity.imageUrl)
+                            putExtra(EXTRA_SITE_URL, entity.siteUrl)
+                            putExtra(EXTRA_IS_VISIT, entity.visitFlag)
+                        }, 0, getTransitionOption(view).toBundle())
+                    }
                 } else if (entity is CategoryEntity) {
                     startActivityForResult(Intent(context, ListActivity::class.java).apply {
                         putExtra(EXTRA_CATEGORY_ID, entity.categoryId)
@@ -129,6 +137,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
             })
             show()
+        }
+    }
+
+    private fun showAd(callback: () -> Unit) {
+        Random().let {
+            val ran = it.nextInt(4) + 1
+            if (ran == 1) {
+                showProgress()
+
+                interstitialAd = InterstitialAd(context).apply {
+                    adUnitId =  getString(R.string.ad_id_detail_front)
+                    adListener = object : AdListener() {
+                        override fun onAdLoaded() {
+                            interstitialAd.show()
+                        }
+
+                        override fun onAdFailedToLoad(p0: Int) {
+                            super.onAdFailedToLoad(p0)
+
+                            Log.d(TAG, "    ## ad failed to load : $p0")
+                            hideProgress()
+                            callback()
+                        }
+
+                        override fun onAdClosed() {
+                            super.onAdClosed()
+
+                            hideProgress()
+                            callback()
+                        }
+                    }
+                }
+                interstitialAd.loadAd(AdRequest.Builder().build())
+            } else {
+                callback()
+            }
         }
     }
 

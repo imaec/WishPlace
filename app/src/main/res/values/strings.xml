@@ -2,6 +2,7 @@
     <string name="app_name">Wish Place</string>
     <string name="intro_made_by">Made By imaec</string>
 
+    <!-- Kakao Template Id -->
     <string name="template_id_app">29639</string>
     <string name="template_id_detail">29642</string>
 
