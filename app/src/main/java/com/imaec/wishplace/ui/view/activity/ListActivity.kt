@@ -123,6 +123,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
     }
 
     private fun initNativeAd() {
+        showProgress()
         val builder = AdLoader.Builder(this, getString(R.string.ad_id_list_native))
         builder.forUnifiedNativeAd { unifiedNativeAd ->
             if (isDestroyed) {
@@ -133,6 +134,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
             currentNativeAd = unifiedNativeAd
 
             viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0), unifiedNativeAd)
+            hideProgress()
         }
 
         val videoOptions = VideoOptions.Builder()
@@ -145,7 +147,8 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         val adLoader = builder.withAdListener(object : AdListener() {
             override fun onAdFailedToLoad(errorCode: Int) {
-                Toast.makeText(this@ListActivity, "Failed to load native ad: $errorCode", Toast.LENGTH_SHORT).show()
+                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0), currentNativeAd)
+                hideProgress()
             }
         }).build()
 

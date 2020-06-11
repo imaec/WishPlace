@@ -24,22 +24,20 @@ class HomeViewModel(
         get() = _listItem
 
     fun getData(unifiedNativeAd: UnifiedNativeAd?) {
-        var i = 0
-        var j = 0
         viewModelScope.launch {
             placeRepository.getList { listPlace ->
+                var i = 0
                 val listTemp = ArrayList<Any>()
                 listPlace
                     .sortedByDescending { it.saveTime }
                     .groupBy { it.category }
-                    .forEach {
+                    .forEach all@{
+                        var j = 0
                         listTemp.add(CategoryEntity(it.value[0].foreignId, it.key))
-                        it.value.forEach { entity ->
+                        it.value.forEach value@{ entity ->
                             if (i == 0 && j == 2 && unifiedNativeAd != null) {
                                 listTemp.add(unifiedNativeAd)
-                                listTemp.add(entity)
-                                return@forEach
-                            } else {
+                            } else if (j < 4) {
                                 listTemp.add(entity)
                             }
                             j++

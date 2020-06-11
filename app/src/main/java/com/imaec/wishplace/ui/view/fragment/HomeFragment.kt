@@ -156,7 +156,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         val adLoader = builder.withAdListener(object : AdListener() {
             override fun onAdFailedToLoad(errorCode: Int) {
-                Toast.makeText(context, "Failed to load native ad: $errorCode", Toast.LENGTH_SHORT).show()
+                viewModel.getData(currentNativeAd)
             }
         }).build()
 
