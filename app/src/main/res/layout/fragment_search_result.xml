@@ -56,7 +56,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_divider2"
-            app:layout_constraintBottom_toTopOf="@id/adView"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/text_empty"
@@ -71,15 +71,5 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_divider2"
             app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/ad_id_search_result_banner"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

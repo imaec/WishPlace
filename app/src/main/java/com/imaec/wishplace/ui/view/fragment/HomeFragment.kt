@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.formats.NativeAdOptions
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.imaec.wishplace.*
+import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentHomeBinding
 import com.imaec.wishplace.repository.PlaceRepository
@@ -25,6 +27,8 @@ import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.HomeViewModel
 import java.util.*
+
+var currentNativeAd: UnifiedNativeAd? = null
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
@@ -94,8 +98,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
                 dialog.show()
             }
-            getData()
+            getData(currentNativeAd)
         }
+    }
+
+    override fun onDestroy() {
+        currentNativeAd?.destroy()
+        super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -103,12 +112,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
-                viewModel.getData()
+                viewModel.getData(currentNativeAd)
             }
         }
     }
 
     private fun init() {
+        initNativeAd()
+
         placeDao = AppDatabase.getInstance(context!!).placeDao()
         placeRepository = PlaceRepository.getInstance(placeDao)
         gridLayoutManager =
@@ -126,13 +137,39 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         itemDecoration = HomeItemDecoration(context!!)
     }
 
+    private fun initNativeAd() {
+        val builder = AdLoader.Builder(context, getString(R.string.ad_id_home_native))
+        builder.forUnifiedNativeAd { unifiedNativeAd ->
+            currentNativeAd?.destroy()
+            currentNativeAd = unifiedNativeAd
+
+            viewModel.getData(currentNativeAd)
+        }
+
+        val videoOptions = VideoOptions.Builder()
+            .setStartMuted(true)
+            .build()
+        val adOptions = NativeAdOptions.Builder()
+            .setVideoOptions(videoOptions)
+            .build()
+        builder.withNativeAdOptions(adOptions)
+
+        val adLoader = builder.withAdListener(object : AdListener() {
+            override fun onAdFailedToLoad(errorCode: Int) {
+                Toast.makeText(context, "Failed to load native ad: $errorCode", Toast.LENGTH_SHORT).show()
+            }
+        }).build()
+
+        adLoader.loadAd(AdRequest.Builder().build())
+    }
+
     private fun delete(entity: PlaceEntity) {
         CommonDialog(context!!, "'${entity.name}' ${getString(R.string.msg_delete_place)}").apply {
             setOk(getString(R.string.delete))
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                    viewModel.getData()
+                    viewModel.getData(currentNativeAd)
                     dismiss()
                 }
             })
@@ -177,6 +214,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     fun notifyItemAdded() {
-        viewModel.getData()
+        viewModel.getData(currentNativeAd)
     }
 }

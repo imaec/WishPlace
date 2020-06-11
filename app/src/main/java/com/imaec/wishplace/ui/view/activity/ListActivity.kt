@@ -5,7 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.VideoOptions
+import com.google.android.gms.ads.formats.NativeAdOptions
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityListBinding
@@ -17,6 +22,8 @@ import com.imaec.wishplace.ui.util.PlaceItemDecoration
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
 import com.imaec.wishplace.viewmodel.ListViewModel
+
+var currentNativeAd: UnifiedNativeAd? = null
 
 class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
@@ -80,8 +87,12 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                 }
                 dialog.show()
             }
-            getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
         }
+    }
+
+    override fun onDestroy() {
+        currentNativeAd?.destroy()
+        super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -89,7 +100,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
-                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
+                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0), currentNativeAd)
             }
         }
         data?.let {
@@ -103,12 +114,42 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
     }
 
     private fun init() {
-        binding.adView.loadAd(AdRequest.Builder().build())
+        initNativeAd()
 
         placeDao = AppDatabase.getInstance(this).placeDao()
         placeRepository = PlaceRepository.getInstance(placeDao)
         gridLayoutManager = GridLayoutManager(this, 2)
         itemDecoration = PlaceItemDecoration(this)
+    }
+
+    private fun initNativeAd() {
+        val builder = AdLoader.Builder(this, getString(R.string.ad_id_home_native))
+        builder.forUnifiedNativeAd { unifiedNativeAd ->
+            if (isDestroyed) {
+                unifiedNativeAd.destroy()
+                return@forUnifiedNativeAd
+            }
+            currentNativeAd?.destroy()
+            currentNativeAd = unifiedNativeAd
+
+            viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0), unifiedNativeAd)
+        }
+
+        val videoOptions = VideoOptions.Builder()
+            .setStartMuted(true)
+            .build()
+        val adOptions = NativeAdOptions.Builder()
+            .setVideoOptions(videoOptions)
+            .build()
+        builder.withNativeAdOptions(adOptions)
+
+        val adLoader = builder.withAdListener(object : AdListener() {
+            override fun onAdFailedToLoad(errorCode: Int) {
+                Toast.makeText(this@ListActivity, "Failed to load native ad: $errorCode", Toast.LENGTH_SHORT).show()
+            }
+        }).build()
+
+        adLoader.loadAd(AdRequest.Builder().build())
     }
 
     private fun delete(entity: PlaceEntity) {
@@ -117,7 +158,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
             setOnOkClickListener(View.OnClickListener {
                 viewModel.delete(entity) {
                     Toast.makeText(context, R.string.msg_delete_success, Toast.LENGTH_SHORT).show()
-                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0))
+                    viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0), currentNativeAd)
                     isUpdated = true
                     dismiss()
                 }

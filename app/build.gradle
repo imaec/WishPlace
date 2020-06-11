@@ -12,7 +12,7 @@ android {
         applicationId "com.imaec.wishplace"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
+        versionCode 100
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -23,16 +23,14 @@ android {
             resValue "string", "ad_id_detail_front", "ca-app-pub-3940256099942544/1033173712"
             resValue "string", "ad_id_write_front", "ca-app-pub-3940256099942544/1033173712"
             resValue "string", "ad_id_setting_banner", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "ad_id_list_banner", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "ad_id_search_result_banner", "ca-app-pub-3940256099942544/6300978111"
+            resValue "string", "ad_id_home_native", "ca-app-pub-3940256099942544/2247696110"
         }
         release {
             resValue "string", "admob_app_id", "ca-app-pub-7147836151485354~9557834473"
             resValue "string", "ad_id_detail_front", "ca-app-pub-7147836151485354/8599976027"
             resValue "string", "ad_id_write_front", "ca-app-pub-7147836151485354/3539221039"
             resValue "string", "ad_id_setting_banner", "ca-app-pub-7147836151485354/5043874394"
-            resValue "string", "ad_id_list_banner", "ca-app-pub-7147836151485354/4865084452"
-            resValue "string", "ad_id_search_result_banner", "ca-app-pub-7147836151485354/7861609421"
+            resValue "string", "ad_id_home_native", "ca-app-pub-7147836151485354/4497736021"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

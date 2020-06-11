@@ -2,6 +2,7 @@ package com.imaec.wishplace.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.entity.PlaceEntity
@@ -28,17 +29,24 @@ class ListViewModel(
         _category.value = category
     }
 
-    fun getData(categoryId: Int) {
+    fun getData(categoryId: Int, unifiedNativeAd: UnifiedNativeAd?) {
+        var i = 0
+        var j = 0
         viewModelScope.launch {
-            val listTemp = ArrayList<Any>()
             placeRepository.getListByCategory(categoryId) { listPlace ->
+                val listTemp = ArrayList<Any>()
                 listPlace
                     .sortedByDescending { it.saveTime }
                     .groupBy { it.category }
                     .forEach {
                         it.value.forEach { entity ->
+                            if (i == 0 && j == 2 && unifiedNativeAd != null) {
+                                listTemp.add(unifiedNativeAd)
+                            }
                             listTemp.add(entity)
+                            j++
                         }
+                        i++
                     }
 
                 launch { _listItem.value = listTemp }

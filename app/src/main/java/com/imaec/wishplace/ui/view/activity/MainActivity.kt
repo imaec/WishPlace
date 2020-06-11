@@ -23,13 +23,17 @@ import com.imaec.wishplace.ui.view.fragment.HomeFragment
 import com.imaec.wishplace.ui.view.fragment.SearchFragment
 import com.imaec.wishplace.ui.view.fragment.SearchResultFragment
 import com.imaec.wishplace.ui.view.fragment.SettingFragment
+import com.imaec.wishplace.utils.BackPressHandler
 import com.imaec.wishplace.viewmodel.MainViewModel
+
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var categoryDao: CategoryDao
     private lateinit var categoryRepository: CategoryRepository
+
+    private val backPressHandler = BackPressHandler(this)
 
     val fragmentHome = HomeFragment()
     val fragmentSearch = SearchFragment()
@@ -89,13 +93,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                     binding.bottomNavigation.selectedItemId != R.id.navigation_search) {
                     binding.bottomNavigation.selectedItemId = R.id.navigation_home
                 } else if (binding.bottomNavigation.selectedItemId == R.id.navigation_home) {
-                    super.onBackPressed()
+                    backPressHandler.onBackPressed()
                 }
             }
             binding.bottomNavigation.selectedItemId != R.id.navigation_home -> {
                 binding.bottomNavigation.selectedItemId = R.id.navigation_home
             }
-            else -> super.onBackPressed()
+            else -> backPressHandler.onBackPressed()
         }
     }
 

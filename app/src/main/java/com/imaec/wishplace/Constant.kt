@@ -9,6 +9,7 @@ const val NAVER_CLIENT_SECRET = "GDUUuzlmrD"
 const val TYPE_CATEGORY = 0
 const val TYPE_ITEM = 1
 const val TYPE_FOOTER = 2
+const val TYPE_AD = 3
 
 // Category List Item Type
 const val TYPE_CATEGORY_EDIT = 0

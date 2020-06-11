@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.gms.ads.AdRequest
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSearchResultBinding
@@ -121,8 +120,6 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
     }
 
     private fun init() {
-        binding.adView.loadAd(AdRequest.Builder().build())
-
         placeDao = AppDatabase.getInstance(context!!).placeDao()
         placeRepository = PlaceRepository.getInstance(placeDao)
         gridLayoutManager = GridLayoutManager(context, 2)
