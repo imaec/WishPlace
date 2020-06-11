@@ -123,7 +123,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
     }
 
     private fun initNativeAd() {
-        val builder = AdLoader.Builder(this, getString(R.string.ad_id_home_native))
+        val builder = AdLoader.Builder(this, getString(R.string.ad_id_list_native))
         builder.forUnifiedNativeAd { unifiedNativeAd ->
             if (isDestroyed) {
                 unifiedNativeAd.destroy()
