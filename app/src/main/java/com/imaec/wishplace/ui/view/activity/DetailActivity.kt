@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityDetailBinding
@@ -98,7 +99,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                 KakaoLinkService.getInstance()
                     .sendCustom(this, getString(R.string.template_id_detail), viewModel.getArgs(), object : ResponseCallback<KakaoLinkResponse>() {
                         override fun onSuccess(result: KakaoLinkResponse?) {
-
+                            logEvent(FirebaseAnalytics.Event.SHARE, Bundle().apply {
+                                putString(FirebaseAnalytics.Param.ITEM_CATEGORY, viewModel.category.value)
+                                putString(FirebaseAnalytics.Param.ITEM_NAME, viewModel.title.value)
+                            })
                         }
 
                         override fun onFailure(errorResult: ErrorResult?) {

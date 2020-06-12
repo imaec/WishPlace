@@ -11,6 +11,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.VideoOptions
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityListBinding
@@ -55,6 +56,10 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
             setCategory(intent.getStringExtra(EXTRA_CATEGORY))
             addOnClickListener { entity, view ->
                 if (entity is PlaceEntity) {
+                    logEvent(FirebaseAnalytics.Event.SELECT_ITEM, Bundle().apply {
+                        putString(FirebaseAnalytics.Param.ITEM_CATEGORY, entity.category)
+                        putString(FirebaseAnalytics.Param.ITEM_NAME, entity.name)
+                    })
                     startActivityForResult(Intent(this@ListActivity, DetailActivity::class.java).apply {
                         putExtra(EXTRA_PLACE_ID, entity.placeId)
                         putExtra(EXTRA_CATEGORY, entity.category)

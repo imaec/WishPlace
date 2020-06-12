@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.imaec.wishplace.*
 import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseFragment
@@ -60,6 +61,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             addOnClickListener { entity, view ->
                 if (entity is PlaceEntity) {
                     showAd {
+                        logEvent(FirebaseAnalytics.Event.SELECT_ITEM, Bundle().apply {
+                            putString(FirebaseAnalytics.Param.ITEM_CATEGORY, entity.category)
+                            putString(FirebaseAnalytics.Param.ITEM_NAME, entity.name)
+                        })
                         startActivityForResult(Intent(context, DetailActivity::class.java).apply {
                             putExtra(EXTRA_PLACE_ID, entity.placeId)
                             putExtra(EXTRA_CATEGORY, entity.category)

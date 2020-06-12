@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.android.gms.ads.AdRequest
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.imaec.wishplace.R
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSettingBinding
@@ -72,7 +73,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
                 KakaoLinkService.getInstance()
                     .sendCustom(context, context!!.getString(R.string.template_id_app), null, object : ResponseCallback<KakaoLinkResponse>() {
                         override fun onSuccess(result: KakaoLinkResponse?) {
-
+                            logEvent(FirebaseAnalytics.Event.SHARE, Bundle().apply {
+                                putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.app_name))
+                            })
                         }
 
                         override fun onFailure(errorResult: ErrorResult?) {

@@ -1,6 +1,7 @@
 package com.imaec.wishplace.ui.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupMenu
@@ -49,7 +50,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
 
         viewModel.apply {
-            getKeyword()
             addOnClickListener { entity ->
                 if (entity is KeywordEntity) {
                     val keyword = entity.keyword
@@ -109,15 +109,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun search(keyword: String, option: String) {
         (activity as MainActivity?)?.let {
             it.isSearchResult = true
-            it.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame, it.fragmentSearchResult.apply {
-                    arguments = Bundle().apply {
-                        putString("keyword", keyword)
-                        putString("option", option)
-                    }
-                })
-                .commitAllowingStateLoss()
+            it.fragmentSearchResult.arguments = Bundle().apply {
+                putString("keyword", keyword)
+                putString("option", option)
+            }
+            it.setFragment(it.fragmentSearchResult)
         }
     }
 
@@ -145,5 +141,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             })
             show()
         }
+    }
+
+    fun getKeyword() {
+        viewModel.getKeyword()
     }
 }

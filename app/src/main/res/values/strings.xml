@@ -5,12 +5,21 @@
     <!-- Admob Advanced Navtive Ad -->
     <string name="ad_attribution">Sponsored</string>
 
+    <!-- Firebase Analytics Events & Key -->
+    <string name="event_screen_fragment">screen_fragment</string>
+    <string name="key_screen_fragment">fragment</string>
+
+    <!-- Firebase Crashlytics Events & Key -->
+    <string name="key_activity">activity</string>
+    <string name="key_fragment">fragment</string>
+
     <!-- Kakao Template Id -->
     <string name="template_id_app">29639</string>
     <string name="template_id_detail">29642</string>
 
     <string name="home">홈</string>
     <string name="search">검색</string>
+    <string name="search_result">검색 결과</string>
     <string name="setting">설정</string>
 
     <string name="category">카테고리</string>

@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSearchResultBinding
@@ -51,21 +53,13 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
             recyclerSearch.addItemDecoration(itemDecoration)
         }
 
-        arguments?.let {
-            keyword = it.getString("keyword") ?: ""
-            option = it.getString("option") ?: ""
-
-            val ss = SpannableString("'$keyword'에 대한 검색결과")
-            val start = ss.toString().indexOf(keyword)
-            val end = start + keyword.length
-            ss.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorAccent)), start, end, 0)
-            binding.textKeywordInfo.text = ss
-        }
-
         viewModel.apply {
-            search(keyword, option) {  }
             addOnClickListener { entity, view ->
                 if (entity is PlaceEntity) {
+                    logEvent(FirebaseAnalytics.Event.SELECT_ITEM, Bundle().apply {
+                        putString(FirebaseAnalytics.Param.ITEM_CATEGORY, entity.category)
+                        putString(FirebaseAnalytics.Param.ITEM_NAME, entity.name)
+                    })
                     startActivityForResult(Intent(context, DetailActivity::class.java).apply {
                         putExtra(EXTRA_PLACE_ID, entity.placeId)
                         putExtra(EXTRA_CATEGORY, entity.category)
@@ -138,5 +132,26 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
             })
             show()
         }
+    }
+
+    fun search() {
+        arguments?.let {
+            keyword = it.getString("keyword") ?: ""
+            option = it.getString("option") ?: ""
+        }
+
+        val ss = SpannableString("'$keyword'에 대한 검색결과")
+        val start = ss.toString().indexOf(keyword)
+        val end = start + keyword.length
+        ss.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorAccent)), start, end, 0)
+        binding.textKeywordInfo.text = ss
+
+        viewModel.search(keyword, option) {
+            logEvent(FirebaseAnalytics.Event.SEARCH, Bundle().apply {
+                putString(FirebaseAnalytics.Param.SEARCH_TERM, keyword)
+            })
+        }
+
+        Log.d(TAG, "    ## keyword : $keyword, option : $option")
     }
 }

@@ -3,6 +3,7 @@ package com.imaec.wishplace.ui.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -158,6 +159,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     }
 
     private fun init() {
+        supportFragmentManager.beginTransaction().add(R.id.frame, fragmentSearchResult, getString(R.string.search_result)).hide(fragmentSearchResult).commit()
         supportFragmentManager.beginTransaction().add(R.id.frame, fragmentSearch, getString(R.string.search)).hide(fragmentSearch).commit()
         supportFragmentManager.beginTransaction().add(R.id.frame, fragmentSetting, getString(R.string.setting)).hide(fragmentSetting).commit()
         supportFragmentManager.beginTransaction().add(R.id.frame, fragmentHome, getString(R.string.home)).commit()
@@ -165,20 +167,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
         categoryDao = AppDatabase.getInstance(this).categoryDao()
         categoryRepository = CategoryRepository.getInstance(categoryDao)
-    }
-
-    private fun setFragment(fragment: Fragment) {
-        if (fragment is HomeFragment) {
-            adRemoveHandler = AdRemoveHandler(this)
-        }
-        updateStatusBarColor(if (fragment is SearchFragment) ContextCompat.getColor(this, R.color.colorPrimary) else ContextCompat.getColor(this, R.color.white))
-
-        supportFragmentManager
-            .beginTransaction()
-            .hide(activeFragment)
-            .show(fragment)
-            .commit()
-        activeFragment = fragment
     }
 
     private fun addCategory() {
@@ -211,7 +199,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
     private fun receiveKakaoIntent(intent: Intent) {
         intent.data?.let {
-            if (it.host == "kakaolink") {
+            if (it.host == getString(R.string.kakaolink_host)) {
                 if (it.query.isNullOrEmpty()) return
 
                 startActivityForResult(Intent(this, WriteActivity::class.java).apply {
@@ -221,5 +209,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 }, 0)
             }
         }
+    }
+
+    fun setFragment(fragment: Fragment) {
+        updateStatusBarColor(ContextCompat.getColor(this, R.color.white))
+        when(fragment) {
+            is HomeFragment -> adRemoveHandler = AdRemoveHandler(this)
+            is SearchFragment -> {
+                fragment.getKeyword()
+                updateStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            }
+            is SearchResultFragment -> fragment.search()
+        }
+
+        supportFragmentManager
+            .beginTransaction()
+            .hide(activeFragment)
+            .show(fragment)
+            .commit()
+        activeFragment = fragment
     }
 }
