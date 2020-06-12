@@ -15,6 +15,7 @@ import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.ui.view.activity.CategoryEditActivity
 import com.imaec.wishplace.ui.view.activity.LicenseActivity
 import com.imaec.wishplace.ui.view.dialog.InputDialog
+import com.imaec.wishplace.utils.SharedPreferenceManager
 import com.imaec.wishplace.utils.Utils
 import com.imaec.wishplace.viewmodel.SettingViewModel
 import com.kakao.kakaolink.v2.KakaoLinkResponse
@@ -27,6 +28,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
     private lateinit var viewModel: SettingViewModel
     private lateinit var categoryDao: CategoryDao
     private lateinit var categoryRepository: CategoryRepository
+
+    private var isRemoveAd = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,7 +85,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
     }
 
     private fun init() {
-        binding.adView.loadAd(AdRequest.Builder().build())
+        isRemoveAd = SharedPreferenceManager.getBool(context!!, SharedPreferenceManager.KEY.PREF_REMOVE_AD, false)
+        if (!isRemoveAd) binding.adView.loadAd(AdRequest.Builder().build())
 
         categoryDao = AppDatabase.getInstance(context!!).categoryDao()
         categoryRepository = CategoryRepository.getInstance(categoryDao)

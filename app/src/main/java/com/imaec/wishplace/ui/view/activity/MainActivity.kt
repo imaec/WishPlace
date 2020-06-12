@@ -23,6 +23,7 @@ import com.imaec.wishplace.ui.view.fragment.HomeFragment
 import com.imaec.wishplace.ui.view.fragment.SearchFragment
 import com.imaec.wishplace.ui.view.fragment.SearchResultFragment
 import com.imaec.wishplace.ui.view.fragment.SettingFragment
+import com.imaec.wishplace.utils.AdRemoveHandler
 import com.imaec.wishplace.utils.BackPressHandler
 import com.imaec.wishplace.viewmodel.MainViewModel
 
@@ -34,6 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     private lateinit var categoryRepository: CategoryRepository
 
     private val backPressHandler = BackPressHandler(this)
+    private var adRemoveHandler = AdRemoveHandler(this)
 
     val fragmentHome = HomeFragment()
     val fragmentSearch = SearchFragment()
@@ -46,7 +48,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         super.onCreate(savedInstanceState)
 
         startIntro()
-
         init()
 
         viewModel = getViewModel(MainViewModel::class.java, categoryRepository)
@@ -132,6 +133,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             R.id.fab -> {
                 startActivityForResult(Intent(this, WriteActivity::class.java), 0)
             }
+            R.id.image_logo -> {
+                adRemoveHandler.onClick()
+            }
             R.id.linear_option,
             R.id.image_search -> {
                 fragmentSearch.onClick(view)
@@ -158,7 +162,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     }
 
     private fun setFragment(fragment: Fragment) {
+        if (fragment is HomeFragment) {
+            adRemoveHandler = AdRemoveHandler(this)
+        }
         updateStatusBarColor(if (fragment is SearchFragment) ContextCompat.getColor(this, R.color.colorPrimary) else ContextCompat.getColor(this, R.color.white))
+
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame, fragment)

@@ -6,6 +6,7 @@ class SharedPreferenceManager {
 
     enum class KEY {
         PREF_SEARCH_OPTION,
+        PREF_REMOVE_AD,
     }
 
     companion object {

@@ -25,6 +25,7 @@ import com.imaec.wishplace.ui.view.activity.EditActivity
 import com.imaec.wishplace.ui.view.activity.ListActivity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
+import com.imaec.wishplace.utils.SharedPreferenceManager
 import com.imaec.wishplace.viewmodel.HomeViewModel
 import java.util.*
 
@@ -38,6 +39,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var itemDecoration: HomeItemDecoration
     private lateinit var interstitialAd: InterstitialAd
+
+    private var isRemoveAd = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,6 +103,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
             getData(currentNativeAd)
         }
+
+        if (isRemoveAd) {
+            currentNativeAd = null
+        } else {
+            initNativeAd()
+        }
     }
 
     override fun onDestroy() {
@@ -118,7 +127,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun init() {
-        initNativeAd()
+        isRemoveAd = SharedPreferenceManager.getBool(context!!, SharedPreferenceManager.KEY.PREF_REMOVE_AD, false)
 
         placeDao = AppDatabase.getInstance(context!!).placeDao()
         placeRepository = PlaceRepository.getInstance(placeDao)
@@ -178,6 +187,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun showAd(callback: () -> Unit) {
+        if (isRemoveAd) {
+            callback()
+            return
+        }
+
         Random().let {
             val ran = it.nextInt(4) + 1
             if (ran == 1) {

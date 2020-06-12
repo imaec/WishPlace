@@ -21,6 +21,7 @@ import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.util.PlaceItemDecoration
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
+import com.imaec.wishplace.utils.SharedPreferenceManager
 import com.imaec.wishplace.viewmodel.ListViewModel
 
 var currentNativeAd: UnifiedNativeAd? = null
@@ -34,6 +35,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
     private lateinit var itemDecoration: PlaceItemDecoration
 
     private var isUpdated = false
+    private var isRemoveAd = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +90,13 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
                 dialog.show()
             }
         }
+
+        if (isRemoveAd) {
+            currentNativeAd = null
+            viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0), null)
+        } else {
+            initNativeAd()
+        }
     }
 
     override fun onDestroy() {
@@ -114,7 +123,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
     }
 
     private fun init() {
-        initNativeAd()
+        isRemoveAd = SharedPreferenceManager.getBool(this, SharedPreferenceManager.KEY.PREF_REMOVE_AD, false)
 
         placeDao = AppDatabase.getInstance(this).placeDao()
         placeRepository = PlaceRepository.getInstance(placeDao)
@@ -147,7 +156,7 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         val adLoader = builder.withAdListener(object : AdListener() {
             override fun onAdFailedToLoad(errorCode: Int) {
-                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0), currentNativeAd)
+                viewModel.getData(intent.getIntExtra(EXTRA_CATEGORY_ID, 0), null)
                 hideProgress()
             }
         }).build()

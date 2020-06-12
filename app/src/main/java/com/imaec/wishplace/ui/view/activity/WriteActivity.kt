@@ -26,6 +26,7 @@ import com.imaec.wishplace.ui.util.NaverPlaceItemDecoration
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.InputDialog
 import com.imaec.wishplace.utils.KeyboardUtil
+import com.imaec.wishplace.utils.SharedPreferenceManager
 import com.imaec.wishplace.viewmodel.WriteViewModel
 import kotlinx.android.synthetic.main.activity_write.*
 import java.util.*
@@ -43,6 +44,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
     private lateinit var interstitialAd: InterstitialAd
 
     private var categoryId = 0
+    private var isRemoveAd = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -163,6 +165,8 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
     }
 
     private fun init() {
+        isRemoveAd = SharedPreferenceManager.getBool(this, SharedPreferenceManager.KEY.PREF_REMOVE_AD, false)
+
         categoryDao = AppDatabase.getInstance(this).categoryDao()
         categoryRepository = CategoryRepository.getInstance(categoryDao)
         placeDao = AppDatabase.getInstance(this).placeDao()
@@ -217,6 +221,11 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
     }
 
     private fun showAd(callback: () -> Unit) {
+        if (isRemoveAd) {
+            callback()
+            return
+        }
+
         Random().let {
             val ran = it.nextInt(4) + 1
             if (ran == 1) {
