@@ -33,6 +33,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     private lateinit var viewModel: MainViewModel
     private lateinit var categoryDao: CategoryDao
     private lateinit var categoryRepository: CategoryRepository
+    private lateinit var activeFragment: Fragment
 
     private val backPressHandler = BackPressHandler(this)
     private var adRemoveHandler = AdRemoveHandler(this)
@@ -157,6 +158,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     }
 
     private fun init() {
+        supportFragmentManager.beginTransaction().add(R.id.frame, fragmentSearch, getString(R.string.search)).hide(fragmentSearch).commit()
+        supportFragmentManager.beginTransaction().add(R.id.frame, fragmentSetting, getString(R.string.setting)).hide(fragmentSetting).commit()
+        supportFragmentManager.beginTransaction().add(R.id.frame, fragmentHome, getString(R.string.home)).commit()
+        activeFragment = fragmentHome
+
         categoryDao = AppDatabase.getInstance(this).categoryDao()
         categoryRepository = CategoryRepository.getInstance(categoryDao)
     }
@@ -169,8 +175,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.frame, fragment)
-            .commitAllowingStateLoss()
+            .hide(activeFragment)
+            .show(fragment)
+            .commit()
+        activeFragment = fragment
     }
 
     private fun addCategory() {
