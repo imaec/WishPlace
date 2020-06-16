@@ -40,14 +40,6 @@ class BaseViewModelFactory(private vararg val repository: Any) : ViewModelProvid
                 }
             }
         }
-//        for (repo in repository.iterator()) {
-//            Log.d(TAG, "    ## ${repo::class.java.simpleName}")
-//            when (repo) {
-//                is CategoryRepository -> categoryRepository = repo
-//                is PlaceRepository -> placeRepository = repo
-//                is KeywordRepository -> keywordRepository = repo
-//            }
-//        }
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(categoryRepository!!) as T
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(placeRepository!!) as T
