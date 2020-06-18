@@ -21,17 +21,9 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         listItem.addAll(list)
     }
 
-    fun addItem(item: Any) {
-        listItem.add(item)
-    }
-
     fun clearItem() {
         listItem.clear()
         notifyDataSetChanged()
-    }
-
-    fun getItem(position: Int) : Any {
-        return listItem[position]
     }
 
     fun addOnClickListener(onClick: (Any) -> Unit) {
