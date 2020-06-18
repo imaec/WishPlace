@@ -9,35 +9,19 @@ import com.imaec.wishplace.viewmodel.*
 
 class BaseViewModelFactory(private vararg val repository: Any) : ViewModelProvider.Factory {
 
-    private val TAG = this::class.java.simpleName
+    private var categoryRepository: CategoryRepository? = null
+    private var placeRepository: PlaceRepository? = null
+    private var keywordRepository: KeywordRepository? = null
 
     /**
      * ViewModel을 생성
      */
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        var categoryRepository: CategoryRepository? = null
-        var placeRepository: PlaceRepository? = null
-        var keywordRepository: KeywordRepository? = null
-
         if (repository.isNotEmpty()) {
-            if (repository.size == 1) {
-                when (val repo = repository[0]) {
-                    is CategoryRepository -> categoryRepository = repo
-                    is PlaceRepository -> placeRepository = repo
-                    is KeywordRepository -> keywordRepository = repo
-                }
-            } else if (repository.size == 2) {
-                when (val repo = repository[0]) {
-                    is CategoryRepository -> categoryRepository = repo
-                    is PlaceRepository -> placeRepository = repo
-                    is KeywordRepository -> keywordRepository = repo
-                }
-                when (val repo = repository[1]) {
-                    is CategoryRepository -> categoryRepository = repo
-                    is PlaceRepository -> placeRepository = repo
-                    is KeywordRepository -> keywordRepository = repo
-                }
+            initRepo(repository[0])
+            if (repository.size == 2) {
+                initRepo(repository[1])
             }
         }
         return when {
@@ -55,6 +39,14 @@ class BaseViewModelFactory(private vararg val repository: Any) : ViewModelProvid
             modelClass.isAssignableFrom(EditViewModel::class.java) -> EditViewModel(placeRepository!!) as T
             modelClass.isAssignableFrom(ListViewModel::class.java) -> ListViewModel(placeRepository!!) as T
             else -> throw IllegalArgumentException("Unknown ViewModel Class")
+        }
+    }
+
+    private fun initRepo(repo: Any) {
+        when (repo) {
+            is CategoryRepository -> categoryRepository = repo
+            is PlaceRepository -> placeRepository = repo
+            is KeywordRepository -> keywordRepository = repo
         }
     }
 }
