@@ -197,7 +197,6 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
     private fun save(url: String) {
         viewModel.save(PlaceEntity(
             foreignId = categoryId,
-            category = binding.textCategory.text.toString(),
             name = binding.editName.text.toString(),
             address = binding.editAddr.text.toString(),
             content = binding.editContent.text.toString(),

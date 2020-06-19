@@ -63,33 +63,30 @@ class CategoryEditActivity : BaseActivity<ActivityCategoryBinding>(R.layout.acti
             setContent(entity.category)
             setOk(getString(R.string.edit))
             setOnAddClickListener { category ->
-                viewModel.update(entity, category) { result ->
-                    dismiss()
-
-                    Toast.makeText(this@CategoryEditActivity, result.msg, Toast.LENGTH_SHORT).show()
-                    if (result == CategoryUpdateResult.SUCCESS) {
-                        viewModel.selectCategory()
-                    } else if (result == CategoryUpdateResult.FAIL) {
-                        retry(entity)
-                    }
-                }
+                dismiss()
+                update(entity, category)
             }
             show()
         }
     }
 
-    private fun retry(entity: CategoryEntity) {
-        CommonDialog(this, getString(R.string.msg_category_edit_fail)).apply {
+    private fun update(entity: CategoryEntity, category: String) {
+        viewModel.update(entity, category) { result ->
+            Toast.makeText(this@CategoryEditActivity, result.msg, Toast.LENGTH_SHORT).show()
+            if (result == CategoryUpdateResult.SUCCESS) {
+                viewModel.selectCategory()
+            } else if (result == CategoryUpdateResult.FAIL) {
+                showRetryDialog(entity, category)
+            }
+        }
+    }
+
+    private fun showRetryDialog(entity: CategoryEntity, category: String) {
+        CommonDialog(this@CategoryEditActivity, getString(R.string.msg_category_edit_fail)).apply {
             setOk(getString(R.string.retry))
             setOnOkClickListener(View.OnClickListener {
-                viewModel.updatePlace(entity) { result ->
-                    Toast.makeText(this@CategoryEditActivity, result.msg, Toast.LENGTH_SHORT).show()
-                    if (result == CategoryUpdateResult.SUCCESS) {
-                        viewModel.selectCategory()
-                    } else if (result == CategoryUpdateResult.FAIL) {
-                        retry(entity)
-                    }
-                }
+                dismiss()
+                update(entity, category)
             })
             show()
         }

@@ -13,7 +13,9 @@ import com.imaec.wishplace.databinding.ActivityDetailBinding
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.PlaceDao
+import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
+import com.imaec.wishplace.utils.ModelUtil
 import com.imaec.wishplace.viewmodel.DetailViewModel
 import com.kakao.kakaolink.v2.KakaoLinkResponse
 import com.kakao.kakaolink.v2.KakaoLinkService
@@ -153,7 +155,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         CommonDialog(this, "'${viewModel.title.value}' ${getString(R.string.msg_delete_place)}").apply {
             setOk(getString(R.string.delete))
             setOnOkClickListener(View.OnClickListener {
-                viewModel.delete(viewModel.place.value) { isSuccess ->
+                viewModel.delete(ModelUtil.toPlaceEntity(viewModel.place.value)) { isSuccess ->
                     dismiss()
 
                     if (isSuccess) {

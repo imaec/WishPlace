@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.imaec.wishplace.room.entity.PlaceEntity" />
+            type="com.imaec.wishplace.model.PlaceDTO" />
 
         <variable
             name="keyword"

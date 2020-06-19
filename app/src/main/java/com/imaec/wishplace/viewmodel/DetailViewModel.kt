@@ -3,16 +3,18 @@ package com.imaec.wishplace.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.base.BaseViewModel
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.entity.PlaceEntity
+import com.imaec.wishplace.utils.ModelUtil
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val placeRepository: PlaceRepository
 ) : BaseViewModel() {
 
-    private val _place = MutableLiveData<PlaceEntity>()
-    val place: LiveData<PlaceEntity>
+    private val _place = MutableLiveData<PlaceDTO>()
+    val place: LiveData<PlaceDTO>
         get() = _place
     private val _category = MutableLiveData<String>()
     val category: LiveData<String>
@@ -51,14 +53,13 @@ class DetailViewModel(
             placeRepository.getPlace(placeId) { place ->
                 launch {
                     _place.value = place
-                    setData(place.category, place.name, place.address, place.content, place.imageUrl, place.siteUrl, place.visitFlag)
                 }
             }
         }
     }
 
     fun delete(entity: PlaceEntity?, callback: (Boolean) -> Unit) {
-        if (entity == null) {
+        if (entity == null || entity.placeId == 0) {
             callback(false)
             return
         }
@@ -69,16 +70,16 @@ class DetailViewModel(
     }
 
     fun updateVisit(callback: (Boolean) -> Unit) {
-        val entity = _place.value
+        val dto = _place.value
         val isVisit = _isVisit.value
 
-        if (isVisit == null || entity == null) {
+        if (isVisit == null || dto == null) {
             callback(false)
             return
         }
-        entity.visitFlag = !isVisit
+        dto.visitFlag = !isVisit
         viewModelScope.launch {
-            placeRepository.update(entity) { result ->
+            placeRepository.update(ModelUtil.toPlaceEntity(dto)) { result ->
                 launch {
                     _isVisit.value = !isVisit
                     callback(result > 0)

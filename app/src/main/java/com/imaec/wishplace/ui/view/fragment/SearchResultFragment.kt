@@ -14,6 +14,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseFragment
 import com.imaec.wishplace.databinding.FragmentSearchResultBinding
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.PlaceDao
@@ -23,8 +24,10 @@ import com.imaec.wishplace.ui.util.PlaceItemDecoration
 import com.imaec.wishplace.ui.view.activity.DetailActivity
 import com.imaec.wishplace.ui.view.activity.EditActivity
 import com.imaec.wishplace.ui.view.activity.ListActivity
+import com.imaec.wishplace.ui.view.activity.MainActivity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
+import com.imaec.wishplace.utils.ModelUtil
 import com.imaec.wishplace.viewmodel.SearchResultViewModel
 
 class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
@@ -55,7 +58,7 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
 
         viewModel.apply {
             addOnClickListener { entity, view ->
-                if (entity is PlaceEntity) {
+                if (entity is PlaceDTO) {
                     logEvent(FirebaseAnalytics.Event.SELECT_ITEM, Bundle().apply {
                         putString(FirebaseAnalytics.Param.ITEM_CATEGORY, entity.category)
                         putString(FirebaseAnalytics.Param.ITEM_NAME, entity.name)
@@ -76,25 +79,25 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
                     }, 0)
                 }
             }
-            addOnLongClickListener { entity ->
+            addOnLongClickListener { dto ->
                 val dialog = EditDialog(context!!).apply {
-                    setTitle(entity.name)
+                    setTitle(dto.name)
                     setOnEditClickListener(View.OnClickListener {
                         startActivityForResult(Intent(context, EditActivity::class.java).apply {
-                            putExtra(EXTRA_PLACE_ID, entity.placeId)
-                            putExtra(EXTRA_CATEGORY, entity.category)
-                            putExtra(EXTRA_TITLE, entity.name)
-                            putExtra(EXTRA_ADDRESS, entity.address)
-                            putExtra(EXTRA_CONTENT, entity.content)
-                            putExtra(EXTRA_IMG_URL, entity.imageUrl)
-                            putExtra(EXTRA_SITE_URL, entity.siteUrl)
-                            putExtra(EXTRA_CONTENT, entity.content)
-                            putExtra(EXTRA_IS_VISIT, entity.visitFlag)
+                            putExtra(EXTRA_PLACE_ID, dto.placeId)
+                            putExtra(EXTRA_CATEGORY, dto.category)
+                            putExtra(EXTRA_TITLE, dto.name)
+                            putExtra(EXTRA_ADDRESS, dto.address)
+                            putExtra(EXTRA_CONTENT, dto.content)
+                            putExtra(EXTRA_IMG_URL, dto.imageUrl)
+                            putExtra(EXTRA_SITE_URL, dto.siteUrl)
+                            putExtra(EXTRA_CONTENT, dto.content)
+                            putExtra(EXTRA_IS_VISIT, dto.visitFlag)
                         }, 0)
                         dismiss()
                     })
                     setOnDeleteClickListener(View.OnClickListener {
-                        delete(entity)
+                        delete(ModelUtil.toPlaceEntity(dto))
                         dismiss()
                     })
                 }
@@ -109,6 +112,9 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
                 viewModel.search(keyword, option) {  }
+                (activity as MainActivity?)?.let {
+                    it.isDataChanged = true
+                }
             }
         }
     }

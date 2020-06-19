@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.imaec.wishplace.ValidateResult
 import com.imaec.wishplace.base.BaseViewModel
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.utils.Utils
@@ -17,8 +18,8 @@ class EditViewModel(
     private val placeRepository: PlaceRepository
 ) : BaseViewModel() {
 
-    private val _place = MutableLiveData<PlaceEntity>()
-    val place: LiveData<PlaceEntity>
+    private val _place = MutableLiveData<PlaceDTO>()
+    val place: LiveData<PlaceDTO>
         get() = _place
     private val _category = MutableLiveData<String>()
     val category: LiveData<String>
