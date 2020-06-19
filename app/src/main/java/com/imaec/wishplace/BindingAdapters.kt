@@ -72,7 +72,13 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter(value = ["bind:highlight", "bind:option"], requireAll = true)
     fun setHighlight(textView: TextView, keyword: String?, option: String?) {
-        if (textView.contentDescription != option) return
+        if (textView.contentDescription != option) {
+            // 주소/이름에 같은 단어가 들어갔을때 주소/이름을 번갈아 검색하면
+            // 주소/이름에 모두 하이라이트 되는 현상때문에 평문으로 대치
+            val content = textView.text.toString()
+            textView.text = content
+            return
+        }
 
         keyword?.let {
             val content = textView.text.toString()

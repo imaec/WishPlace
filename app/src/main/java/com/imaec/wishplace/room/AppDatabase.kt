@@ -28,9 +28,15 @@ abstract class AppDatabase : RoomDatabase() {
         private val DB_NAME = "room-db"
         private var instance: AppDatabase? = null
 
-        val MIGRATION_1_2 = object : Migration(1, 2) {
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("CREATE TABLE keywordENTITY (keyword TEXT NOT NULL, saveTime TEXT NOT NULL, keywordId INTEGER NOT NULL, PRIMARY KEY(keywordId))")
+            }
+        }
+
+        private val MIGRATION_3_2 = object : Migration(3, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE placeENTITY ADD COLUMN category TEXT DEFAULT '' NOT NULL")
             }
         }
 
@@ -43,6 +49,7 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) : AppDatabase {
             return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, DB_NAME)
                 .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_3_2)
                 .addCallback(object : RoomDatabase.Callback() {
                     // Created Database
                 }).build()
