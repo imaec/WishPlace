@@ -77,9 +77,9 @@ dependencies {
     // 카카오링크
     implementation group: project.KAKAO_SDK_GROUP, name: 'kakaolink', version: project.KAKAO_SDK_VERSION
     // Admob
-    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+    implementation 'com.google.android.gms:play-services-ads:19.2.0'
     // Firebase Analytics
     implementation 'com.google.firebase:firebase-analytics:17.4.3'
     // Firebase Crashlytics
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.0'
 }
