@@ -157,7 +157,5 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
                 putString(FirebaseAnalytics.Param.SEARCH_TERM, keyword)
             })
         }
-
-        Log.d(TAG, "    ## keyword : $keyword, option : $option")
     }
 }

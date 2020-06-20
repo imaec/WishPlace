@@ -44,9 +44,9 @@ class CategoryViewModel(
                     launch(Dispatchers.IO) {
                         val resultCategory = categoryRepository.update(entity)
                         if (resultCategory == 0) {
-                            launch { callback(CategoryUpdateResult.FAIL) }
+                            launch(Dispatchers.Main) { callback(CategoryUpdateResult.FAIL) }
                         } else {
-                            launch { callback(CategoryUpdateResult.SUCCESS) }
+                            launch(Dispatchers.Main) { callback(CategoryUpdateResult.SUCCESS) }
                         }
                     }
                 }

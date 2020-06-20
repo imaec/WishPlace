@@ -1,5 +1,6 @@
 package com.imaec.wishplace.ui.view.fragment
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.CategoryDao
 import com.imaec.wishplace.ui.view.activity.CategoryEditActivity
 import com.imaec.wishplace.ui.view.activity.LicenseActivity
+import com.imaec.wishplace.ui.view.activity.MainActivity
 import com.imaec.wishplace.ui.view.dialog.InputDialog
 import com.imaec.wishplace.utils.SharedPreferenceManager
 import com.imaec.wishplace.utils.Utils
@@ -47,6 +49,16 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
         viewModel.setAppVersion(Utils.getVersion(context!!))
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK) {
+            (activity as MainActivity?)?.let {
+                it.isDataChanged = true
+            }
+        }
+    }
+
     fun onClick(view: View) {
         when (view.id) {
             R.id.text_category_add -> {
@@ -64,7 +76,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
                 }
             }
             R.id.text_category_edit -> {
-                startActivity(Intent(context, CategoryEditActivity::class.java))
+                startActivityForResult(Intent(context, CategoryEditActivity::class.java), 0)
             }
             R.id.text_app_license -> {
                 startActivity(Intent(context, LicenseActivity::class.java))

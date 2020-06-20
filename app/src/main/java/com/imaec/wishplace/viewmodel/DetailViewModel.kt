@@ -53,6 +53,7 @@ class DetailViewModel(
             placeRepository.getPlace(placeId) { place ->
                 launch {
                     _place.value = place
+                    setData(place.category, place.name, place.address, place.content, place.imageUrl, place.siteUrl, place.visitFlag)
                 }
             }
         }

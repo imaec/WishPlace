@@ -116,12 +116,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         } else {
             initNativeAd()
         }
-
-        viewModel.listItem.observe(viewLifecycleOwner, androidx.lifecycle.Observer { list ->
-            list.forEach {
-                Log.d(TAG, "    ## item : $it")
-            }
-        })
     }
 
     override fun onDestroy() {

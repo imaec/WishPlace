@@ -75,6 +75,7 @@ class CategoryEditActivity : BaseActivity<ActivityCategoryBinding>(R.layout.acti
             Toast.makeText(this@CategoryEditActivity, result.msg, Toast.LENGTH_SHORT).show()
             if (result == CategoryUpdateResult.SUCCESS) {
                 viewModel.selectCategory()
+                setResult(RESULT_OK)
             } else if (result == CategoryUpdateResult.FAIL) {
                 showRetryDialog(entity, category)
             }
