@@ -25,7 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun keywordDao(): KeywordDao
 
     companion object {
-        private val DB_NAME = "room-db"
+        private const val DB_NAME = "room-db"
         private var instance: AppDatabase? = null
 
         private val MIGRATION_1_2 = object : Migration(1, 2) {

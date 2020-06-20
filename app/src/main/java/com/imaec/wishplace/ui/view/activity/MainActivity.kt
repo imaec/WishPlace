@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     private val backPressHandler = BackPressHandler(this)
     private var adRemoveHandler = AdRemoveHandler(this)
 
-    private var fragmentHome = HomeFragment()
+    private val fragmentHome = HomeFragment()
     private val fragmentSearch = SearchFragment()
     val fragmentSearchResult = SearchResultFragment()
     private val fragmentSetting = SettingFragment()
