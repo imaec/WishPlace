@@ -1,5 +1,6 @@
 package com.imaec.wishplace.repository
 
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.PlaceEntity
 import kotlinx.coroutines.Dispatchers
@@ -21,31 +22,31 @@ class PlaceRepository(
         }
     }
 
-    suspend fun getList(callback: (List<PlaceEntity>) -> Unit) {
+    suspend fun getList(callback: (List<PlaceDTO>) -> Unit) {
         withContext(Dispatchers.IO) {
             callback(dao.select())
         }
     }
 
-    suspend fun getPlace(placeId: Int, callback: (PlaceEntity) -> Unit) {
+    suspend fun getPlace(placeId: Int, callback: (PlaceDTO) -> Unit) {
         withContext(Dispatchers.IO) {
             callback(dao.select(placeId))
         }
     }
 
-    suspend fun getListByCategory(categoryId: Int, callback: (List<PlaceEntity>) -> Unit) {
+    suspend fun getListByCategory(categoryId: Int, callback: (List<PlaceDTO>) -> Unit) {
         withContext(Dispatchers.IO) {
             callback(dao.selectByCategory(categoryId))
         }
     }
 
-    suspend fun getListByName(name: String, callback: (List<PlaceEntity>) -> Unit) {
+    suspend fun getListByName(name: String, callback: (List<PlaceDTO>) -> Unit) {
         withContext(Dispatchers.IO) {
             callback(dao.selectByName(name))
         }
     }
 
-    suspend fun getListByAddress(address: String, callback: (List<PlaceEntity>) -> Unit) {
+    suspend fun getListByAddress(address: String, callback: (List<PlaceDTO>) -> Unit) {
         withContext(Dispatchers.IO) {
             callback(dao.selectByAddress(address))
         }

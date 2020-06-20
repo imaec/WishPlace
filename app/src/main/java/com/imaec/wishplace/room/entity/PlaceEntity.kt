@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.imaec.wishplace.utils.Utils
 
-@Entity(tableName = "PlaceENTITY")
+@Entity(tableName = "placeENTITY")
 data class PlaceEntity(
     @PrimaryKey(autoGenerate = true) var placeId: Int = 0,
     @ForeignKey(
@@ -14,7 +14,6 @@ data class PlaceEntity(
         parentColumns = ["categoryId"],
         childColumns = ["foreignId"]
     ) var foreignId: Int = 0,
-    @ColumnInfo var category: String = "",
     @ColumnInfo var name: String = "",
     @ColumnInfo var address: String = "",
     @ColumnInfo var siteUrl: String = "",

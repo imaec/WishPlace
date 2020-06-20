@@ -9,11 +9,13 @@ import android.widget.Toast
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityEditBinding
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.PlaceDao
 import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
+import com.imaec.wishplace.utils.ModelUtil
 import com.imaec.wishplace.viewmodel.EditViewModel
 
 class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
@@ -102,17 +104,17 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                 startActivityForResult(Intent(this, CategorySelectActivity::class.java), 0)
             }
             R.id.text_save -> {
-                viewModel.place.value?.let { entity ->
-                    val category = viewModel.category.value ?: entity.category
+                viewModel.place.value?.let { dto ->
+                    val category = viewModel.category.value ?: dto.category
                     val title = binding.editName.text.toString()
                     val address = binding.editAddr.text.toString()
                     val result = viewModel.validateData(category, title, address)
                     if (result == ValidateResult.SUCCESS) {
                         if (categoryId != 0) {
-                            entity.foreignId = categoryId
-                            entity.category = category
+                            dto.foreignId = categoryId
+                            dto.category = category
                         }
-                        checkUrl(entity)
+                        checkUrl(dto)
                     } else {
                         Toast.makeText(this, result.msg, Toast.LENGTH_SHORT).show()
                     }
@@ -128,25 +130,25 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
         placeRepository = PlaceRepository.getInstance(placeDao)
     }
 
-    private fun checkUrl(entity: PlaceEntity) {
+    private fun checkUrl(dto: PlaceDTO) {
         showProgress()
 
         viewModel.apply {
-            entity.apply {
+            dto.apply {
                 name = title.value ?: "제목이 없습니다."
                 address = viewModel.address.value ?: "주소가 없습니다."
                 siteUrl = site.value ?: "사이트가 없습니다."
                 content = viewModel.content.value ?: ""
             }
 
-            checkUrl(entity.siteUrl, { imgUrl ->
-                entity.imageUrl = imgUrl
-                update(entity)
+            checkUrl(dto.siteUrl, { imgUrl ->
+                dto.imageUrl = imgUrl
+                update(ModelUtil.toPlaceEntity(dto))
             }, { siteUrl ->
                 CommonDialog(this@EditActivity, if (siteUrl == null) getString(R.string.msg_image_empty) else getString(R.string.msg_url_empty)).apply {
                     setOnOkClickListener(View.OnClickListener {
-                        entity.imageUrl = ""
-                        update(entity)
+                        dto.imageUrl = ""
+                        update(ModelUtil.toPlaceEntity(dto))
                         dismiss()
                     })
                     setOnCancelClickListener(View.OnClickListener {

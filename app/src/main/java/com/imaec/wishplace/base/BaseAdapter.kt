@@ -3,6 +3,7 @@ package com.imaec.wishplace.base
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.entity.PlaceEntity
 
 abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -13,7 +14,7 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     protected val listItem = ArrayList<Any>()
     protected lateinit var onClick: (Any) -> Unit
     protected lateinit var onClickWithTransition: (Any, View) -> Unit
-    protected lateinit var onLongClick: (PlaceEntity) -> Unit
+    protected lateinit var onLongClick: (PlaceDTO) -> Unit
 
     override fun getItemCount(): Int = listItem.size
 
@@ -34,7 +35,7 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         this.onClickWithTransition = onClickWithTransition
     }
 
-    fun addOnLongClickListener(onLongClick: (PlaceEntity) -> Unit) {
+    fun addOnLongClickListener(onLongClick: (PlaceDTO) -> Unit) {
         this.onLongClick = onLongClick
     }
 }

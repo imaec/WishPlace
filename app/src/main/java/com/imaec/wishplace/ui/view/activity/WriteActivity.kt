@@ -124,7 +124,6 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
              }
              R.id.image_search_name -> {
                  showProgress()
-                 KeyboardUtil.hideKeyboardFrom(this)
 
                  val name = binding.editName.text.toString()
 
@@ -132,7 +131,6 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                      hideProgress()
                      when (result) {
                          NaverPlaceResult.SUCCESS -> {
-                             KeyboardUtil.hideKeyboardFrom(this)
                              bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
                              binding.viewBg.visibility = View.VISIBLE
                          }
@@ -197,7 +195,6 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
     private fun save(url: String) {
         viewModel.save(PlaceEntity(
             foreignId = categoryId,
-            category = binding.textCategory.text.toString(),
             name = binding.editName.text.toString(),
             address = binding.editAddr.text.toString(),
             content = binding.editContent.text.toString(),

@@ -44,26 +44,10 @@ class CategoryViewModel(
                     launch(Dispatchers.IO) {
                         val resultCategory = categoryRepository.update(entity)
                         if (resultCategory == 0) {
-                            launch { callback(CategoryUpdateResult.FAIL) }
+                            launch(Dispatchers.Main) { callback(CategoryUpdateResult.FAIL) }
+                        } else {
+                            launch(Dispatchers.Main) { callback(CategoryUpdateResult.SUCCESS) }
                         }
-
-                        updatePlace(entity) { result -> callback(result) }
-                    }
-                }
-            }
-        }
-    }
-
-    fun updatePlace(entity: CategoryEntity, callback: (CategoryUpdateResult) -> Unit) {
-        viewModelScope.launch {
-            placeRepository.getListByCategory(entity.categoryId) { listPlace ->
-                listPlace.forEach {
-                    it.category = entity.category
-                }
-
-                launch {
-                    placeRepository.update(*listPlace.toTypedArray()) { result ->
-                        launch { callback(CategoryUpdateResult.SUCCESS) }
                     }
                 }
             }

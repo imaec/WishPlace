@@ -40,7 +40,8 @@
         <activity android:name=".ui.view.activity.IntroActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.WriteActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.view.activity.CategoryEditActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.view.activity.CategorySelectActivity"

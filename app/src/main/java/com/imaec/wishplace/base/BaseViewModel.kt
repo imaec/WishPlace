@@ -3,6 +3,7 @@ package com.imaec.wishplace.base
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.entity.PlaceEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +34,7 @@ abstract class BaseViewModel : ViewModel() {
         adapter.addOnClickListener(onClick)
     }
 
-    open fun addOnLongClickListener(onLongClick: (PlaceEntity) -> Unit) {
+    open fun addOnLongClickListener(onLongClick: (PlaceDTO) -> Unit) {
         adapter.addOnLongClickListener(onLongClick)
     }
 

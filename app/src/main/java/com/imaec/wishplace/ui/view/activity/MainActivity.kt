@@ -3,7 +3,6 @@ package com.imaec.wishplace.ui.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -39,12 +38,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     private val backPressHandler = BackPressHandler(this)
     private var adRemoveHandler = AdRemoveHandler(this)
 
-    val fragmentHome = HomeFragment()
-    val fragmentSearch = SearchFragment()
+    private var fragmentHome = HomeFragment()
+    private val fragmentSearch = SearchFragment()
     val fragmentSearchResult = SearchResultFragment()
-    val fragmentSetting = SettingFragment()
+    private val fragmentSetting = SettingFragment()
 
     var isSearchResult = false
+    var isDataChanged = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +82,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_WRITE) {
-            fragmentHome.notifyItemAdded()
+            fragmentHome.notifyDataSetChanged()
         }
     }
 
@@ -214,7 +214,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     fun setFragment(fragment: Fragment) {
         updateStatusBarColor(ContextCompat.getColor(this, R.color.white))
         when(fragment) {
-            is HomeFragment -> adRemoveHandler = AdRemoveHandler(this)
+            is HomeFragment -> {
+                adRemoveHandler = AdRemoveHandler(this)
+                if (isDataChanged) {
+                    isDataChanged = false
+                    fragmentHome.notifyDataSetChanged()
+                }
+            }
             is SearchFragment -> {
                 fragment.getKeyword()
                 updateStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary))

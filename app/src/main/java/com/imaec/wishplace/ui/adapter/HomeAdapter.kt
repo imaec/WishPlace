@@ -15,6 +15,7 @@ import com.imaec.wishplace.TYPE_ITEM
 import com.imaec.wishplace.base.BaseAdapter
 import com.imaec.wishplace.databinding.ItemCategoryBinding
 import com.imaec.wishplace.databinding.ItemItemBinding
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
 
@@ -22,7 +23,7 @@ class HomeAdapter : BaseAdapter() {
 
     override fun getItemViewType(position: Int): Int = when {
         listItem[position] is CategoryEntity -> TYPE_CATEGORY
-        listItem[position] is PlaceEntity -> TYPE_ITEM
+        listItem[position] is PlaceDTO -> TYPE_ITEM
         else -> TYPE_AD
     }
 
@@ -46,7 +47,7 @@ class HomeAdapter : BaseAdapter() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is CategoryViewHolder -> holder.onBind(listItem[position] as CategoryEntity)
-            is ItemViewHolder -> holder.onBind(listItem[position] as PlaceEntity)
+            is ItemViewHolder -> holder.onBind(listItem[position] as PlaceDTO)
             is AdViewHolder -> holder.onBind(listItem[position] as UnifiedNativeAd)
         }
     }
@@ -65,7 +66,7 @@ class HomeAdapter : BaseAdapter() {
 
     inner class ItemViewHolder(private val binding: ItemItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: PlaceEntity) {
+        fun onBind(item: PlaceDTO) {
             binding.apply {
                 this.item = item
                 root.setOnClickListener {
@@ -105,12 +106,6 @@ class HomeAdapter : BaseAdapter() {
             }
 
             adView.setNativeAd(nativeAd)
-
-            val vc = nativeAd.videoController
-            if (vc.hasVideoContent()) {
-                vc.videoLifecycleCallbacks = object : VideoController.VideoLifecycleCallbacks() {
-                }
-            }
         }
     }
 }

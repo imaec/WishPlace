@@ -15,6 +15,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseActivity
 import com.imaec.wishplace.databinding.ActivityListBinding
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.AppDatabase
 import com.imaec.wishplace.room.dao.PlaceDao
@@ -22,6 +23,7 @@ import com.imaec.wishplace.room.entity.PlaceEntity
 import com.imaec.wishplace.ui.util.PlaceItemDecoration
 import com.imaec.wishplace.ui.view.dialog.CommonDialog
 import com.imaec.wishplace.ui.view.dialog.EditDialog
+import com.imaec.wishplace.utils.ModelUtil
 import com.imaec.wishplace.utils.SharedPreferenceManager
 import com.imaec.wishplace.viewmodel.ListViewModel
 
@@ -54,41 +56,41 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
 
         viewModel.apply {
             setCategory(intent.getStringExtra(EXTRA_CATEGORY))
-            addOnClickListener { entity, view ->
-                if (entity is PlaceEntity) {
+            addOnClickListener { dto, view ->
+                if (dto is PlaceDTO) {
                     logEvent(FirebaseAnalytics.Event.SELECT_ITEM, Bundle().apply {
-                        putString(FirebaseAnalytics.Param.ITEM_CATEGORY, entity.category)
-                        putString(FirebaseAnalytics.Param.ITEM_NAME, entity.name)
+                        putString(FirebaseAnalytics.Param.ITEM_CATEGORY, dto.category)
+                        putString(FirebaseAnalytics.Param.ITEM_NAME, dto.name)
                     })
                     startActivityForResult(Intent(this@ListActivity, DetailActivity::class.java).apply {
-                        putExtra(EXTRA_PLACE_ID, entity.placeId)
-                        putExtra(EXTRA_CATEGORY, entity.category)
-                        putExtra(EXTRA_TITLE, entity.name)
-                        putExtra(EXTRA_ADDRESS, entity.address)
-                        putExtra(EXTRA_IMG_URL, entity.imageUrl)
-                        putExtra(EXTRA_SITE_URL, entity.siteUrl)
-                        putExtra(EXTRA_IS_VISIT, entity.visitFlag)
+                        putExtra(EXTRA_PLACE_ID, dto.placeId)
+                        putExtra(EXTRA_CATEGORY, dto.category)
+                        putExtra(EXTRA_TITLE, dto.name)
+                        putExtra(EXTRA_ADDRESS, dto.address)
+                        putExtra(EXTRA_IMG_URL, dto.imageUrl)
+                        putExtra(EXTRA_SITE_URL, dto.siteUrl)
+                        putExtra(EXTRA_IS_VISIT, dto.visitFlag)
                     }, 0, getTransitionOption(view).toBundle())
                 }
             }
-            addOnLongClickListener { entity ->
+            addOnLongClickListener { dto ->
                 val dialog = EditDialog(this@ListActivity).apply {
-                    setTitle(entity.name)
+                    setTitle(dto.name)
                     setOnEditClickListener(View.OnClickListener {
                         startActivityForResult(Intent(context, EditActivity::class.java).apply {
-                            putExtra(EXTRA_PLACE_ID, entity.placeId)
-                            putExtra(EXTRA_CATEGORY, entity.category)
-                            putExtra(EXTRA_TITLE, entity.name)
-                            putExtra(EXTRA_ADDRESS, entity.address)
-                            putExtra(EXTRA_IMG_URL, entity.imageUrl)
-                            putExtra(EXTRA_SITE_URL, entity.siteUrl)
-                            putExtra(EXTRA_CONTENT, entity.content)
-                            putExtra(EXTRA_IS_VISIT, entity.visitFlag)
+                            putExtra(EXTRA_PLACE_ID, dto.placeId)
+                            putExtra(EXTRA_CATEGORY, dto.category)
+                            putExtra(EXTRA_TITLE, dto.name)
+                            putExtra(EXTRA_ADDRESS, dto.address)
+                            putExtra(EXTRA_IMG_URL, dto.imageUrl)
+                            putExtra(EXTRA_SITE_URL, dto.siteUrl)
+                            putExtra(EXTRA_CONTENT, dto.content)
+                            putExtra(EXTRA_IS_VISIT, dto.visitFlag)
                         }, 0)
                         dismiss()
                     })
                     setOnDeleteClickListener(View.OnClickListener {
-                        delete(entity)
+                        delete(ModelUtil.toPlaceEntity(dto))
                         dismiss()
                     })
                 }
