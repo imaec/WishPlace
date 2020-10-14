@@ -94,8 +94,9 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
 
         if (resultCode == RESULT_OK) {
             categoryId = data?.getIntExtra(EXTRA_CATEGORY_ID, 0) ?: 0
-            val category = data?.getStringExtra(EXTRA_CATEGORY)
-            viewModel.setCategory(category)
+            data?.getStringExtra(EXTRA_CATEGORY)?.let {
+                viewModel.setCategory(it)
+            }
         }
     }
 

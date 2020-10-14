@@ -12,7 +12,7 @@ class LicenseViewModel : BaseViewModel() {
         adapter = LicenseAdapter()
     }
 
-    private val _listLicense = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listLicense = MutableLiveData<ArrayList<Any>>(ArrayList())
     val listLicense: LiveData<ArrayList<Any>>
         get() = _listLicense
 

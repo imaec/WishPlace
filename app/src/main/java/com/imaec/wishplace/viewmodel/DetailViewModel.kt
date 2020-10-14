@@ -2,6 +2,7 @@ package com.imaec.wishplace.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.repository.PlaceRepository

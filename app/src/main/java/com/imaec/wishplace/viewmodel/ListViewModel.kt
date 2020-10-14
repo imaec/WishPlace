@@ -2,6 +2,7 @@ package com.imaec.wishplace.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.PlaceRepository
@@ -17,7 +18,7 @@ class ListViewModel(
     private val _category = MutableLiveData<String>()
     val category: LiveData<String>
         get() = _category
-    private val _listItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listItem = MutableLiveData<ArrayList<Any>>(ArrayList())
     val listItem: LiveData<ArrayList<Any>>
         get() = _listItem
 
@@ -25,7 +26,7 @@ class ListViewModel(
         adapter = ListAdapter()
     }
 
-    fun setCategory(category: String?) {
+    fun setCategory(category: String) {
         _category.value = category
     }
 

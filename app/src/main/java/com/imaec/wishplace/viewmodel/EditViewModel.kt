@@ -3,6 +3,7 @@ package com.imaec.wishplace.viewmodel
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.imaec.wishplace.ValidateResult
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.model.PlaceDTO

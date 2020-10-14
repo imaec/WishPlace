@@ -6,7 +6,7 @@ import com.imaec.wishplace.base.BaseViewModel
 
 class ImageViewModel : BaseViewModel() {
 
-    private val _imgUrl = MutableLiveData<String>().set("")
+    private val _imgUrl = MutableLiveData<String>("")
     val imgUrl: LiveData<String>
         get() = _imgUrl
 

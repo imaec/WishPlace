@@ -2,6 +2,7 @@ package com.imaec.wishplace.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.KeywordRepository
 import com.imaec.wishplace.room.entity.KeywordEntity
@@ -17,7 +18,7 @@ class SearchViewModel(
         adapter = KeywordAdapter()
     }
 
-    private val _listKeywordItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listKeywordItem = MutableLiveData<ArrayList<Any>>(ArrayList())
     val listKeywordItem: LiveData<ArrayList<Any>>
         get() = _listKeywordItem
 

@@ -2,6 +2,7 @@ package com.imaec.wishplace.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.room.entity.PlaceEntity
@@ -17,7 +18,7 @@ class SearchResultViewModel(
         adapter = SearchAdapter()
     }
 
-    private val _listSearchItem = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listSearchItem = MutableLiveData<ArrayList<Any>>(ArrayList())
     val listSearchItem: LiveData<ArrayList<Any>>
         get() = _listSearchItem
 

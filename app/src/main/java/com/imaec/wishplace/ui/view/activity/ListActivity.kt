@@ -55,7 +55,9 @@ class ListActivity : BaseActivity<ActivityListBinding>(R.layout.activity_list) {
         }
 
         viewModel.apply {
-            setCategory(intent.getStringExtra(EXTRA_CATEGORY))
+            intent.getStringExtra(EXTRA_CATEGORY)?.let {
+                setCategory(it)
+            }
             addOnClickListener { dto, view ->
                 if (dto is PlaceDTO) {
                     logEvent(FirebaseAnalytics.Event.SELECT_ITEM, Bundle().apply {

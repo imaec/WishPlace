@@ -3,6 +3,7 @@ package com.imaec.wishplace.viewmodel
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.imaec.wishplace.*
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.model.NaverPlaceDTO
@@ -32,10 +33,10 @@ class WriteViewModel(
         adapter = NaverPlaceAdapter()
     }
 
-    private val _category = MutableLiveData<String>().set("")
+    private val _category = MutableLiveData<String>("")
     val category: LiveData<String>
         get() = _category
-    private val _listNaverPlace = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listNaverPlace = MutableLiveData<ArrayList<Any>>(ArrayList())
     val listNaverPlace: LiveData<ArrayList<Any>>
         get() = _listNaverPlace
 
@@ -74,7 +75,7 @@ class WriteViewModel(
         }
     }
 
-    fun setCategory(category: String?) {
+    fun setCategory(category: String) {
         _category.value = category
     }
 

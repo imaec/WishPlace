@@ -3,6 +3,7 @@ package com.imaec.wishplace.base
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.room.entity.PlaceEntity
 import kotlinx.coroutines.CoroutineScope
@@ -13,8 +14,6 @@ import kotlinx.coroutines.cancel
 abstract class BaseViewModel : ViewModel() {
 
     protected val TAG = this::class.java.simpleName
-    private val job = Job()
-    protected val viewModelScope = CoroutineScope(Dispatchers.Main + job)
     lateinit var adapter: BaseAdapter
 
     override fun onCleared() {
@@ -36,10 +35,5 @@ abstract class BaseViewModel : ViewModel() {
 
     open fun addOnLongClickListener(onLongClick: (PlaceDTO) -> Unit) {
         adapter.addOnLongClickListener(onLongClick)
-    }
-
-    fun <T : Any> MutableLiveData<T>.set(value: T) : MutableLiveData<T> {
-        this.value = value
-        return this
     }
 }

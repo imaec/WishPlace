@@ -1,5 +1,6 @@
 package com.imaec.wishplace.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.CategoryRepository
 import com.imaec.wishplace.room.entity.CategoryEntity

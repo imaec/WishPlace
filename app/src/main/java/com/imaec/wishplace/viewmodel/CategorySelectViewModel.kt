@@ -2,6 +2,7 @@ package com.imaec.wishplace.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.imaec.wishplace.TYPE_CATEGORY_SELECT
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.repository.CategoryRepository
@@ -13,7 +14,7 @@ class CategorySelectViewModel(
     private val categoryRepository: CategoryRepository
 ) : BaseViewModel() {
 
-    private val _listCategory = MutableLiveData<ArrayList<Any>>().set(ArrayList())
+    private val _listCategory = MutableLiveData<ArrayList<Any>>(ArrayList())
     val listCategory: LiveData<ArrayList<Any>>
         get() = _listCategory
 
