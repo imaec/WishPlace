@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
@@ -40,6 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var placeDao: PlaceDao
     private lateinit var placeRepository: PlaceRepository
     private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var gridLayoutManagerRecommend: GridLayoutManager
     private lateinit var itemDecoration: HomeItemDecoration
     private lateinit var interstitialAd: InterstitialAd
 
@@ -57,6 +59,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             viewModel = this@HomeFragment.viewModel
             recyclerHome.layoutManager = gridLayoutManager
             recyclerHome.addItemDecoration(itemDecoration)
+            recyclerRecommend.layoutManager = gridLayoutManagerRecommend
+            recyclerRecommend.addItemDecoration(itemDecoration)
         }
 
         viewModel.apply {
@@ -108,6 +112,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
                 dialog.show()
             }
+            addOnRecommendClickListener { dto, view ->
+                if (dto is PlaceDTO) {
+                    showAd {
+                        logEvent(FirebaseAnalytics.Event.SELECT_ITEM, Bundle().apply {
+                            putString(FirebaseAnalytics.Param.ITEM_CATEGORY, dto.category)
+                            putString(FirebaseAnalytics.Param.ITEM_NAME, dto.name)
+                        })
+                        startActivityForResult(Intent(context, DetailActivity::class.java).apply {
+                            putExtra(EXTRA_PLACE_ID, dto.placeId)
+                            putExtra(EXTRA_CATEGORY, dto.category)
+                            putExtra(EXTRA_TITLE, dto.name)
+                            putExtra(EXTRA_ADDRESS, dto.address)
+                            putExtra(EXTRA_IMG_URL, dto.imageUrl)
+                            putExtra(EXTRA_SITE_URL, dto.siteUrl)
+                            putExtra(EXTRA_IS_VISIT, dto.visitFlag)
+                        }, 0, getTransitionOption(view).toBundle())
+                    }
+                }
+            }
             getData(currentNativeAd)
         }
 
@@ -150,6 +173,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     }
                 }
             }
+        gridLayoutManagerRecommend = GridLayoutManager(context, 2)
         itemDecoration = HomeItemDecoration(context!!)
     }
 

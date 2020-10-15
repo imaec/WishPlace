@@ -50,6 +50,8 @@ class DetailViewModel(
     }
 
     fun getData(placeId: Int) {
+        if (placeId == 0) return
+
         viewModelScope.launch {
             placeRepository.getPlace(placeId) { place ->
                 launch {

@@ -38,8 +38,9 @@
             android:id="@+id/recycler_recommend"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/gray"
             app:isVisible="@{viewModel.listItem.size() == 0}"
+            app:adapter="@{viewModel.recommendAdapter}"
+            app:items="@{viewModel.listRecommend}"
             app:layout_constraintTop_toBottomOf="@id/linear_title"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -49,6 +50,7 @@
             android:layout_height="0dp"
             app:adapter="@{viewModel.adapter}"
             app:items="@{viewModel.listItem}"
+            app:isVisible="@{viewModel.listItem.size() > 0}"
             app:layout_constraintTop_toBottomOf="@id/linear_title"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

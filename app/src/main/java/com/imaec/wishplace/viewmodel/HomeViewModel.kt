@@ -3,21 +3,21 @@ package com.imaec.wishplace.viewmodel
 import android.net.Uri
 import android.text.Html
 import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.imaec.wishplace.R
-import com.imaec.wishplace.RESULT_WRITE
 import com.imaec.wishplace.base.BaseViewModel
 import com.imaec.wishplace.model.NaverPlaceDTO
-import com.imaec.wishplace.ui.adapter.HomeAdapter
+import com.imaec.wishplace.model.PlaceDTO
 import com.imaec.wishplace.repository.PlaceRepository
 import com.imaec.wishplace.retrofit.NaverAPI
 import com.imaec.wishplace.retrofit.RetrofitClient
 import com.imaec.wishplace.room.entity.CategoryEntity
 import com.imaec.wishplace.room.entity.PlaceEntity
+import com.imaec.wishplace.ui.adapter.HomeAdapter
+import com.imaec.wishplace.ui.adapter.RecommendAdapter
 import com.imaec.wishplace.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,11 +44,13 @@ class HomeViewModel(
     val listRecommend: LiveData<ArrayList<Any>>
         get() = _listRecommend
 
-    private val listRecommendTemp = ArrayList<PlaceEntity>()
+    private val listRecommendTemp by lazy { ArrayList<PlaceDTO>() }
+    val recommendAdapter by lazy { RecommendAdapter() }
 
     private fun getRecommendData() {
-        // callback: (NaverPlaceResult) -> Unit
-        val arrCategory = arrayOf("카페", "여행", "볼링", "고기")
+        listRecommendTemp.clear()
+//        val arrCategory = arrayOf("카페", "여행", "볼링", "고기", "족발")
+        val arrCategory = arrayOf("카페", "여행", "볼링", "고기", "족발", "치킨", "중식", "초밥", "박물관")
         var callCount = 0
         val api = RetrofitClient.getInstnace().create(NaverAPI::class.java)
         arrCategory.forEach { category ->
@@ -56,7 +58,6 @@ class HomeViewModel(
             callPlace.enqueue(object : Callback<NaverPlaceDTO> {
                 override fun onResponse(call: Call<NaverPlaceDTO>, response: Response<NaverPlaceDTO>) {
                     response.body()?.let {
-                        Log.d(TAG, "    ## result : $it")
                         callCount++
                         transData(it.items, category, callCount, arrCategory.size)
                     }
@@ -76,8 +77,8 @@ class HomeViewModel(
             val site = item.link
 
             checkUrl(site, { url ->
-                listRecommendTemp.add(PlaceEntity(
-                    foreignId = 0,
+                listRecommendTemp.add(PlaceDTO(
+                    category = category,
                     name = title,
                     address = address,
                     siteUrl = site,
@@ -85,12 +86,15 @@ class HomeViewModel(
                 ))
 
                 if (listRecommendTemp.size == 5 * total) {
-                    _listRecommend.value = listRecommendTemp as ArrayList<Any>
-                    listRecommendTemp.clear()
+                    val listRecommendResult = listRecommendTemp.filter {
+                        Log.d(TAG, "    ## place : ${it.name} / ${it.imageUrl}")
+                        it.imageUrl != "" && it.imageUrl != "undefined"
+                    }.shuffled()
+                    _listRecommend.value = listRecommendResult as ArrayList<Any>
                 }
             }, {
-                listRecommendTemp.add(PlaceEntity(
-                    foreignId = 0,
+                listRecommendTemp.add(PlaceDTO(
+                    category = category,
                     name = title,
                     address = address,
                     siteUrl = site,
@@ -98,8 +102,11 @@ class HomeViewModel(
                 ))
 
                 if (listRecommendTemp.size == 5 * total) {
-                    _listRecommend.value = listRecommendTemp as ArrayList<Any>
-                    listRecommendTemp.clear()
+                    val listRecommendResult = listRecommendTemp.filter {
+                        Log.d(TAG, "    ## place : ${it.name} / ${it.imageUrl}")
+                        it.imageUrl != "" && it.imageUrl != "undefined"
+                    }.shuffled()
+                    _listRecommend.value = listRecommendResult as ArrayList<Any>
                 }
             })
         }
@@ -121,9 +128,13 @@ class HomeViewModel(
         val url2 = if (Utils.isNaverBolg(url)) {
             if (!url.contains("PostView.nhn")) {
                 Uri.parse(url).path?.let {
-                    val blogId = it.split("/")[1]
-                    val logNo = it.split("/")[2]
-                    "https://blog.naver.com/PostView.nhn?blogId=$blogId&logNo=$logNo"
+                    if (it.split("/").size <= 2) {
+                        url
+                    } else {
+                        val blogId = it.split("/")[1]
+                        val logNo = it.split("/")[2]
+                        "https://blog.naver.com/PostView.nhn?blogId=$blogId&logNo=$logNo"
+                    }
                 } ?: run {
                     ""
                 }
@@ -187,5 +198,9 @@ class HomeViewModel(
             placeRepository.delete(entity)
             callback()
         }
+    }
+
+    fun addOnRecommendClickListener(onClick: (Any, View) -> Unit) {
+        recommendAdapter.addOnClickListener(onClick)
     }
 }
