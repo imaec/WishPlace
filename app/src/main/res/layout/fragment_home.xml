@@ -34,6 +34,19 @@
                 android:onClick="onClick"/>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/text_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="이런 곳은 어떠세요?"
+            android:textSize="15sp"
+            android:textColor="@color/darkGray"
+            android:textStyle="italic"
+            app:isVisible="@{viewModel.listItem.size() == 0}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_title"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_recommend"
             android:layout_width="match_parent"
@@ -41,7 +54,7 @@
             app:isVisible="@{viewModel.listItem.size() == 0}"
             app:adapter="@{viewModel.recommendAdapter}"
             app:items="@{viewModel.listRecommend}"
-            app:layout_constraintTop_toBottomOf="@id/linear_title"
+            app:layout_constraintTop_toBottomOf="@id/text_recommend"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView

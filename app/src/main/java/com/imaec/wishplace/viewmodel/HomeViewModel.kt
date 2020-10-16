@@ -87,7 +87,6 @@ class HomeViewModel(
 
                 if (listRecommendTemp.size == 5 * total) {
                     val listRecommendResult = listRecommendTemp.filter {
-                        Log.d(TAG, "    ## place : ${it.name} / ${it.imageUrl}")
                         it.imageUrl != "" && it.imageUrl != "undefined"
                     }.shuffled()
                     _listRecommend.value = listRecommendResult as ArrayList<Any>
@@ -103,7 +102,6 @@ class HomeViewModel(
 
                 if (listRecommendTemp.size == 5 * total) {
                     val listRecommendResult = listRecommendTemp.filter {
-                        Log.d(TAG, "    ## place : ${it.name} / ${it.imageUrl}")
                         it.imageUrl != "" && it.imageUrl != "undefined"
                     }.shuffled()
                     _listRecommend.value = listRecommendResult as ArrayList<Any>
