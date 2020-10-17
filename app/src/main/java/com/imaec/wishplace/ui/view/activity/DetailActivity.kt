@@ -1,5 +1,6 @@
 package com.imaec.wishplace.ui.view.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -40,12 +41,21 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         binding.apply {
             lifecycleOwner = this@DetailActivity
             viewModel = this@DetailActivity.viewModel
+
+            if (intent.getIntExtra(EXTRA_PLACE_ID, 0) == 0) {
+                imageEdit.visibility = View.GONE
+                imageIsVisit.visibility = View.GONE
+                textShare.text = getString(R.string.recommend_add)
+            }
         }
 
         viewModel.apply {
             setData(
                 intent.getStringExtra(EXTRA_CATEGORY) ?: "카테고리가 없습니다.",
-                intent.getStringExtra(EXTRA_TITLE) ?: "제목이 없습니다.",
+                if (intent.getIntExtra(EXTRA_PLACE_ID, 0) == 0)
+                    (intent.getStringExtra(EXTRA_TITLE) ?: "제목이 없습니다.").split("\n")[1]
+                else
+                    intent.getStringExtra(EXTRA_TITLE) ?: "제목이 없습니다.",
                 intent.getStringExtra(EXTRA_ADDRESS) ?: "주소가 없습니다.",
                 intent.getStringExtra(EXTRA_CONTENT) ?: "",
                 intent.getStringExtra(EXTRA_IMG_URL) ?: "",
@@ -59,7 +69,11 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_EDIT) {
+        if (requestCode == REQUEST_CATEGORY && resultCode == RESULT_OK) {
+            val categoryId = data?.getIntExtra(EXTRA_CATEGORY_ID, 0) ?: 0
+            showProgress()
+            save(categoryId)
+        } else if (resultCode == RESULT_EDIT) {
             Toast.makeText(this, R.string.msg_edit_place_success, Toast.LENGTH_SHORT).show()
             viewModel.getData(intent.getIntExtra(EXTRA_PLACE_ID, 0))
             data?.let {
@@ -98,6 +112,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                 }
             }
             R.id.text_share -> {
+                if (intent.getIntExtra(EXTRA_PLACE_ID, 0) == 0) {
+                    startActivityForResult(Intent(this, CategorySelectActivity::class.java), REQUEST_CATEGORY)
+                    return
+                }
                 KakaoLinkService.getInstance()
                     .sendCustom(this, getString(R.string.template_id_detail), viewModel.getArgs(), object : ResponseCallback<KakaoLinkResponse>() {
                         override fun onSuccess(result: KakaoLinkResponse?) {
@@ -170,6 +188,22 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                 }
             })
             show()
+        }
+    }
+
+    private fun save(categoryId: Int) {
+        viewModel.save(PlaceEntity(
+            foreignId = categoryId,
+            name = binding.textName.text.toString(),
+            address = binding.textAddr.text.toString(),
+            content = binding.textContent.text.toString(),
+            siteUrl = binding.textSite.text.toString(),
+            imageUrl = intent.getStringExtra(EXTRA_IMG_URL) ?: ""
+        )) {
+            hideProgress()
+            Toast.makeText(this, R.string.msg_write_place_success, Toast.LENGTH_SHORT).show()
+            setResult(RESULT_WRITE)
+            finish()
         }
     }
 }

@@ -131,6 +131,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     }
                 }
             }
+            addOnRecommendLongClickListener {}
             getData(currentNativeAd)
         }
 
@@ -151,6 +152,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         when (resultCode) {
             RESULT_EDIT, RESULT_DELETE -> {
+                viewModel.getData(currentNativeAd)
+            }
+            RESULT_WRITE -> {
                 viewModel.getData(currentNativeAd)
             }
         }

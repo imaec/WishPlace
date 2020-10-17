@@ -92,7 +92,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CATEGORY && resultCode == RESULT_OK) {
             categoryId = data?.getIntExtra(EXTRA_CATEGORY_ID, 0) ?: 0
             data?.getStringExtra(EXTRA_CATEGORY)?.let {
                 viewModel.setCategory(it)
@@ -143,7 +143,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>(R.layout.activity_write
                  }
              }
              R.id.text_category -> {
-                 startActivityForResult(Intent(this, CategorySelectActivity::class.java), 0)
+                 startActivityForResult(Intent(this, CategorySelectActivity::class.java), REQUEST_CATEGORY)
              }
              R.id.text_save -> {
                  val category = binding.textCategory.text.toString()

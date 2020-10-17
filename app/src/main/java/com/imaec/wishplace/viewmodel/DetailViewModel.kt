@@ -102,4 +102,11 @@ class DetailViewModel(
 
         return templateArgs as HashMap<String, String>
     }
+
+    fun save(entity: PlaceEntity, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            placeRepository.insert(entity)
+            callback(true)
+        }
+    }
 }

@@ -79,7 +79,7 @@ class HomeViewModel(
             checkUrl(site, { url ->
                 listRecommendTemp.add(PlaceDTO(
                     category = category,
-                    name = title,
+                    name = "[${category}]\n$title",
                     address = address,
                     siteUrl = site,
                     imageUrl = url
@@ -94,7 +94,7 @@ class HomeViewModel(
             }, {
                 listRecommendTemp.add(PlaceDTO(
                     category = category,
-                    name = title,
+                    name = "[${category}]\n$title",
                     address = address,
                     siteUrl = site,
                     imageUrl = ""
@@ -200,5 +200,9 @@ class HomeViewModel(
 
     fun addOnRecommendClickListener(onClick: (Any, View) -> Unit) {
         recommendAdapter.addOnClickListener(onClick)
+    }
+
+    fun addOnRecommendLongClickListener(onLongClick: (Any) -> Unit) {
+        recommendAdapter.addOnLongClickListener(onLongClick)
     }
 }

@@ -15,6 +15,9 @@ const val TYPE_AD = 3
 const val TYPE_CATEGORY_EDIT = 0
 const val TYPE_CATEGORY_SELECT = 1
 
+// 장소 추가/삭제/수정 REQUEST_CODE
+const val REQUEST_CATEGORY = 100
+
 // 장소 추가/삭제/수정 결과
 const val RESULT_DELETE = 2
 const val RESULT_EDIT = 3

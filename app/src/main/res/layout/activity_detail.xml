@@ -95,7 +95,7 @@
                     app:layout_constraintTop_toBottomOf="@id/text_addr" />
 
                 <TextView
-                    android:id="@+id/edit_site"
+                    android:id="@+id/text_site"
                     style="@style/TextInput"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -117,10 +117,10 @@
                     android:layout_marginRight="16dp"
                     android:text="@string/content"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edit_site" />
+                    app:layout_constraintTop_toBottomOf="@id/text_site" />
 
                 <TextView
-                    android:id="@+id/edit_content"
+                    android:id="@+id/text_content"
                     style="@style/TextInput"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"

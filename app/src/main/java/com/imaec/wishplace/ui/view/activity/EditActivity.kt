@@ -83,7 +83,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CATEGORY && resultCode == RESULT_OK) {
             categoryId = data?.getIntExtra(EXTRA_CATEGORY_ID, 0) ?: 0
             val category = data?.getStringExtra(EXTRA_CATEGORY)
             viewModel.setCategory(category)
@@ -101,7 +101,7 @@ class EditActivity : BaseActivity<ActivityEditBinding>(R.layout.activity_edit) {
                 onBackPressed()
             }
             R.id.text_category -> {
-                startActivityForResult(Intent(this, CategorySelectActivity::class.java), 0)
+                startActivityForResult(Intent(this, CategorySelectActivity::class.java), REQUEST_CATEGORY)
             }
             R.id.text_save -> {
                 viewModel.place.value?.let { dto ->
