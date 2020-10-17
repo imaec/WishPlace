@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name">Wish Place</string>
+    <string name="intro_made_by">Made By imaec</string>
+
+    <!-- Admob Advanced Navtive Ad -->
+    <string name="ad_attribution">Sponsored</string>
+
+    <!-- Firebase Analytics Events & Key -->
+    <string name="event_screen_fragment">screen_fragment</string>
+    <string name="key_screen_fragment">fragment</string>
+
+    <!-- Firebase Crashlytics Events & Key -->
+    <string name="key_activity">activity</string>
+    <string name="key_fragment">fragment</string>
+
+    <!-- Kakao Template Id -->
+    <string name="template_id_app">29639</string>
+    <string name="template_id_detail">29642</string>
+
+    <string name="home">홈</string>
+    <string name="search">내 장소</string>
+    <string name="search_result">검색 결과</string>
+    <string name="setting">설정</string>
+
+    <string name="category">카테고리</string>
+    <string name="name">이름</string>
+    <string name="name_hint">가고싶은 장소를 입력하세요.</string>
+    <string name="address">주소</string>
+    <string name="address_hint">가고싶은 장소의 주소를 입력하세요.</string>
+    <string name="site">웹 사이트</string>
+    <string name="site_hint">가고싶은 장소의 웹 주소를 입력해주세요.\n(공식 홈페이지, 블로그 등)</string>
+    <string name="content">설명</string>
+    <string name="content_hint">장소에 대한 설명을 입력해주세요.</string>
+    <string name="lately_keyword">최근 검색어</string>
+
+    <string name="save">저장하기</string>
+    <string name="share">공유하기</string>
+    <string name="recommend_add">내 장소 추가</string>
+    <string name="add">추가하기</string>
+    <string name="edit">수정하기</string>
+    <string name="delete">삭제하기</string>
+    <string name="delete_all">전체 삭제</string>
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+    <string name="retry">다시 시도</string>
+    <string name="visit">방문</string>
+
+    <string name="category_title">카테고리 설정</string>
+    <string name="category_select">카테고리 선택</string>
+    <string name="category_add">카테고리 추가</string>
+    <string name="category_add_desc">카테고리를 입력하세요.</string>
+    <string name="category_edit">카테고리 편집</string>
+    <string name="app_info">앱 정보</string>
+    <string name="app_version">앱 버전</string>
+    <string name="app_license">라이센스 정보</string>
+    <string name="app_license_desc">앱에 사용된 Icon에 대한 라이센스 정보입니다.</string>
+    <string name="share_app">친구에게 앱 알려주기</string>
+
+    <!-- Message -->
+    <string name="msg_retry">잠시 후 다시 시도해주세요.</string>
+    <string name="msg_recommend">이런 곳은 어떠세요?</string>
+    <string name="msg_lately_keyword_empty">최근 검색한 검색어가 없습니다.</string>
+    <string name="msg_keyword_empty">검색어를 입력해주세요.</string>
+    <string name="msg_search_empty">검색 결과가 없습니다.</string>
+    <string name="msg_category_empty">카테고리명을 입력해주세요.</string>
+    <string name="msg_category_add">카테고리가를 추가 해주세요.</string>
+    <string name="msg_category_added">카테고리가 추가 되었습니다.</string>
+    <string name="msg_category_exist">카테고리가 이미 존재합니다.</string>
+    <string name="msg_category_add_canceled">카테고리는 [설정]에서 [카테고리 추가]로 추가하실 수 있습니다.</string>
+    <string name="msg_category_delete">카테고리를 삭제하시겠습니까?</string>
+    <string name="msg_category_delete_success">카테고리를 삭제하였습니다.</string>
+    <string name="msg_category_delete_fail">카테고리를 사용하는 장소가 있습니다.\n카테고리를 변경해주세요.</string>
+    <string name="msg_category_edit_fail">카테고리 수정에 실패했습니다.\n다시 시도 하시겠습니까?</string>
+    <string name="msg_url_empty">입력하신 웹사이트가 없습니다.\n계속 진행 하시겠습니까?</string>
+    <string name="msg_image_empty">입력하신 사이트 URL은 미리보기를 가져올 수 없습니다.\n계속 진행 하시겠습니까?</string>
+    <string name="msg_write_place_success">장소를 저장하였습니다!</string>
+    <string name="msg_edit_place_success">장소를 수정하였습니다!</string>
+    <string name="msg_edit_place_fail">수정에 실패했습니다. 잠시 후 다시 시도해주세요.</string>
+    <string name="msg_delete_place">장소를 삭제하시겠습니까?</string>
+    <string name="msg_delete_success">삭제 되었습니다.</string>
+    <string name="msg_delete_fail">삭제에 실패했습니다. 잠시 후 다시 시도해주세요.</string>
+    <string name="msg_share_fail">"공유하기에 실패했습니다.\n잠시 후 다시 시도해주세요."</string>
+    <string name="msg_remove_ad">광고가 삭제 되었습니다!</string>
+    <string name="msg_show_ad">이제부터 광고가 보여집니다.</string>
+    <string name="error_edit_click">수정 버튼이 동작하지 않습니다.\n관리자에게 문의해주세요.</string>
+    <string name="error_delete_click">삭제 버튼이 동작하지 않습니다.\n관리자에게 문의해주세요.</string>
+
+    <!-- Transition Name -->
+    <string name="transition_place">TRANSITION_PLACE</string>
+
+
+    <string name="tempUrl">https://newsis.com/pol/?cid=10300</string>
+</resources>
