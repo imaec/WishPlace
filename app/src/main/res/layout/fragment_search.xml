@@ -132,7 +132,7 @@
             android:background="@color/white"
             android:gravity="center_horizontal"
             android:paddingTop="8dp"
-            android:text="@string/msg_keyword_empty"
+            android:text="@string/msg_lately_keyword_empty"
             app:isVisible="@{viewModel.listKeywordItem.size() == 0}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
